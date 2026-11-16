@@ -56,7 +56,7 @@ Batasan hak akses tiap aktor didefinisikan pada `AGENTS.md` §2.
 
 1. **Kaprodi (Admin):** input daftar Mata Kuliah dan Master CPL $\rightarrow$ tentukan Mata Kuliah penanggung CPL (Matriks Pembebanan) $\rightarrow$ sistem menyimpan aturan kurikulum.
 2. **Dosen:** pilih Mata Kuliah yang diampu $\rightarrow$ sistem menampilkan CPL turunan dari Kaprodi $\rightarrow$ susun CPMK & Sub-CPMK $\rightarrow$ buat instrumen tugas/ujian beserta bobotnya $\rightarrow$ input nilai mahasiswa $\rightarrow$ sistem menghitung persentase capaian $\rightarrow$ lihat laporan dan grafik kelas.
-3. **Mahasiswa:** pilih Mata Kuliah yang diambil $\rightarrow$ sistem mengolah nilai dan menggambar grafik $\rightarrow$ lihat rincian nilai tugas/ujian serta grafik ketercapaian target belajar pribadi.
+3. **Mahasiswa:** tampilkan salah satu Mata Kuliah dalam paket yang telah ditetapkan kampus melalui Admin/Kaprodi $\rightarrow$ sistem mengolah nilai dan menggambar grafik $\rightarrow$ lihat rincian nilai tugas/ujian serta grafik capaian belajar pribadi. Pemilihan ini hanya filter tampilan, bukan pengisian KRS; aturan KRS paket mengikuti `AGENTS.md` §2.1.
 
 ---
 
@@ -76,6 +76,8 @@ Gaya *Dashboard Panel* modern dengan palet warna eksisting (*single color tone*)
 4. **Susun CPMK & Sub-CPMK (Dosen):** tampilan berjenjang (*Accordion / Nested Cards*) CPMK beserta Sub-CPMK, tombol penambahan instrumen dan bobot persentase.
 5. **Input Nilai (Dosen):** *Spreadsheet / Data Grid* — baris Mahasiswa, kolom Instrumen, pengisian skor $0\text{--}100$ secara cepat.
 6. **Visualisasi Capaian (Dosen & Mahasiswa):** *Radar Chart* yang menampilkan capaian aktual CPL/CPMK dan status kelengkapan.
+
+Pada dashboard Mahasiswa, gunakan label **“Tampilkan mata kuliah”** untuk dropdown filter. Pilihan hanya memuat mata kuliah yang telah ditetapkan kampus pada `pengampu_krs`; tidak menyediakan tindakan tambah, ambil, atau batalkan mata kuliah.
 
 ---
 

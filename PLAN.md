@@ -11,9 +11,11 @@
 * [x] Perancangan Class Diagram & Physical ERD (11 Tabel Relasional).
 
 ## Fase 2: Desain Antarmuka Pengguna (UI/UX Figma)
+* [x] Penyempurnaan dashboard desktop via Figcraft MCP: profil di bawah sidebar, pemilih konteks di samping judul, topbar dengan tampilan toggle dark mode serta jam/tanggal WIB, serta varian kosong, loading, data ilustrasi, dan penilaian belum lengkap. Jam/tanggal masih contoh statis pada desain. Desain mobile tidak termasuk lingkup proyek.
 * [x] Menyusun Master Prompt UI & mengekstrak *color tone* eksisting.
 * [ ] Generate & finalisasi 6 *screen* utama di Figma via `figma-console-mcp`:
   * [ ] Layout Utama (Sidebar, Topbar, Statistik Dashboard).
+    * [x] Skeleton dashboard Admin, Dosen, dan Mahasiswa berpalet netral di `design/pnl-obe.figcraft` via Figcraft MCP; sidebar, topbar, statistik, dan panel per peran telah diperiksa melalui screenshot. Finalisasi desain belum selesai.
   * [ ] Halaman Kelola Master CPL (Kaprodi).
   * [ ] Halaman Matriks Pembebanan CPL-MK (Kaprodi).
   * [ ] Halaman Susun CPMK, Sub-CPMK & Instrumen (Dosen).
@@ -48,6 +50,7 @@
 * [ ] Validasi akurasi rumus kalkulasi agregat nilai OBE.
 * [ ] Konfigurasi *production build* & *deployment* ke server internal PNL.
 ## Penyelarasan skema dan diagram
+* [x] Tegaskan aturan KRS paket yang ditetapkan kampus di `AGENTS.md` §2.1 dan perjelas filter tampilan mahasiswa di `docs/DESIGN.md`.
 * [x] Dokumentasikan pemetaan CPMK–CPL, integritas nilai, agregasi CPL, dan hak ekspor dosen.
 * [ ] Implementasikan model/migrasi `cpmk_cpl`, validasi transaksi dan bulk upsert sesuai SCHEMA.md.
 * [ ] Uji penolakan akses lintas MK, CPL di luar pembebanan, nilai ganda, bobot tidak lengkap, dan agregasi CPL lintas MK.

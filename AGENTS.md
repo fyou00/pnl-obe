@@ -16,6 +16,11 @@ Setiap pembuatan *endpoint* API maupun *route* halaman wajib mematuhi hierarki p
 2. **`Dosen`:** Hanya bisa mengakses dan mengelola `cpmk`, `sub_cpmk`, `instrumen_penilaian`, dan `nilai_mahasiswa` untuk Mata Kuliah yang terikat padanya di tabel `pengampu_krs`. Dilarang mengubah `master_cpl`.
 3. **`Mahasiswa`:** Akses murni *Read-Only*. Hanya dapat melihat nilai dan grafik capaian miliknya sendiri pada Mata Kuliah yang diambil di `pengampu_krs`.
 
+### 2.1. Sistem KRS Paket
+* Sistem menggunakan **KRS paket**. Mata kuliah mahasiswa ditetapkan oleh pihak kampus melalui Admin/Kaprodi dan dicatat di `pengampu_krs`.
+* Mahasiswa **tidak memilih, menambah, atau membatalkan mata kuliah secara mandiri**. Jangan menyediakan endpoint atau antarmuka pengisian KRS mandiri bagi mahasiswa.
+* Pemilih mata kuliah di dashboard hanya menyaring tampilan nilai dan capaian dari mata kuliah yang telah ditetapkan kampus; pemilihan filter tidak mengubah kepesertaan mahasiswa.
+
 ## 3. Skema Database & Relasi (PostgreSQL)
 Gunakan **UUID** sebagai Primary Key untuk seluruh entitas utama. Jangan mengubah aturan integritas relasi berikut:
 
