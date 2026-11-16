@@ -8,6 +8,7 @@ Dokumen ini adalah *single source of truth* dan panduan wajib bagi *AI Coding Ag
 * **Backend:** Python 3.11+, FastAPI, SQLAlchemy (ORM), Pydantic v2, Alembic (Migrations).
 * **Database:** PostgreSQL 15+.
 * **Auth & Security:** JWT (*JSON Web Token*), Bcrypt password hashing, RBAC (*Role-Based Access Control*).
+* **Dokumen terkait:** `docs/DESIGN.md` (requirements, alur bisnis, blueprint UI/UX), `SCHEMA.md` (skema fisik & rumus kalkulasi OBE), `PLAN.md` (peta jalan & progres).
 
 ## 2. Aturan Bisnis & Hak Akses (RBAC)
 Setiap pembuatan *endpoint* API maupun *route* halaman wajib mematuhi hierarki peran berikut:
