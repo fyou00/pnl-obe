@@ -34,3 +34,6 @@ Thumbs.db
 # --- Logs ---
 *.log
 *.sqlite3
+
+# --- Local PostgreSQL development data ---
+backend/.local/

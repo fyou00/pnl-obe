@@ -11,33 +11,37 @@ Dokumen ini adalah *single source of truth* dan panduan wajib bagi *AI Coding Ag
 * **Dokumen terkait:** `docs/DESIGN.md` (requirements, alur bisnis, blueprint UI/UX), `SCHEMA.md` (skema fisik & rumus kalkulasi OBE), `PLAN.md` (peta jalan & progres).
 
 ## 2. Aturan Bisnis & Hak Akses (RBAC)
-Setiap pembuatan *endpoint* API maupun *route* halaman wajib mematuhi hierarki peran berikut:
-1. **`Admin` (Kaprodi):** Akses penuh pada Master Data (`prodi`, `master_cpl`, `mata_kuliah`, `users`), pemetaan matriks `mk_cpl`, dan penetapan `pengampu_krs`. Tidak menginput nilai harian mahasiswa.
-2. **`Dosen`:** Hanya bisa mengakses dan mengelola `cpmk`, `sub_cpmk`, `instrumen_penilaian`, dan `nilai_mahasiswa` untuk Mata Kuliah yang terikat padanya di tabel `pengampu_krs`. Dilarang mengubah `master_cpl`.
-3. **`Mahasiswa`:** Akses murni *Read-Only*. Hanya dapat melihat nilai dan grafik capaian miliknya sendiri pada Mata Kuliah yang diambil di `pengampu_krs`.
+* Lingkup awal hanya **Teknik Informatika**. Tetap gunakan entitas `prodi` dan pembatasan prodi; jangan hardcode nama/id prodi pada logika aplikasi. Perluasan multi-prodi dilakukan kemudian.
+* **Admin (Kaprodi):** mengelola master, versi kurikulum, angkatan, periode akademik, kelas, peserta paket, dan penugasan dosen pada prodinya. Membuka/menutup periode serta membuka kembali dengan alasan tercatat; tidak menginput nilai harian.
+* **Dosen:** mengelola rancangan penilaian dan nilai hanya untuk `kelas_mk` yang ditugaskan kepadanya. Akses ditelusuri melalui `rancangan_penilaian.dosen_id`, bukan hubungan langsung pengguna–master MK. Dilarang mengubah Master CPL atau kurikulum.
+* **Mahasiswa:** read-only atas nilai dan capaian pribadi dari `peserta_kelas_mk`. Tidak melihat nilai mahasiswa lain.
 
-### 2.1. Sistem KRS Paket
-* Sistem menggunakan **KRS paket**. Mata kuliah mahasiswa ditetapkan oleh pihak kampus melalui Admin/Kaprodi dan dicatat di `pengampu_krs`.
-* Mahasiswa **tidak memilih, menambah, atau membatalkan mata kuliah secara mandiri**. Jangan menyediakan endpoint atau antarmuka pengisian KRS mandiri bagi mahasiswa.
-* Pemilih mata kuliah di dashboard hanya menyaring tampilan nilai dan capaian dari mata kuliah yang telah ditetapkan kampus; pemilihan filter tidak mengubah kepesertaan mahasiswa.
+### 2.1. Sistem KRS Paket dan Kelas
+* MK paket ditetapkan kampus melalui Admin/Kaprodi berdasarkan versi kurikulum angkatan dan semester studi. Admin menerapkan paket ke kelas secara massal, lalu menetapkan satu dosen per kelas MK.
+* Mahasiswa **tidak memilih, menambah, atau membatalkan MK secara mandiri**. Dropdown **“Tampilkan mata kuliah”** hanya filter atas kelas MK yang telah ditetapkan, bukan pengisian KRS.
+* Periode = tahun akademik (contoh `2026/2027`) + `Ganjil`/`Genap`; tidak ada semester pendek.
+* Kelas reguler A–E; angka pada TI-1A s.d. TI-4E menunjukkan tingkat tahun: semester 1–2 = tingkat 1, 3–4 = 2, 5–6 = 3, 7–8 = 4. Simpan semester studi 1–8; tingkat/label diturunkan, bukan umur angkatan otomatis.
+* Mahasiswa cuti/nonaktif ditempatkan pada kelas **K**, dengan status `Cuti` atau `Nonaktif` tersimpan terpisah. K tidak menerima paket MK. Anggota dan kelas dicatat per periode agar riwayat tidak tertimpa; huruf kelas reguler biasanya tetap.
+* **Tidak mendukung pengulangan MK.** Jangan membuat alur remedial/pengambilan ulang; riwayat peserta dan nilai tetap dipertahankan.
+
+### 2.2. Rancangan Bersama dan Riwayat
+* Satu kelas MK memiliki tepat satu dosen. Tidak ada tim dosen. Dosen dapat mengampu banyak kelas/MK.
+* Dosen + MK dalam kurikulum yang sama + periode yang sama memakai **satu `rancangan_penilaian` bersama** untuk seluruh kelas terkait: CPMK, pemetaan CPL, Sub-CPMK, instrumen, dan bobot. Dosen berbeda boleh memiliki rancangan berbeda. Peserta, nilai, dan rekap kelas tetap terpisah.
+* Kurikulum yang berbeda merupakan konteks terpisah; jangan menyatukan CPL atau penilaian lintas versi kurikulum secara otomatis.
+* Periode berikutnya boleh menyalin rancangan sebagai draft baru tanpa nilai/peserta. Perubahan tidak boleh merambat ke periode lama.
+* Kurikulum aktif bersifat tetap; revisi isi memakai versi baru. Setelah ada nilai, struktur rancangan dan penugasan kelas terkait dibekukan; nilai masih dapat dilengkapi selama periode terbuka.
+* Penutupan periode mengunci paket, peserta, penugasan, rancangan, dan nilai. Hanya Admin dapat membuka kembali dengan alasan dan audit; pembukaan kembali tidak menghapus riwayat dan tidak membebaskan perubahan struktur yang sudah memiliki nilai.
 
 ## 3. Skema Database & Relasi (PostgreSQL)
-Gunakan **UUID** sebagai Primary Key untuk seluruh entitas utama. Jangan mengubah aturan integritas relasi berikut:
-
-* **`users`**: `id` (PK), `nim_nidn` (Unique), `nama`, `email` (Unique), `role` (`Admin` | `Dosen` | `Mahasiswa`), `password_hash`.
-* **`prodi`**: `id` (PK), `nama_prodi`, `jenjang`.
-* **`master_cpl`**: `id` (PK), `prodi_id` (FK $\rightarrow$ `prodi.id`, Nullable untuk CPL Nasional S/KU), `kode_cpl`, `kategori` (`S` | `KU` | `P` | `KK`), `deskripsi`.
-* **`mata_kuliah`**: `id` (PK), `prodi_id` (FK $\rightarrow$ `prodi.id`), `kode_mk`, `nama_mk`, `sks`, `semester`, `deskripsi`.
-* **`mk_cpl`** *(Junction M:N)*: `mk_id` (PK, FK $\rightarrow$ `mata_kuliah.id`), `cpl_id` (PK, FK $\rightarrow$ `master_cpl.id`), `urutan_rps`.
-* **`pengampu_krs`** *(Junction M:N)*: `user_id` (PK, FK $\rightarrow$ `users.id`), `mk_id` (PK, FK $\rightarrow$ `mata_kuliah.id`), `status` (`Dosen Pengampu` | `Mahasiswa Mengambil`).
-* **`cpmk`**: `id` (PK), `mk_id` (FK $\rightarrow$ `mata_kuliah.id`, `ON DELETE CASCADE`), `kode_cpmk`, `deskripsi`.
-* **`sub_cpmk`**: `id` (PK), `cpmk_id` (FK $\rightarrow$ `cpmk.id`, `ON DELETE CASCADE`), `kode_sub`, `deskripsi`.
-* **`instrumen_penilaian`**: `id` (PK), `sub_cpmk_id` (FK $\rightarrow$ `sub_cpmk.id`, `ON DELETE CASCADE`), `jenis_instrumen` (Tugas, Kuis, UTS, UAS), `bobot_persentase` (`NUMERIC(5,2)`).
-* **`nilai_mahasiswa`**: `id` (PK), `instrumen_id` (FK $\rightarrow$ `instrumen_penilaian.id`), `mahasiswa_id` (FK $\rightarrow$ `users.id`), `nilai_mentah` (`NUMERIC(5,2)`, rentang $0\text{--}100$), `waktu_input`.
+* Entitas utama memakai UUID; junction memakai PK gabungan bila ditetapkan dalam `SCHEMA.md`. Skema fisik dan diagram terbaru adalah **SCHEMA.md §1 dan §3**, bukan skema awal 11 tabel.
+* Master MK dipisahkan dari `kurikulum_mk` (nama/SKS/semester per versi), `kelas_mk` (pelaksanaan per kelas/periode), dan `rancangan_penilaian` (rancangan bersama per dosen/MK kurikulum/periode).
+* `pengampu_krs(user_id, mk_id)` **digantikan** oleh penugasan dosen melalui rancangan pada `kelas_mk` dan junction `peserta_kelas_mk`. Jangan mengimplementasikan tabel lama.
+* CPMK milik `rancangan_penilaian`; instrumen ditelusuri melalui Sub-CPMK/CPMK. Nilai milik pasangan instrumen dan peserta kelas MK, dengan validasi kesamaan rancangan.
+* Master dan riwayat akademik yang telah dipakai dilindungi `RESTRICT`. `CASCADE` hanya untuk anak rancangan draft yang aman dihapus dan junction sebagaimana SCHEMA.md; jangan menghapus nilai historis melalui penghapusan pengguna/kelas/periode.
 
 ## 4. Logika Kalkulasi OBE (Core Business Logic)
 * Penilaian bersifat *bottom-up*: Nilai diinput pada `instrumen_penilaian` $\rightarrow$ diagregasi ke `sub_cpmk` $\rightarrow$ diagregasi ke `cpmk` $\rightarrow$ dipetakan ke `master_cpl`.
-* Seluruh perhitungan agregat persentase capaian harus dilakukan di **Backend Service Layer (FastAPI)** menggunakan tipe data presisi (`Decimal`/`float` terbulat 2 desimal), bukan dihitung di *client/frontend*.
+* Seluruh perhitungan agregat persentase capaian harus dilakukan di **Backend Service Layer (FastAPI)** menggunakan `Decimal` dengan pembulatan dua desimal hanya pada hasil akhir, bukan dihitung di *client/frontend*.
 
 ## 5. Konvensi Penulisan Kode (Coding Standards)
 * **Backend (Python/FastAPI):**
@@ -49,8 +53,14 @@ Gunakan **UUID** sebagai Primary Key untuk seluruh entitas utama. Jangan menguba
   * Jaga konsistensi palet warna sesuai desain Figma (gunakan variabel warna Tailwind yang sudah dikonfigurasi).
 
 ## 6. Guardrails (Larangan Keras)
-* **JANGAN** membuat relasi langsung Many-to-Many tanpa melalui tabel perantara (`mk_cpl`, `cpmk_cpl`, dan `pengampu_krs`).
+* **JANGAN** membuat relasi langsung Many-to-Many tanpa melalui tabel perantara (`mk_cpl`, `cpmk_cpl`, dan `peserta_kelas_mk`).
 * **JANGAN** mengembalikan `password_hash` di dalam skema response Pydantic mana pun.
 * **JANGAN** menaruh *hardcoded secret key* atau kredensial PostgreSQL di dalam kode; selalu gunakan file `.env`.
 ## 7. Pemetaan CPMK–CPL
-Dosen mengelola `cpmk_cpl` (PK gabungan `cpmk_id`, `cpl_id`; CASCADE dari CPMK, RESTRICT dari CPL) hanya untuk MK yang diampu. CPL harus sudah dibebankan pada MK melalui `mk_cpl`. Aturan kelengkapan, integritas nilai dan rumus agregasi mengikuti SCHEMA.md §1.4–2.
+Dosen mengelola `cpmk_cpl` hanya pada rancangan miliknya yang terikat kelas MK penugasannya. CPL harus dibebankan melalui `mk_cpl` pada `kurikulum_mk` rancangan tersebut dan berasal dari versi kurikulum yang sama. Kelengkapan, penguncian, integritas nilai, dan rumus agregasi mengikuti SCHEMA.md §1.7–2.
+
+## 8. Menjalankan dan Memverifikasi Backend
+* Fondasi backend berada di `backend/`; baca `backend/README.md` untuk environment, PostgreSQL lokal/Docker, migrasi, seed, dan perintah server.
+* Dari `backend/` dengan virtualenv aktif, jalankan `ruff check .`, `ruff format --check .`, dan `pytest -q` setelah mengubah backend. Tes integrasi wajib PostgreSQL asli, bukan SQLite; pasang extra `.[local-postgres]` atau isi `TEST_DATABASE_URL` untuk server development dengan hak membuat database disposable.
+* Aplikasi tidak membuat tabel atau menjalankan seed saat startup. Migrasi adalah sumber perubahan skema; jangan menggunakan `metadata.create_all` pada startup atau fixture untuk menggantikan pengujian migrasi.
+* Jangan commit `.env`, token, password, atau direktori data lokal. Seed tidak boleh mereset password pengguna yang sudah ada. Logout mencabut seluruh JWT pengguna melalui `users.token_version`.

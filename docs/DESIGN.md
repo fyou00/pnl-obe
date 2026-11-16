@@ -1,91 +1,104 @@
-# DESIGN.md - Dokumen Analisis & Perancangan Sistem Pengukuran Capaian Pembelajaran (OBE)
+# DESIGN.md - Analisis dan Perancangan Sistem OBE PNL
 
-**Institusi:** Politeknik Negeri Lhokseumawe (PNL)
-**Arsitektur Teknologi:** React.js (Frontend), FastAPI (Backend), PostgreSQL (Database)
+**Institusi:** Politeknik Negeri Lhokseumawe (PNL). **Lingkup awal:** Program Studi Teknik Informatika. **Teknologi:** React, FastAPI, PostgreSQL.
 
-Dokumen ini memuat *requirements*, alur proses bisnis, dan *blueprint* UI/UX. Aturan RBAC, skema tabel, dan konvensi kode **tidak** diulang di sini — rujuk dokumen sumbernya:
+Dokumen ini menjelaskan kebutuhan, alur bisnis, dan UI/UX. Aturan wajib aktor ada di `AGENTS.md`; skema fisik, integritas, agregasi, dan diagram ada di `SCHEMA.md`; progres ada di `PLAN.md`.
 
-| Topik | Dokumen sumber |
-| --- | --- |
-| Aturan RBAC, skema database, konvensi kode, guardrails | `AGENTS.md` |
-| Skema fisik PostgreSQL (tipe kolom, PK/FK) & rumus kalkulasi OBE | `SCHEMA.md` |
-| Peta jalan & pelacak progres per fase | `PLAN.md` |
+## 1. Tujuan dan Aktor
 
-## Daftar Isi
-1. [Gambaran Umum & Aktor Sistem](#1-gambaran-umum--aktor-sistem)
-2. [Kebutuhan Sistem](#2-kebutuhan-sistem)
-3. [Alur Proses Bisnis](#3-alur-proses-bisnis-activity-flow-sederhana)
-4. [Arsitektur Data](#4-arsitektur-data)
-5. [Rancangan Antarmuka (UI/UX Blueprint)](#5-rancangan-antarmuka-pengguna-uiux-blueprint)
-6. [Artefak Desain](#6-rangkuman-artefak-desain)
+Aplikasi mengukur capaian pembelajaran berbasis OBE pada sistem **KRS paket yang ditetapkan kampus**. Aplikasi bukan sarana mahasiswa memilih KRS. Data diorganisasi per prodi, angkatan, versi kurikulum, periode akademik, kelas, dan pelaksanaan MK.
 
----
+* **Admin/Kaprodi:** mengelola kurikulum, angkatan, kelas, status mahasiswa, paket MK dan pengampu, serta membuka/menutup periode dan melihat laporan. Tidak menginput nilai harian.
+* **Dosen:** menyusun rancangan penilaian dan menginput nilai hanya pada kelas MK penugasannya. Satu kelas MK hanya satu dosen; tidak ada tim dosen.
+* **Mahasiswa:** melihat nilai dan capaian pribadi dari kelas MK yang ditetapkan kampus, seluruhnya read-only.
 
-## 1. Gambaran Umum & Aktor Sistem
-Sistem mendigitalisasi proses perencanaan, pemetaan, penilaian, dan evaluasi berbasis *Outcome-Based Education* (OBE), dengan tiga aktor:
-
-1. **Kaprodi (Admin):** lingkup makro kurikulum — Master CPL, Mata Kuliah, Matriks Pembebanan.
-2. **Dosen Pengampu:** lingkup mikro perkuliahan — CPMK/Sub-CPMK, instrumen & bobot penilaian, input nilai mahasiswa.
-3. **Mahasiswa:** pemantauan hasil studi pribadi — rincian nilai mentah dan visualisasi capaian OBE (*read-only*).
-
-Batasan hak akses tiap aktor didefinisikan pada `AGENTS.md` §2.
-
----
+Teknik Informatika menjadi satu-satunya prodi pada peluncuran awal; identitas dan relasi prodi tetap disimpan agar penambahan prodi kelak tidak memerlukan penggabungan data tanpa konteks.
 
 ## 2. Kebutuhan Sistem
 
 ### 2.1. Kebutuhan Fungsional
-* **Autentikasi:** Login dan Logout sesuai hak akses masing-masing peran.
-* **Manajemen Master Data (Kaprodi):** Program Studi, Master CPL (Sikap, Keterampilan Umum, Pengetahuan, Keterampilan Khusus), Mata Kuliah, serta data Dosen dan Mahasiswa.
-* **Pemetaan Matriks OBE (Kaprodi):** Membebankan Master CPL ke Mata Kuliah tertentu.
-* **Penyusunan Capaian (Dosen):** Merumuskan CPMK dari CPL yang dibebankan, lalu memecahnya menjadi Sub-CPMK.
-* **Konfigurasi Penilaian (Dosen):** Menentukan instrumen (Tugas, Kuis, Praktikum, UTS, UAS) beserta bobot persentase yang tertaut ke Sub-CPMK.
-* **Input Nilai (Dosen):** Input nilai mentah mahasiswa (0–100) per instrumen secara massal (*spreadsheet/grid view*).
-* **Kalkulasi & Visualisasi Otomatis (Sistem):** Menghitung persentase ketercapaian CPL/CPMK dan menyajikannya sebagai *Radar Chart* maupun *Bar Chart*.
-* **Pelaporan (Kaprodi & Dosen):** Laporan asesmen OBE dan ekspor capaian ke CSV/PDF.
+
+* Autentikasi JWT, logout, RBAC, dan pembatasan akses resource menurut prodi/penugasan/kepesertaan.
+* Master prodi, pengguna, identitas MK, versi kurikulum, CPL, dan pemetaan MK–CPL per kurikulum.
+* Paket MK per semester studi 1–8 pada versi kurikulum; satu angkatan menggunakan satu versi. Kurikulum Aktif bersifat tetap dan revisinya melalui versi baru.
+* Periode tahun akademik + Ganjil/Genap, contoh 2026/2027 Ganjil. Tidak ada semester pendek.
+* Penempatan mahasiswa per periode pada kelas reguler A–E atau kelas K untuk Cuti/Nonaktif. Status individual tetap dibedakan. K tidak menerima paket.
+* Penerapan paket secara massal oleh Admin pada seluruh kelas reguler angkatan, beserta satu dosen per kelas MK; daftar MK semester sama bagi seluruh kelas angkatan. Tidak ada pengulangan MK.
+* Satu rancangan bersama per dosen/kurikulum MK/periode, mencakup CPMK, pemetaan CPL, Sub-CPMK, instrumen dan bobot. Dosen berbeda boleh berbeda; nilai dan peserta tetap per kelas MK.
+* Input nilai mentah 0–100 secara massal dengan validasi atomik. Instrumen: Tugas, Kuis, Praktikum, UTS, UAS.
+* Grafik capaian aktual CPL/CPMK dan status kelengkapan; rekap kelas menyertakan jumlah mahasiswa lengkap/total. Tidak mengarang target capaian.
+* Laporan serta ekspor CSV/PDF bagi Admin/Dosen sesuai cakupan akses. Mahasiswa hanya laporan pribadi read-only.
+* Penguncian periode dan pembukaan kembali oleh Admin dengan alasan/audit; riwayat kurikulum, kelas, dan nilai tidak ditimpa periode baru.
 
 ### 2.2. Kebutuhan Non-Fungsional
-* **Performa & Skalabilitas:** respons API standar maksimal $500\text{ ms}$; agregasi nilai satu kelas selesai di bawah $2\text{ detik}$; mendukung minimal $200$ pengguna bersamaan.
-* **Keamanan:** JWT, *password hashing* Bcrypt, proteksi *SQL Injection* melalui ORM SQLAlchemy.
-* **Usability:** antarmuka *responsive* (desktop & smartphone) dengan grafik interaktif.
-* **Keandalan Data:** *Foreign Key Constraints* (`ON DELETE CASCADE / RESTRICT`) pada PostgreSQL dan *backup* harian otomatis.
 
----
+* Respons API standar maksimal 500 ms; agregasi satu kelas di bawah 2 detik; minimal 200 pengguna bersamaan sebagai sasaran pengujian.
+* JWT, Bcrypt, validasi Pydantic, ORM SQLAlchemy, transaksi, constraint database, dan rahasia melalui environment.
+* **Desktop saja** untuk lingkup proyek ini; tidak membuat desain atau implementasi mobile. Grafik interaktif dan tabel mudah dibaca pada desktop.
+* Backup harian otomatis, audit perubahan nilai dan penguncian, serta perlindungan penghapusan riwayat.
 
-## 3. Alur Proses Bisnis (Activity Flow Sederhana)
+## 3. Alur Akademik dan Penilaian
 
-1. **Kaprodi (Admin):** input daftar Mata Kuliah dan Master CPL $\rightarrow$ tentukan Mata Kuliah penanggung CPL (Matriks Pembebanan) $\rightarrow$ sistem menyimpan aturan kurikulum.
-2. **Dosen:** pilih Mata Kuliah yang diampu $\rightarrow$ sistem menampilkan CPL turunan dari Kaprodi $\rightarrow$ susun CPMK & Sub-CPMK $\rightarrow$ buat instrumen tugas/ujian beserta bobotnya $\rightarrow$ input nilai mahasiswa $\rightarrow$ sistem menghitung persentase capaian $\rightarrow$ lihat laporan dan grafik kelas.
-3. **Mahasiswa:** tampilkan salah satu Mata Kuliah dalam paket yang telah ditetapkan kampus melalui Admin/Kaprodi $\rightarrow$ sistem mengolah nilai dan menggambar grafik $\rightarrow$ lihat rincian nilai tugas/ujian serta grafik capaian belajar pribadi. Pemilihan ini hanya filter tampilan, bukan pengisian KRS; aturan KRS paket mengikuti `AGENTS.md` §2.1.
+### 3.1. Kurikulum dan Angkatan
 
----
+Admin menyusun kurikulum Draft, memasukkan snapshot MK (nama/SKS/semester) dan CPL, lalu membebankan CPL ke MK. Setelah valid, kurikulum diaktifkan dan ditetapkan ke angkatan. Seluruh kelas dalam satu angkatan mengikuti paket semester yang sama. Perubahan kurikulum berikutnya memakai versi baru; data lama tetap dapat dilaporkan.
+
+### 3.2. Periode dan Kelas
+
+Admin membuka periode Ganjil/Genap, menentukan semester studi dan kelas A–E bagi angkatan, serta menempatkan mahasiswa. Angka pada TI-1A–TI-4E adalah tingkat tahun: semester 1–2 tingkat 1 hingga semester 7–8 tingkat 4. Contoh: angkatan 2024 pada semester studi 5 kelas C = TI-3C; angkatan 2026 semester studi 1 kelas A = TI-1A.
+
+Cuti/Nonaktif ditempatkan di K, ditampilkan sebagai TI-K dengan angkatan/periode. Huruf kelas reguler biasanya tetap. Roster dan status dibuat per periode sehingga perpindahan tidak menimpa riwayat. Admin meninjau penempatan mahasiswa kembali dari K; aplikasi tidak otomatis menaikkan semester hanya berdasarkan tahun masuk.
+
+### 3.3. Penerapan Paket
+
+Admin memilih angkatan dan periode → memilih dosen untuk setiap MK di setiap kelas reguler → sistem mengambil paket dari kurikulum/semester studi → validasi roster aktif dan tanpa pengulangan → buat kelas MK, gunakan/buat rancangan bersama, dan catat peserta. Operasi atomik dan aman dijalankan ulang tanpa duplikasi; K dikecualikan. Detail integritas mengikuti SCHEMA.md §1.4.
+
+Sebelum ada nilai, Admin dapat memperbaiki penempatan/penugasan secara konsisten. Setelah ada nilai, perubahan struktural atas peserta/kelas terkait ditolak; riwayat tidak dipindah atau dihapus otomatis. Penempatan berbeda dicatat pada periode berikutnya.
+
+### 3.4. Rancangan Dosen dan Nilai
+
+Dosen memilih periode dan kelas MK penugasannya → sistem menampilkan CPL yang dibebankan pada kurikulum MK → dosen menyusun CPMK/pemetaan CPL/Sub-CPMK/instrumen/bobot → lengkapi semua pemetaan dan bobot 100% → input nilai peserta kelas → sistem menghitung capaian.
+
+Jika dosen X mengajar MK yang sama pada A dan B dalam periode/kurikulum sama, kedua kelas memakai satu rancangan. Antarmuka menyebutkan kelas-kelas pengguna dan bahwa perubahan berlaku untuk semua kelas tersebut. Dosen Y untuk MK sama pada C dapat memiliki rancangan berbeda. Nilai dan rekap A/B/C tetap terpisah.
+
+Rancangan periode sebelumnya boleh disalin ke periode baru pada kurikulum MK yang sama ke rancangan tujuan kosong hasil penugasan Admin, sebagai draft tanpa peserta/nilai. Tujuan yang sudah berisi tidak ditimpa. Sesudah nilai pertama ada di salah satu kelas terkait, struktur rancangan bersama dibekukan; dosen masih dapat melengkapi/mengoreksi nilai selama periode terbuka.
+
+### 3.5. Mahasiswa dan Penutupan
+
+Mahasiswa memilih periode → **Tampilkan mata kuliah** dari paket yang telah ditetapkan → melihat rincian nilai serta grafik capaian pribadi. Dropdown hanya filter; tidak ada tindakan ambil/tambah/batalkan KRS. Periode Cuti/Nonaktif menampilkan status akademik dan tidak adanya paket, bukan nilai nol.
+
+Admin menutup periode → semua perubahan akademik dan nilai periode terkunci → laporan historis tetap tersedia. Pembukaan kembali memerlukan alasan dan audit. Dosen dapat mengoreksi nilai pada periode yang dibuka kembali; struktur rancangan yang sudah memiliki nilai tetap dibekukan. Periode boleh ditutup walaupun nilai belum lengkap; status kelengkapan tidak berubah menjadi nol atau lengkap.
 
 ## 4. Arsitektur Data
-Basis data relasional PostgreSQL; relasi *Many-to-Many* dipecah melalui tabel perantara `mk_cpl` (`mata_kuliah` $\leftrightarrow$ `master_cpl`), `cpmk_cpl`, dan `pengampu_krs` (`users` $\leftrightarrow$ `mata_kuliah`).
 
-Rincian 11 entitas (`users`, `prodi`, `master_cpl`, `mata_kuliah`, `mk_cpl`, `cpmk_cpl`, `pengampu_krs`, `cpmk`, `sub_cpmk`, `instrumen_penilaian`, `nilai_mahasiswa`) beserta tipe kolom dan integritas relasinya ada di `SCHEMA.md` §1.
+`SCHEMA.md` §1 menetapkan 21 tabel beserta PK/FK/UNIQUE/CHECK dan kebijakan hapus. Struktur inti:
 
----
+* `kurikulum` → `kurikulum_mk`/CPL/pemetaan; `angkatan` memilih versi kurikulum.
+* `periode_akademik` → `kelas_periode` dan `mahasiswa_periode` untuk kelas/status historis.
+* `kelas_mk` menghubungkan kelas, MK kurikulum, dan satu `rancangan_penilaian` milik dosen; `peserta_kelas_mk` menyimpan peserta yang ditetapkan Admin.
+* Rancangan bersama → CPMK → Sub-CPMK → instrumen; CPMK terhubung ke CPL melalui `cpmk_cpl`.
+* Nilai mengacu instrumen dan peserta kelas MK, tidak hanya instrumen/mahasiswa tanpa konteks kelas.
 
-## 5. Rancangan Antarmuka Pengguna (UI/UX Blueprint)
-Gaya *Dashboard Panel* modern dengan palet warna eksisting (*single color tone*):
+Skema lama `pengampu_krs(user_id, mk_id)` digantikan; jangan diimplementasikan. Kalkulasi hanya di service FastAPI menggunakan Decimal sesuai SCHEMA.md §2. Antarmuka mengirim konteks periode/kelas dan menampilkan angka/status dari backend.
 
-1. **Dashboard Utama:** *Sidebar* kiri, *Topbar* profil di atas, kartu ringkasan statistik (jumlah MK diampu, progres pengisian nilai).
-2. **Kelola Master CPL (Kaprodi):** *Data Table* Kode CPL/Kategori/Deskripsi, tombol aksi Edit/Hapus, *modal form* tambah data.
-3. **Matriks Pembebanan (Kaprodi):** *dropdown* Mata Kuliah + daftar CPL dengan *checkbox/toggle* penautan beban CPL.
-4. **Susun CPMK & Sub-CPMK (Dosen):** tampilan berjenjang (*Accordion / Nested Cards*) CPMK beserta Sub-CPMK, tombol penambahan instrumen dan bobot persentase.
-5. **Input Nilai (Dosen):** *Spreadsheet / Data Grid* — baris Mahasiswa, kolom Instrumen, pengisian skor $0\text{--}100$ secara cepat.
-6. **Visualisasi Capaian (Dosen & Mahasiswa):** *Radar Chart* yang menampilkan capaian aktual CPL/CPMK dan status kelengkapan.
+## 5. Blueprint UI/UX Desktop
 
-Pada dashboard Mahasiswa, gunakan label **“Tampilkan mata kuliah”** untuk dropdown filter. Pilihan hanya memuat mata kuliah yang telah ditetapkan kampus pada `pengampu_krs`; tidak menyediakan tindakan tambah, ambil, atau batalkan mata kuliah.
+Palet netral dengan komponen konsisten. Artefak saat ini `design/pnl-obe.figcraft` masih desain statis, bukan aplikasi berjalan.
 
----
+1. **Dashboard:** sidebar kiri dengan profil paling bawah; topbar breadcrumb, toggle dark mode, jam digital/tanggal WIB; dropdown konteks di samping judul. Kartu ringkasan, tabel dan grafik menampilkan konteks periode secara jelas. Toggle/jam dalam artefak masih contoh statis.
+2. **Master dan kurikulum (Admin):** tabel CPL berkode/kategori/deskripsi, form versi kurikulum dan MK paket. Kurikulum aktif/arsip memiliki indikator read-only dan tindakan membuat versi baru.
+3. **Matriks pembebanan (Admin):** pilih versi kurikulum/MK, tautkan CPL dengan checkbox hanya pada Draft. Penggunaan lintas versi ditolak.
+4. **Akademik (Admin):** angkatan, periode, kelas A–E/K, status mahasiswa, penugasan satu dosen per kelas MK, dan penerapan paket massal. Tidak ada pengisian KRS mandiri mahasiswa.
+5. **Rancangan (Dosen):** accordion CPMK/Sub-CPMK, pilihan CPL yang dibebankan, instrumen dan bobot. Tampilkan semua kelas pengguna rancangan dan alasan read-only jika struktur dibekukan/periode ditutup.
+6. **Input nilai (Dosen):** grid peserta kelas MK × instrumen rancangan. Filter periode/kelas wajib jelas; input 0–100, simpan bulk atomik, tampilkan kesalahan tanpa menyimpan sebagian.
+7. **Capaian (Dosen/Mahasiswa):** grafik aktual CPL/CPMK, status kesiapan/kelengkapan, dan lengkap/total pada rekap kelas. Nilai belum lengkap ditampilkan “—”, bukan nol; tanpa garis target buatan.
 
-## 6. Rangkuman Artefak Desain
-* **Use Case Diagram:** interaksi `Pengguna`, `Kaprodi`, `Dosen`, `Mahasiswa` terhadap fungsionalitas utama.
-* **Sequence Diagram:** komunikasi 3 lapis Frontend (React.js) $\leftrightarrow$ Backend API (FastAPI) $\leftrightarrow$ Database (PostgreSQL) pada fase penyusunan capaian, input nilai, dan kalkulasi OBE.
-* **Activity Diagram:** versi teknis dan versi naratif per peran (Kaprodi, Dosen, Mahasiswa).
-* **Class Diagram & ERD:** struktur objek *backend* dan skema tabel fisik lengkap dengan PK/FK.
+Pada dashboard Dosen/Mahasiswa, dropdown **“Tampilkan mata kuliah”** dibatasi penugasan/kepesertaan dalam periode yang dilihat dan menampilkan identitas kelas bila diperlukan. Ringkasan/list keseluruhan dan panel yang mengikuti filter diberi label konteks berbeda agar tidak menyesatkan. Desain layar akademik tambahan dan penyesuaian periode pada artefak Figcraft adalah pekerjaan selanjutnya, belum dibuat oleh revisi dokumentasi ini. Tidak menambah RPS, login, landing page, atau mobile pada tugas desain dashboard.
 
-## 7. Pemetaan dan kelengkapan penilaian
-Form CPMK menyediakan pilihan jamak CPL yang telah dibebankan pada MK. Simpan relasi dalam `cpmk_cpl`; dosen tidak mengubah Master CPL. Draft boleh belum dipetakan, tetapi input nilai dan laporan capaian memerlukan seluruh CPMK terpetakan dan total bobot MK 100%. Perubahan pemetaan MK–CPL yang masih dipakai CPMK ditolak. Nilai belum lengkap ditampilkan sebagai belum lengkap, bukan nol. Rumus mengikuti SCHEMA.md §2.
+## 6. Artefak dan Validasi
+
+ERD 21 tabel, class diagram inti, sequence paket–nilai, use case, activity flow, dan skenario penerimaan terpusat di `SCHEMA.md` §3–4. Sebelum migrasi, periksa semua relasi terhadap pemisahan kurikulum/periode/kelas/rancangan bersama. Implementasi berikutnya wajib menguji isolasi akses, paket K, tanpa pengulangan, riwayat, bobot/pemetaan, penguncian serentak, dan akurasi capaian.
+
+## 7. Status Implementasi Backend Awal
+
+Fondasi di `backend/` mencakup 21 model, migrasi awal Alembic, konfigurasi PostgreSQL, seed, health/readiness, JWT/Bcrypt, profil dan logout (mencabut seluruh sesi pengguna). Endpoint baca kelas MK memeriksa prodi, dosen penugasan, atau peserta mahasiswa; daftar peserta hanya untuk Admin/Dosen terkait. Tidak ada endpoint pengisian KRS mahasiswa. API tulis kurikulum/paket/periode/rancangan/nilai, penguncian dan perhitungan capaian masih fase berikutnya. Rincian menjalankan dan menguji tersedia di `backend/README.md`.
