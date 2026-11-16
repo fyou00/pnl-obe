@@ -24,7 +24,7 @@ Dokumen ini memuat *requirements*, alur proses bisnis, dan *blueprint* UI/UX. At
 ## 1. Gambaran Umum & Aktor Sistem
 Sistem mendigitalisasi proses perencanaan, pemetaan, penilaian, dan evaluasi berbasis *Outcome-Based Education* (OBE), dengan tiga aktor:
 
-1. **Kaprodi (Admin):** lingkup makro kurikulum — Master CPL, Profil Lulusan, Mata Kuliah, Matriks Pembebanan.
+1. **Kaprodi (Admin):** lingkup makro kurikulum — Master CPL, Mata Kuliah, Matriks Pembebanan.
 2. **Dosen Pengampu:** lingkup mikro perkuliahan — CPMK/Sub-CPMK, instrumen & bobot penilaian, input nilai mahasiswa.
 3. **Mahasiswa:** pemantauan hasil studi pribadi — rincian nilai mentah dan visualisasi capaian OBE (*read-only*).
 
@@ -61,9 +61,9 @@ Batasan hak akses tiap aktor didefinisikan pada `AGENTS.md` §2.
 ---
 
 ## 4. Arsitektur Data
-Basis data relasional PostgreSQL; relasi *Many-to-Many* dipecah melalui tabel perantara `mk_cpl` (`mata_kuliah` $\leftrightarrow$ `master_cpl`) dan `pengampu_krs` (`users` $\leftrightarrow$ `mata_kuliah`).
+Basis data relasional PostgreSQL; relasi *Many-to-Many* dipecah melalui tabel perantara `mk_cpl` (`mata_kuliah` $\leftrightarrow$ `master_cpl`), `cpmk_cpl`, dan `pengampu_krs` (`users` $\leftrightarrow$ `mata_kuliah`).
 
-Rincian 10 entitas (`users`, `prodi`, `master_cpl`, `mata_kuliah`, `mk_cpl`, `pengampu_krs`, `cpmk`, `sub_cpmk`, `instrumen_penilaian`, `nilai_mahasiswa`) beserta tipe kolom dan integritas relasinya ada di `SCHEMA.md` §1.
+Rincian 11 entitas (`users`, `prodi`, `master_cpl`, `mata_kuliah`, `mk_cpl`, `cpmk_cpl`, `pengampu_krs`, `cpmk`, `sub_cpmk`, `instrumen_penilaian`, `nilai_mahasiswa`) beserta tipe kolom dan integritas relasinya ada di `SCHEMA.md` §1.
 
 ---
 
@@ -75,12 +75,15 @@ Gaya *Dashboard Panel* modern dengan palet warna eksisting (*single color tone*)
 3. **Matriks Pembebanan (Kaprodi):** *dropdown* Mata Kuliah + daftar CPL dengan *checkbox/toggle* penautan beban CPL.
 4. **Susun CPMK & Sub-CPMK (Dosen):** tampilan berjenjang (*Accordion / Nested Cards*) CPMK beserta Sub-CPMK, tombol penambahan instrumen dan bobot persentase.
 5. **Input Nilai (Dosen):** *Spreadsheet / Data Grid* — baris Mahasiswa, kolom Instrumen, pengisian skor $0\text{--}100$ secara cepat.
-6. **Visualisasi Capaian (Dosen & Mahasiswa):** *Radar Chart* yang membandingkan target CPL/CPMK dengan nilai aktual.
+6. **Visualisasi Capaian (Dosen & Mahasiswa):** *Radar Chart* yang menampilkan capaian aktual CPL/CPMK dan status kelengkapan.
 
 ---
 
 ## 6. Rangkuman Artefak Desain
-* **Use Case Diagram:** interaksi `Pengguna`, `Kaprodi`, `Dosen`, `Mahasiswa` terhadap 11 fungsionalitas utama.
+* **Use Case Diagram:** interaksi `Pengguna`, `Kaprodi`, `Dosen`, `Mahasiswa` terhadap fungsionalitas utama.
 * **Sequence Diagram:** komunikasi 3 lapis Frontend (React.js) $\leftrightarrow$ Backend API (FastAPI) $\leftrightarrow$ Database (PostgreSQL) pada fase penyusunan capaian, input nilai, dan kalkulasi OBE.
 * **Activity Diagram:** versi teknis dan versi naratif per peran (Kaprodi, Dosen, Mahasiswa).
 * **Class Diagram & ERD:** struktur objek *backend* dan skema tabel fisik lengkap dengan PK/FK.
+
+## 7. Pemetaan dan kelengkapan penilaian
+Form CPMK menyediakan pilihan jamak CPL yang telah dibebankan pada MK. Simpan relasi dalam `cpmk_cpl`; dosen tidak mengubah Master CPL. Draft boleh belum dipetakan, tetapi input nilai dan laporan capaian memerlukan seluruh CPMK terpetakan dan total bobot MK 100%. Perubahan pemetaan MK–CPL yang masih dipakai CPMK ditolak. Nilai belum lengkap ditampilkan sebagai belum lengkap, bukan nol. Rumus mengikuti SCHEMA.md §2.

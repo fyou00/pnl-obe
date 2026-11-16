@@ -8,7 +8,7 @@
 * [x] Definisi kebutuhan fungsional, non-fungsional, dan aktor RBAC (Kaprodi, Dosen, Mahasiswa).
 * [x] Pemodelan proses bisnis (BPMN & Activity Diagram untuk ketiga aktor).
 * [x] Perancangan Use Case Diagram & Sequence Diagram (React $\leftrightarrow$ FastAPI $\leftrightarrow$ PostgreSQL).
-* [x] Perancangan Class Diagram & Physical ERD (10 Tabel Relasional).
+* [x] Perancangan Class Diagram & Physical ERD (11 Tabel Relasional).
 
 ## Fase 2: Desain Antarmuka Pengguna (UI/UX Figma)
 * [x] Menyusun Master Prompt UI & mengekstrak *color tone* eksisting.
@@ -23,7 +23,7 @@
 ## Fase 3: Setup Backend & Database Layer (FastAPI + PostgreSQL)
 * [ ] Inisialisasi struktur proyek FastAPI (`app/core`, `app/models`, `app/schemas`, `app/services`, `app/api/v1`).
 * [ ] Konfigurasi koneksi PostgreSQL & environment variables (`.env`).
-* [ ] Implementasi model SQLAlchemy sesuai `AGENTS.md` (10 tabel + UUID + `ON DELETE CASCADE`).
+* [ ] Implementasi model SQLAlchemy sesuai `AGENTS.md` (11 tabel + UUID + `ON DELETE CASCADE`).
 * [ ] Setup Alembic & jalankan migrasi awal database.
 * [ ] Implementasi sistem Autentikasi JWT & *Middleware* RBAC (`Admin`, `Dosen`, `Mahasiswa`).
 * [ ] Buat *seeder script* untuk data awal (1 akun Admin Kaprodi, sampel Prodi, Dosen, dan Mahasiswa).
@@ -47,3 +47,7 @@
 * [ ] Pengujian integrasi API (memastikan isolasi hak akses antar-role berjalan ketat).
 * [ ] Validasi akurasi rumus kalkulasi agregat nilai OBE.
 * [ ] Konfigurasi *production build* & *deployment* ke server internal PNL.
+## Penyelarasan skema dan diagram
+* [x] Dokumentasikan pemetaan CPMK–CPL, integritas nilai, agregasi CPL, dan hak ekspor dosen.
+* [ ] Implementasikan model/migrasi `cpmk_cpl`, validasi transaksi dan bulk upsert sesuai SCHEMA.md.
+* [ ] Uji penolakan akses lintas MK, CPL di luar pembebanan, nilai ganda, bobot tidak lengkap, dan agregasi CPL lintas MK.

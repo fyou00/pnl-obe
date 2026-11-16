@@ -44,6 +44,8 @@ Gunakan **UUID** sebagai Primary Key untuk seluruh entitas utama. Jangan menguba
   * Jaga konsistensi palet warna sesuai desain Figma (gunakan variabel warna Tailwind yang sudah dikonfigurasi).
 
 ## 6. Guardrails (Larangan Keras)
-* **JANGAN** membuat relasi langsung Many-to-Many tanpa melalui tabel perantara (`mk_cpl` dan `pengampu_krs`).
+* **JANGAN** membuat relasi langsung Many-to-Many tanpa melalui tabel perantara (`mk_cpl`, `cpmk_cpl`, dan `pengampu_krs`).
 * **JANGAN** mengembalikan `password_hash` di dalam skema response Pydantic mana pun.
 * **JANGAN** menaruh *hardcoded secret key* atau kredensial PostgreSQL di dalam kode; selalu gunakan file `.env`.
+## 7. Pemetaan CPMK–CPL
+Dosen mengelola `cpmk_cpl` (PK gabungan `cpmk_id`, `cpl_id`; CASCADE dari CPMK, RESTRICT dari CPL) hanya untuk MK yang diampu. CPL harus sudah dibebankan pada MK melalui `mk_cpl`. Aturan kelengkapan, integritas nilai dan rumus agregasi mengikuti SCHEMA.md §1.4–2.
