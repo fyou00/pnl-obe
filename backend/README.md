@@ -51,7 +51,7 @@ python -m app.services.seed
 uvicorn app.main:create_app --factory --host 127.0.0.1 --port 8000 --reload
 ```
 
-Seed default membuat prodi dan Admin dari `.env`. `python -m app.services.seed --demo` juga membuat akun Dosen/Mahasiswa contoh, angkatan, dan kurikulum Draft. Semua kredensial harus diberikan di environment/.env; tidak ada password bawaan. Seed idempoten, tidak mereset password akun yang sudah ada, dan rollback seluruh batch jika ada konflik. Data demo belum menyusun paket/kelas/perkuliahan; itu bagian modul akademik berikutnya.
+Seed default membuat prodi dan Admin dari `.env`. `python -m app.services.seed --demo` juga membuat akun Dosen/Mahasiswa contoh, angkatan, dan kurikulum Draft. Semua kredensial harus diberikan di environment/.env; tidak ada password bawaan. Seed idempoten, tidak mereset password akun yang sudah ada, dan rollback seluruh batch jika ada konflik. Data demo belum menyusun paket/kelas/perkuliahan; susun melalui endpoint akademik dan penerapan paket Admin.
 
 `alembic downgrade base` hanya untuk database development kosong yang boleh dihapus. Jangan menjalankannya pada database berisi riwayat akademik. Startup server tidak menjalankan migrasi atau seed secara otomatis.
 
@@ -116,7 +116,7 @@ PATCH menggunakan field yang dikirim saja; payload kosong atau null pada field w
 
 Transisi hanya Draft → Aktif → Arsip. Isi Aktif/Arsip bersifat read-only; tidak ada endpoint kembali ke Draft. Kurikulum Draft yang belum direferensikan dapat dihapus bersama snapshot/CPL/matriksnya. MK paket yang sudah dipakai perkuliahan tidak dapat diedit/dihapus; CPL yang masih ditautkan harus dilepas terlebih dahulu, dan pembebanan yang masih dipakai CPMK tidak boleh dilepas. Perubahan nama master tidak merambat ke snapshot.
 
-Setiap mutasi mengunci parent kurikulum (atau master MK terkait), melakukan validasi dan menyimpan audit sebelum/sesudah dalam satu transaksi. Salin versi mencatat sumber dan target tanpa menyalin riwayat akademik. Penguncian juga melindungi aktivasi dari race dengan edit isi. CRUD prodi, penerapan paket ke kelas, penugasan, penilaian, dan perhitungan capaian masih tahap berikutnya.
+Setiap mutasi mengunci parent kurikulum (atau master MK terkait), melakukan validasi dan menyimpan audit sebelum/sesudah dalam satu transaksi. Salin versi mencatat sumber dan target tanpa menyalin riwayat akademik. Penguncian juga melindungi aktivasi dari race dengan edit isi. CRUD prodi, penilaian, dan perhitungan capaian masih tahap berikutnya. Penerapan paket/penugasan tersedia pada bagian di bawah.
 
 ## Modul Admin: angkatan, periode, kelas, dan roster
 
@@ -147,4 +147,47 @@ Kelas yang sudah mempunyai kelas MK tidak dapat diganti identitasnya. Kelas yang
 
 Koreksi roster sebelum nilai menyelaraskan peserta **kelas MK yang sudah ada** dalam periode yang sama: hapus kepesertaan lama, tambah kepesertaan kelas tujuan untuk status Aktif, dan kosongkan kepesertaan periode tersebut untuk K. Tidak membuat kelas MK, rancangan, instrumen, atau penugasan dosen baru. Mahasiswa dengan nilai pada periode tersebut tidak boleh dipindah/dihapus penempatannya; skor 0 juga dianggap nilai yang sudah ada. Larangan mengulang MK lintas periode ditegakkan UNIQUE mahasiswa/master MK, dengan rollback seluruh perubahan jika dilanggar. Periode baru tidak mengubah peserta atau nilai periode lama.
 
-Mutasi memakai transaksi, audit atomik (termasuk perubahan kepesertaan), lock angkatan lalu periode, serta lock akun mahasiswa saat koreksi roster. Periode Ditutup read-only. Payload salah menghasilkan 422; duplikasi, ketidakcocokan aturan, data yang sudah digunakan, atau penghapusan terhalang referensi menghasilkan 409. Endpoint paket massal/penugasan dosen, manajemen akun, penutupan periode, rancangan penilaian, dan nilai tetap pekerjaan berikutnya. Frontend tidak diubah.
+Mutasi memakai transaksi, audit atomik (termasuk perubahan kepesertaan), lock angkatan lalu periode, serta lock akun mahasiswa saat koreksi roster. Periode Ditutup read-only. Payload salah menghasilkan 422; duplikasi, ketidakcocokan aturan, data yang sudah digunakan, atau penghapusan terhalang referensi menghasilkan 409. Endpoint manajemen akun, penutupan periode, penyusunan rancangan penilaian, dan nilai tetap pekerjaan berikutnya. Penerapan paket/penugasan dosen tersedia pada bagian berikut. Frontend tidak diubah.
+
+## Modul Admin: paket MK massal dan pengampu
+
+Prefix `/api/v1`, khusus Admin pada prodinya. Modul memakai model yang sudah ada, tanpa migrasi baru. Penerapan paket membuat kelas MK, rancangan kosong bersama, serta kepesertaan; belum menyusun CPMK/instrumen atau menginput nilai.
+
+| Method | Path relatif terhadap /api/v1 | Fungsi |
+| --- | --- | --- |
+| GET | `/dosen` | Pilihan akun Dosen prodi sendiri; default aktif, filter `aktif`, pencarian literal `q`, offset/limit maksimum 100. Respons hanya id, NIDN, nama, dan status akun. |
+| GET | `/periode-akademik/{periode_id}/angkatan/{angkatan_id}/paket` | Pratinjau paket, seluruh kelas reguler, jumlah roster Aktif per kelas, serta pasangan kelas/MK dan penugasan yang sudah ada. |
+| POST | `/periode-akademik/{periode_id}/angkatan/{angkatan_id}/paket/terapkan` | Terapkan seluruh paket semester kepada kelas reguler angkatan secara atomik. |
+| PATCH | `/kelas-mk/{kelas_mk_id}/pengampu` | Koreksi satu dosen pengampu sebelum kelas memiliki nilai. |
+
+Alur penggunaan:
+
+1. Tetapkan kurikulum Aktif ke angkatan, buat periode, kelas A–E/K dan roster melalui modul tahap 2. Kurikulum yang kemudian diarsipkan tetap boleh digunakan angkatan lamanya. Semester paket mengikuti semester studi kelas, bukan input bebas atau umur angkatan.
+2. GET pratinjau paket. Respons `kelas`, `mata_kuliah`, dan `penugasan` menunjukkan semua pasangan yang wajib diisi. Pada pasangan baru, `kelas_mk_id`, `dosen_id`, dan `rancangan_id` masih null. K dikecualikan. Kelas reguler kosong boleh disiapkan sebelum roster lengkap; tidak membuat mahasiswa/roster otomatis.
+3. Ambil pilihan dosen dari GET `/dosen`, lalu kirim body berikut ke endpoint `terapkan`, dengan satu entri untuk **setiap** pasangan kelas reguler dan MK dalam pratinjau:
+
+```json
+{
+  "penugasan": [
+    {
+      "kelas_periode_id": "<UUID-kelas-reguler>",
+      "kurikulum_mk_id": "<UUID-MK-kurikulum-paket-semester>",
+      "dosen_id": "<UUID-akun-Dosen-aktif>"
+    }
+  ]
+}
+```
+
+Field tak dikenal, daftar kosong, atau pasangan kelas/MK duplikat ditolak 422. Pasangan di luar kelas/paket angkatan/periode (termasuk K) menghasilkan 404. Pasangan yang belum diisi, dosen salah role/nonaktif, kurikulum Draft, semester tanpa paket, roster tidak konsisten, atau periode Ditutup menghasilkan 409. Prodi selalu dari akun login; resource lintas prodi 404 dan peran Dosen/Mahasiswa 403.
+
+Roster Aktif harus merupakan akun Mahasiswa aktif, profil satu angkatan/prodi, dan kelas reguler yang sesuai periode. Cuti/Nonaktif di K tidak dimasukkan. Mahasiswa yang belum mempunyai roster periode tidak didaftarkan otomatis. Nama/SKS/semester diambil dari snapshot kurikulum; penonaktifan master MK tidak mengubah paket angkatan lama. Setiap MK tetap membutuhkan pembebanan CPL dari versi/prodi yang sesuai.
+
+Respons penerapan berstatus 200 dan memuat konteks serta `total_kelas_mk`, `total_peserta`, `kelas_mk_dibuat`, `kelas_mk_diperbarui`, `rancangan_dibuat`, dan `peserta_ditambahkan`. `total_peserta` adalah jumlah kepesertaan mahasiswa **per kelas MK**, bukan jumlah mahasiswa unik lintas MK.
+
+Dosen/MK kurikulum/periode yang sama memakai satu rancangan untuk seluruh kelas terkait. Dosen berbeda mendapatkan rancangan berbeda; versi kurikulum dan periode lain terpisah. Rancangan baru kosong dan dapat dilengkapi Dosen pada tahap 4. Rancangan yang sudah ada digunakan kembali, tanpa mengubah CPMK, instrumen, bobot, atau nilai.
+
+Permintaan yang sama dapat dikirim ulang: ID tetap, tidak menggandakan peserta/rancangan, tidak mereset nilai, dan seluruh counter perubahan bernilai 0 bila tidak ada tambahan/perubahan. Permintaan tanpa perubahan juga tidak menambah audit. Kepesertaan yang hilang dapat dilengkapi dari roster Aktif; peserta lama yang tidak sesuai roster tidak dihapus diam-diam, tetapi menyebabkan konflik agar dikoreksi melalui modul roster. Larangan mengulang MK berlaku lintas periode, dengan pembatalan seluruh batch bila satu peserta melanggar.
+
+Untuk koreksi pengampu, PATCH `/kelas-mk/{id}/pengampu` dengan `{"dosen_id":"<UUID-Dosen-aktif>"}`. Penerapan massal juga dapat mengoreksi pengampu sesuai body yang diberikan. Keduanya menolak perubahan pada kelas yang memiliki nilai. Penggantian sebelum nilai menautkan kelas ke rancangan dosen tujuan (buat bila belum ada); rancangan lama dan seluruh isinya dipertahankan. Rancangan bersama yang dipakai kelas lain tidak diubah. Kelas yang sudah bernilai tetap boleh menerima penerapan ulang dengan dosen yang sama, tanpa mengubah skor.
+
+Seluruh batch memakai satu transaksi, lock angkatan lalu periode, serta lock akun dosen/mahasiswa dan rancangan terkait. Permintaan bersamaan pada periode sama diserialkan. Setiap perubahan kelas/rancangan/kepesertaan dan ringkasan penerapan dicatat atomik; kegagalan audit juga membatalkan semua perubahan. Tidak ada perubahan frontend, KRS mandiri, atau endpoint input nilai pada tahap ini.

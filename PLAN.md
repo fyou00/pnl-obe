@@ -34,9 +34,9 @@
 * [ ] **Modul Kaprodi:** CRUD `prodi`, `master_cpl`, `mata_kuliah`, dan *endpoint* pemetaan matriks `mk_cpl`.
   * [x] Master MK, versi kurikulum dan snapshot MK paket, CPL per versi, matriks pembebanan, aktivasi/arsip/salin, audit dan RBAC Admin per prodi.
   * [ ] CRUD prodi (di luar lingkup modul master/kurikulum ini).
-* [ ] **Modul Akademik:** angkatan/kurikulum, periode Ganjil/Genap, roster kelas A–E/K, status Aktif/Cuti/Nonaktif, paket massal dan penugasan satu dosen per kelas MK melalui rancangan bersama; tanpa pengulangan.
+* [x] **Modul Akademik:** angkatan/kurikulum, periode Ganjil/Genap, roster kelas A–E/K, status Aktif/Cuti/Nonaktif, paket massal dan penugasan satu dosen per kelas MK melalui rancangan bersama; tanpa pengulangan.
   * [x] Tahap 2: angkatan, periode, kelas A–E/K, profil angkatan dari akun Mahasiswa yang sudah ada, roster/status per periode, audit, validasi prodi/semester dan perlindungan riwayat.
-  * [ ] Tahap 3: penerapan paket MK massal dan penugasan dosen.
+  * [x] Tahap 3: pratinjau dan penerapan paket MK massal atomik/idempoten, satu dosen per kelas MK, rancangan bersama dan koreksi pengampu sebelum nilai.
 * [ ] **Modul Dosen (Perencanaan):** CRUD rancangan bersama per dosen/kurikulum MK/periode, `cpmk`, `sub_cpmk`, instrumen dan pemetaan CPL; salin draft antarperiode, bobot 100%, pembekuan struktur sejak nilai pertama.
 * [ ] **Modul Dosen (Penilaian):** bulk upsert nilai berdasarkan instrumen + peserta kelas MK, atomik, validasi lintas rancangan/kelas/periode, dan audit perubahan.
 * [ ] **Modul Penguncian:** penutupan/pembukaan kembali periode oleh Admin dengan alasan/audit dan lock transaksi; lindungi seluruh riwayat.
@@ -85,3 +85,9 @@
 * [x] Kurikulum Aktif untuk angkatan baru, paritas Ganjil/Genap, semester studi seragam per angkatan/periode, label dinamis tingkat 1–4, dan K khusus Cuti/Nonaktif.
 * [x] Sinkronisasi kepesertaan saat koreksi roster sebelum nilai; penolakan pengulangan MK, perubahan setelah nilai, identitas yang sudah digunakan, dan periode tertutup; audit atomik dan lock angkatan/periode.
 * [x] Verifikasi 47 tes PostgreSQL lulus (12 tes baru termasuk rollback dan race periode ditutup), Ruff lint/format lolos dan Alembic check tanpa drift. Tidak mengubah frontend atau menambah migrasi.
+
+## Modul Paket MK dan Pengampu (22 November 2026)
+* [x] Endpoint Admin untuk pilihan Dosen, pratinjau paket angkatan/periode, penerapan seluruh pasangan kelas reguler–MK semester, dan koreksi dosen per kelas MK.
+* [x] Validasi kurikulum, prodi, roster Aktif dan dosen aktif; kelas K dikecualikan, tanpa KRS mandiri atau pengulangan MK.
+* [x] Rancangan bersama per dosen/MK kurikulum/periode, audit atomik, penerapan ulang tanpa duplikasi/reset nilai, serta penolakan pergantian dosen setelah ada nilai.
+* [x] Verifikasi 58 tes PostgreSQL lulus (11 tes baru termasuk rollback dan penerapan bersamaan), Ruff lint/format bersih, dan Alembic check tanpa drift; tanpa migrasi baru atau perubahan frontend.
