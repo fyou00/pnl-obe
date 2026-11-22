@@ -50,7 +50,11 @@ def accessible_classes(user: User):
 
 
 def require_class_access(db: Session, user: User, kelas_mk_id: UUID):
-    row = db.execute(accessible_classes(user).where(KelasMK.id == kelas_mk_id)).first()
+    row = db.execute(
+        accessible_classes(user)
+        .where(KelasMK.id == kelas_mk_id)
+        .execution_options(populate_existing=True)
+    ).first()
     if row is None:
         # Same response for missing and out-of-scope IDs; avoids leaking other classes.
         raise HTTPException(404, "Kelas mata kuliah tidak ditemukan")

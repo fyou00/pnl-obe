@@ -38,9 +38,9 @@
   * [x] Tahap 2: angkatan, periode, kelas A–E/K, profil angkatan dari akun Mahasiswa yang sudah ada, roster/status per periode, audit, validasi prodi/semester dan perlindungan riwayat.
   * [x] Tahap 3: pratinjau dan penerapan paket MK massal atomik/idempoten, satu dosen per kelas MK, rancangan bersama dan koreksi pengampu sebelum nilai.
 * [x] **Modul Dosen (Perencanaan):** CRUD rancangan bersama per dosen/kurikulum MK/periode, `cpmk`, `sub_cpmk`, instrumen dan pemetaan CPL; salin draft antarperiode, bobot 100%, pembekuan struktur sejak nilai pertama.
-* [ ] **Modul Dosen (Penilaian):** bulk upsert nilai berdasarkan instrumen + peserta kelas MK, atomik, validasi lintas rancangan/kelas/periode, dan audit perubahan.
-* [ ] **Modul Penguncian:** penutupan/pembukaan kembali periode oleh Admin dengan alasan/audit dan lock transaksi; lindungi seluruh riwayat.
-* [ ] **Modul Kalkulasi OBE:** *Service* perhitungan agregat persentase ketercapaian CPMK & CPL + format JSON siap pakai untuk *Radar Chart*.
+* [x] **Modul Dosen (Penilaian):** bulk upsert nilai berdasarkan instrumen + peserta kelas MK, atomik, validasi lintas rancangan/kelas/periode, dan audit perubahan.
+* [x] **Modul Penguncian:** penutupan/pembukaan kembali periode oleh Admin dengan alasan/audit dan lock transaksi; lindungi seluruh riwayat.
+* [x] **Modul Kalkulasi OBE:** *Service* perhitungan agregat persentase ketercapaian CPMK & CPL + format JSON siap pakai untuk *Radar Chart*.
 * [ ] **Modul Pelaporan:** *Endpoint* ekspor rekap nilai & capaian OBE ke CSV/PDF.
 
 ## Fase 5: Pengembangan & Integrasi Frontend (React.js)
@@ -52,13 +52,13 @@
 
 ## Fase 6: Pengujian & Deployment
 * [ ] Pengujian integrasi API (memastikan isolasi hak akses antar-role berjalan ketat).
-* [ ] Validasi akurasi rumus kalkulasi agregat nilai OBE.
+* [x] Validasi akurasi rumus kalkulasi agregat nilai OBE.
 * [ ] Konfigurasi *production build* & *deployment* ke server internal PNL.
 ## Penyelarasan skema dan diagram
 * [x] Tegaskan aturan KRS paket yang ditetapkan kampus di `AGENTS.md` §2.1 dan perjelas filter tampilan mahasiswa di `docs/DESIGN.md`.
 * [x] Dokumentasikan pemetaan CPMK–CPL, integritas nilai, agregasi CPL, dan hak ekspor dosen.
-* [ ] Implementasikan model/migrasi `cpmk_cpl`, validasi transaksi dan bulk upsert sesuai SCHEMA.md.
-* [ ] Uji penolakan akses lintas MK, CPL di luar pembebanan, nilai ganda, bobot tidak lengkap, dan agregasi CPL lintas MK.
+* [x] Implementasikan model/migrasi `cpmk_cpl`, validasi transaksi dan bulk upsert sesuai SCHEMA.md.
+* [x] Uji penolakan akses lintas MK, CPL di luar pembebanan, nilai ganda, bobot tidak lengkap, dan agregasi CPL lintas MK.
 
 ## Finalisasi akademik pra-migrasi (17 November 2026)
 * [x] Konfirmasi lingkup awal Teknik Informatika, kesiapan perluasan prodi, periode Ganjil/Genap, kelas tingkat 1–4 huruf A–E, dan K untuk Cuti/Nonaktif.
@@ -98,3 +98,10 @@
 * [x] Perlindungan seluruh struktur bersama setelah nilai pertama (termasuk 0) atau periode ditutup; penguncian periode lalu rancangan dan pemeriksaan ulang penugasan setelah menunggu lock.
 * [x] Salin sumber milik Dosen pada periode lain/kurikulum MK sama ke target kosong hasil penugasan Admin, dengan UUID anak baru, tanpa peserta/nilai dan tanpa menimpa sumber.
 * [x] Verifikasi 73 tes PostgreSQL lulus (15 tes baru termasuk presisi, ACL, rollback, salin dan konkurensi), serta verifikasi ulang respons daftar periode opsional/salin/akses; Ruff lint/format bersih dan Alembic check tanpa drift. Tanpa migrasi baru atau perubahan frontend.
+
+## Tahap 5: Nilai dan Capaian (22 November 2026)
+* [x] Bulk upsert nilai Dosen atomik/idempoten per instrumen + peserta kelas MK, Decimal 0–100, validasi rancangan/roster/akun/angkatan/kurikulum/prodi, serta audit skor sebelum/sesudah.
+* [x] Admin menutup/membuka kembali periode dengan alasan wajib dan audit atomik; lock periode lalu rancangan menyerialkan input nilai, koreksi penugasan dan pembekuan struktur sejak nilai pertama.
+* [x] Nilai dan capaian pribadi Mahasiswa dari identitas JWT, rincian Sub-CPMK/CPMK/CPL/MK dan rekap kelas hanya bagi Admin/Dosen terkait; kelas pengguna rancangan bersama tetap terpisah.
+* [x] CPL pribadi lintas MK per periode atau kumulatif hingga periode pilihan, tanpa bobot SKS tambahan atau penggabungan lintas versi; Decimal dibulatkan HALF_UP hanya pada hasil akhir, nilai hilang tetap null dan rekap memakai mahasiswa lengkap beserta jumlah lengkap/total.
+* [x] Verifikasi 94 tes PostgreSQL lulus (21 tes baru: presisi, kelengkapan, privasi, rollback audit, upsert, penguncian/penugasan bersamaan dan agregasi lintas MK/periode/versi), Ruff lint/format bersih dan Alembic check tanpa drift. Tanpa migrasi baru atau perubahan frontend. Ekspor CSV/PDF dan rekap lintas beberapa kelas belum termasuk tahap ini.
