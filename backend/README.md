@@ -117,3 +117,34 @@ PATCH menggunakan field yang dikirim saja; payload kosong atau null pada field w
 Transisi hanya Draft → Aktif → Arsip. Isi Aktif/Arsip bersifat read-only; tidak ada endpoint kembali ke Draft. Kurikulum Draft yang belum direferensikan dapat dihapus bersama snapshot/CPL/matriksnya. MK paket yang sudah dipakai perkuliahan tidak dapat diedit/dihapus; CPL yang masih ditautkan harus dilepas terlebih dahulu, dan pembebanan yang masih dipakai CPMK tidak boleh dilepas. Perubahan nama master tidak merambat ke snapshot.
 
 Setiap mutasi mengunci parent kurikulum (atau master MK terkait), melakukan validasi dan menyimpan audit sebelum/sesudah dalam satu transaksi. Salin versi mencatat sumber dan target tanpa menyalin riwayat akademik. Penguncian juga melindungi aktivasi dari race dengan edit isi. CRUD prodi, penerapan paket ke kelas, penugasan, penilaian, dan perhitungan capaian masih tahap berikutnya.
+
+## Modul Admin: angkatan, periode, kelas, dan roster
+
+Seluruh endpoint di bawah menggunakan prefix `/api/v1`, khusus Admin, dan dibatasi prodi dari akun login. Parent/resource di luar cakupan menghasilkan 404; Dosen/Mahasiswa 403. Daftar memakai `offset` default 0 dan `limit` default 50 (maksimum 100). Tahun berupa integer 1900–9998; semester studi 1–8. Tidak ada perubahan model atau migrasi baru.
+
+| Resource | Method/path relatif terhadap /api/v1 |
+| --- | --- |
+| Angkatan | GET/POST `/angkatan`; GET/PATCH/DELETE `/angkatan/{angkatan_id}`; filter `tahun_masuk` |
+| Profil mahasiswa angkatan | GET/POST `/angkatan/{angkatan_id}/mahasiswa`; POST menerima `user_id` akun Mahasiswa yang sudah ada; tidak membuat akun/password |
+| Periode | GET/POST `/periode-akademik`; GET/PATCH/DELETE `/periode-akademik/{periode_id}`; filter `tahun_mulai`, `semester` |
+| Kelas periode | GET/POST `/periode-akademik/{periode_id}/kelas`; GET/PATCH/DELETE `.../kelas/{kelas_id}`; filter `angkatan_id` |
+| Roster periode | GET/POST `/periode-akademik/{periode_id}/mahasiswa`; GET/PATCH/DELETE `.../mahasiswa/{mahasiswa_id}`; filter `kelas_periode_id`, `status` |
+
+Contoh alur melalui Swagger:
+
+1. Aktifkan kurikulum yang sudah memiliki MK dan CPL. POST `/angkatan` dengan `{"tahun_masuk":2024,"kurikulum_id":"<UUID-kurikulum-Aktif>"}`. Kurikulum Draft/Arsip ditolak untuk penetapan baru. Angkatan lama tetap dapat menggunakan kurikulum yang kemudian diarsipkan.
+2. Jika akun mahasiswa belum memiliki profil angkatan, POST `/angkatan/{id}/mahasiswa` dengan `{"user_id":"<UUID-akun-Mahasiswa>"}`. Akun harus aktif, berperan Mahasiswa, dan satu prodi. Profil yang sudah terhubung tidak dipindah/ditimpa. Daftar profil menampilkan nama/NIM/status akun tanpa password/hash.
+3. POST `/periode-akademik` dengan `{"tahun_mulai":2026,"semester":"Ganjil"}`. Respons tahun akademik `2026/2027`, status selalu Dibuka. Tidak ada semester pendek atau input bebas status periode. Penutupan/pembukaan kembali tetap modul berikutnya.
+4. POST `/periode-akademik/{id}/kelas` dengan `{"angkatan_id":"<UUID-angkatan>","kode_kelas":"C","semester_studi":5}` → label TI-3C. Semester 7/8 menghasilkan tingkat 4. Prefix label berasal dari prodi, bukan hardcode. K menggunakan `"kode_kelas":"K","semester_studi":null` dan label TI-K; angkatan/periode tetap dibawa untuk membedakan kelompok K.
+5. POST `/periode-akademik/{id}/mahasiswa` dengan `{"mahasiswa_id":"<UUID-mahasiswa>","kelas_periode_id":"<UUID-kelas>","status":"Aktif"}`. Aktif wajib A–E; Cuti/Nonaktif wajib K. Mahasiswa harus satu angkatan dengan kelas, dan akun nonaktif tidak dapat diberi penempatan Aktif.
+6. PATCH `.../mahasiswa/{mahasiswa_id}` dengan pasangan kelas/status yang valid untuk koreksi sebelum ada nilai, misalnya `{"kelas_periode_id":"<UUID-kelas-K>","status":"Cuti"}`. Roster baru untuk periode berikutnya dibuat melalui POST; tidak mengedit roster periode lama untuk kenaikan kelas.
+
+Ganjil hanya semester studi 1/3/5/7; Genap hanya 2/4/6/8. Seluruh kelas reguler satu angkatan pada periode sama memakai semester studi yang sama. Periode tidak boleh mendahului tahun masuk. Semester studi ditetapkan Admin, tidak dihitung otomatis dari usia angkatan, sehingga mahasiswa K tidak otomatis mendapat paket/kenaikan semester. K tidak memiliki kelas MK atau penugasan baru dari modul ini.
+
+Perubahan kurikulum angkatan ditolak setelah terdapat kelas MK/paket pada angkatan tersebut. Tahun masuk tidak dapat diganti setelah mempunyai mahasiswa/kelas. Perubahan metadata angkatan juga memeriksa periode-periode terkait dan ditolak bila ada yang ditutup. Identitas periode yang sudah mempunyai kelas/rancangan tidak dapat diganti. Periode kosong yang belum memiliki kegiatan/riwayat akademik dapat dihapus; periode yang sudah memiliki audit kegiatan dipertahankan. Audit pembuatan/perubahan identitas periode menyimpan entitas_id dan snapshot tanpa FK periode_id agar penghapusan periode yang benar-benar belum digunakan tetap memungkinkan.
+
+Kelas yang sudah mempunyai kelas MK tidak dapat diganti identitasnya. Kelas yang masih menampung roster tidak dapat dihapus; perubahan A–E/K juga tidak boleh membuat status mahasiswa tidak konsisten. Penghapusan angkatan dibatasi FK RESTRICT untuk menjaga profil/kelas/riwayat.
+
+Koreksi roster sebelum nilai menyelaraskan peserta **kelas MK yang sudah ada** dalam periode yang sama: hapus kepesertaan lama, tambah kepesertaan kelas tujuan untuk status Aktif, dan kosongkan kepesertaan periode tersebut untuk K. Tidak membuat kelas MK, rancangan, instrumen, atau penugasan dosen baru. Mahasiswa dengan nilai pada periode tersebut tidak boleh dipindah/dihapus penempatannya; skor 0 juga dianggap nilai yang sudah ada. Larangan mengulang MK lintas periode ditegakkan UNIQUE mahasiswa/master MK, dengan rollback seluruh perubahan jika dilanggar. Periode baru tidak mengubah peserta atau nilai periode lama.
+
+Mutasi memakai transaksi, audit atomik (termasuk perubahan kepesertaan), lock angkatan lalu periode, serta lock akun mahasiswa saat koreksi roster. Periode Ditutup read-only. Payload salah menghasilkan 422; duplikasi, ketidakcocokan aturan, data yang sudah digunakan, atau penghapusan terhalang referensi menghasilkan 409. Endpoint paket massal/penugasan dosen, manajemen akun, penutupan periode, rancangan penilaian, dan nilai tetap pekerjaan berikutnya. Frontend tidak diubah.

@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
-from app.api.v1.endpoints import auth, classes, curriculum
+from app.api.v1.endpoints import academic, auth, classes, curriculum
 from app.core.config import Settings
 from app.core.database import Database
 
@@ -63,4 +63,5 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(auth.router, prefix="/api/v1")
     app.include_router(classes.router, prefix="/api/v1")
     app.include_router(curriculum.router, prefix="/api/v1")
+    app.include_router(academic.router, prefix="/api/v1")
     return app
