@@ -32,6 +32,8 @@
 
 ## Fase 4: Pengembangan Endpoint API & Logika OBE
 * [ ] **Modul Kaprodi:** CRUD `prodi`, `master_cpl`, `mata_kuliah`, dan *endpoint* pemetaan matriks `mk_cpl`.
+  * [x] Master MK, versi kurikulum dan snapshot MK paket, CPL per versi, matriks pembebanan, aktivasi/arsip/salin, audit dan RBAC Admin per prodi.
+  * [ ] CRUD prodi (di luar lingkup modul master/kurikulum ini).
 * [ ] **Modul Akademik:** angkatan/kurikulum, periode Ganjil/Genap, roster kelas A–E/K, status Aktif/Cuti/Nonaktif, paket massal dan penugasan satu dosen per kelas MK melalui rancangan bersama; tanpa pengulangan.
 * [ ] **Modul Dosen (Perencanaan):** CRUD rancangan bersama per dosen/kurikulum MK/periode, `cpmk`, `sub_cpmk`, instrumen dan pemetaan CPL; salin draft antarperiode, bobot 100%, pembekuan struktur sejak nilai pertama.
 * [ ] **Modul Dosen (Penilaian):** bulk upsert nilai berdasarkan instrumen + peserta kelas MK, atomik, validasi lintas rancangan/kelas/periode, dan audit perubahan.
@@ -69,3 +71,9 @@
 * [x] Seed idempoten prodi Teknik Informatika dan akun Admin; opsi demo Dosen/Mahasiswa/angkatan dengan password dari environment, tanpa kredensial bawaan.
 * [x] JWT/Bcrypt, profil, logout dengan pencabutan token persisten, role/status akun dari database, dan endpoint baca kelas sesuai prodi/penugasan/kepesertaan.
 * [x] Verifikasi fondasi: 23 tes lulus pada PostgreSQL asli, Ruff lint/format dan pip check lolos, alembic check tanpa drift, serta HTTP lokal health/readiness/login/logout tiga peran berhasil. Terdapat satu peringatan deprecation TestClient/httpx dari dependensi. Belum mencakup layanan tulis akademik, penilaian, atau kalkulasi OBE.
+
+## Modul Master dan Kurikulum (22 November 2026)
+* [x] API Admin untuk CRUD master MK, versi kurikulum Draft, snapshot MK paket dan CPL; daftar/detail/pencarian/paginasi dengan validasi input dan prodi dari akun.
+* [x] Penggantian matriks atomik, pembatasan CPL nasional S/KU dan versi/prodi yang sama, serta penolakan penghapusan pembebanan yang masih dipakai CPMK.
+* [x] Aktivasi/arsip dengan parent row lock, salin versi sebagai Draft dengan UUID baru tanpa kelas/rancangan/nilai, audit atomik dan perlindungan snapshot historis.
+* [x] Verifikasi: 35 tes PostgreSQL lulus (termasuk CRUD, duplikasi/rollback, ACL lintas role/prodi, proteksi riwayat, salin, dan konkurensi aktivasi/edit), Ruff lint/format lolos, serta alembic check tanpa drift; tanpa migrasi skema baru.
