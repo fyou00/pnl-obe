@@ -116,7 +116,7 @@ PATCH menggunakan field yang dikirim saja; payload kosong atau null pada field w
 
 Transisi hanya Draft → Aktif → Arsip. Isi Aktif/Arsip bersifat read-only; tidak ada endpoint kembali ke Draft. Kurikulum Draft yang belum direferensikan dapat dihapus bersama snapshot/CPL/matriksnya. MK paket yang sudah dipakai perkuliahan tidak dapat diedit/dihapus; CPL yang masih ditautkan harus dilepas terlebih dahulu, dan pembebanan yang masih dipakai CPMK tidak boleh dilepas. Perubahan nama master tidak merambat ke snapshot.
 
-Setiap mutasi mengunci parent kurikulum (atau master MK terkait), melakukan validasi dan menyimpan audit sebelum/sesudah dalam satu transaksi. Salin versi mencatat sumber dan target tanpa menyalin riwayat akademik. Penguncian juga melindungi aktivasi dari race dengan edit isi. CRUD prodi, penilaian, dan perhitungan capaian masih tahap berikutnya. Penerapan paket/penugasan tersedia pada bagian di bawah.
+Setiap mutasi mengunci parent kurikulum (atau master MK terkait), melakukan validasi dan menyimpan audit sebelum/sesudah dalam satu transaksi. Salin versi mencatat sumber dan target tanpa menyalin riwayat akademik. Penguncian juga melindungi aktivasi dari race dengan edit isi. CRUD prodi, input nilai, dan perhitungan capaian masih tahap berikutnya. Penerapan paket/penugasan tersedia pada bagian di bawah.
 
 ## Modul Admin: angkatan, periode, kelas, dan roster
 
@@ -147,11 +147,11 @@ Kelas yang sudah mempunyai kelas MK tidak dapat diganti identitasnya. Kelas yang
 
 Koreksi roster sebelum nilai menyelaraskan peserta **kelas MK yang sudah ada** dalam periode yang sama: hapus kepesertaan lama, tambah kepesertaan kelas tujuan untuk status Aktif, dan kosongkan kepesertaan periode tersebut untuk K. Tidak membuat kelas MK, rancangan, instrumen, atau penugasan dosen baru. Mahasiswa dengan nilai pada periode tersebut tidak boleh dipindah/dihapus penempatannya; skor 0 juga dianggap nilai yang sudah ada. Larangan mengulang MK lintas periode ditegakkan UNIQUE mahasiswa/master MK, dengan rollback seluruh perubahan jika dilanggar. Periode baru tidak mengubah peserta atau nilai periode lama.
 
-Mutasi memakai transaksi, audit atomik (termasuk perubahan kepesertaan), lock angkatan lalu periode, serta lock akun mahasiswa saat koreksi roster. Periode Ditutup read-only. Payload salah menghasilkan 422; duplikasi, ketidakcocokan aturan, data yang sudah digunakan, atau penghapusan terhalang referensi menghasilkan 409. Endpoint manajemen akun, penutupan periode, penyusunan rancangan penilaian, dan nilai tetap pekerjaan berikutnya. Penerapan paket/penugasan dosen tersedia pada bagian berikut. Frontend tidak diubah.
+Mutasi memakai transaksi, audit atomik (termasuk perubahan kepesertaan), lock angkatan lalu periode, serta lock akun mahasiswa saat koreksi roster. Periode Ditutup read-only. Payload salah menghasilkan 422; duplikasi, ketidakcocokan aturan, data yang sudah digunakan, atau penghapusan terhalang referensi menghasilkan 409. Endpoint manajemen akun, penutupan periode, dan input nilai tetap pekerjaan berikutnya. Penerapan paket/penugasan dosen tersedia pada bagian berikut. Frontend tidak diubah.
 
 ## Modul Admin: paket MK massal dan pengampu
 
-Prefix `/api/v1`, khusus Admin pada prodinya. Modul memakai model yang sudah ada, tanpa migrasi baru. Penerapan paket membuat kelas MK, rancangan kosong bersama, serta kepesertaan; belum menyusun CPMK/instrumen atau menginput nilai.
+Prefix `/api/v1`, khusus Admin pada prodinya. Modul memakai model yang sudah ada, tanpa migrasi baru. Penerapan paket membuat kelas MK, rancangan kosong bersama, serta kepesertaan. CPMK/instrumen disusun Dosen melalui endpoint perencanaan di bawah; input nilai masih tahap berikutnya.
 
 | Method | Path relatif terhadap /api/v1 | Fungsi |
 | --- | --- | --- |
@@ -191,3 +191,44 @@ Permintaan yang sama dapat dikirim ulang: ID tetap, tidak menggandakan peserta/r
 Untuk koreksi pengampu, PATCH `/kelas-mk/{id}/pengampu` dengan `{"dosen_id":"<UUID-Dosen-aktif>"}`. Penerapan massal juga dapat mengoreksi pengampu sesuai body yang diberikan. Keduanya menolak perubahan pada kelas yang memiliki nilai. Penggantian sebelum nilai menautkan kelas ke rancangan dosen tujuan (buat bila belum ada); rancangan lama dan seluruh isinya dipertahankan. Rancangan bersama yang dipakai kelas lain tidak diubah. Kelas yang sudah bernilai tetap boleh menerima penerapan ulang dengan dosen yang sama, tanpa mengubah skor.
 
 Seluruh batch memakai satu transaksi, lock angkatan lalu periode, serta lock akun dosen/mahasiswa dan rancangan terkait. Permintaan bersamaan pada periode sama diserialkan. Setiap perubahan kelas/rancangan/kepesertaan dan ringkasan penerapan dicatat atomik; kegagalan audit juga membatalkan semua perubahan. Tidak ada perubahan frontend, KRS mandiri, atau endpoint input nilai pada tahap ini.
+
+## Modul Dosen: rancangan penilaian bersama
+
+Endpoint perencanaan khusus **Dosen** yang masih mempunyai kelas penugasan pada rancangan tersebut, dalam prodi yang sama. Admin/Mahasiswa mendapat 403; rancangan milik dosen lain, rancangan tanpa kelas penugasan, atau child ID di bawah parent yang salah menghasilkan 404. Modul ini tidak membuat/menghapus induk rancangan: induk dibuat Admin melalui penugasan tahap 3. Tidak ada migrasi baru atau perubahan frontend.
+
+Untuk tabel berikut, `R` adalah `/api/v1/rancangan-penilaian/{rancangan_id}`, `C` adalah `R/cpmk/{cpmk_id}`, dan `S` adalah `C/sub-cpmk/{sub_id}`:
+
+| Method | Path | Fungsi |
+| --- | --- | --- |
+| GET | `/api/v1/rancangan-penilaian` | Daftar rancangan sendiri, satu baris per rancangan bersama; filter opsional `periode_id`, offset/limit maksimum 100. Label tahun akademik dan semester disertakan. |
+| GET | `R` | Detail lengkap CPMK → Sub-CPMK → instrumen, CPL yang boleh dipilih, kelas pengguna, bobot dan status kesiapan/kunci. |
+| GET | `/api/v1/kelas-mk/{kelas_mk_id}/rancangan-penilaian` | Buka rancangan dari kelas penugasan; kelas-kelas terkait menunjukkan rancangan yang sama. |
+| GET/POST | `R/cpmk` | Daftar/tambah CPMK. |
+| GET/PATCH/DELETE | `C` | Baca/edit/hapus CPMK draft beserta anaknya. |
+| PUT | `C/cpl` | Ganti daftar pemetaan CPL secara atomik. |
+| GET/POST | `C/sub-cpmk` | Daftar/tambah Sub-CPMK. |
+| GET/PATCH/DELETE | `S` | Baca/edit/hapus Sub-CPMK draft beserta instrumennya. |
+| GET/POST | `S/instrumen` | Daftar/tambah instrumen. |
+| GET/PATCH/DELETE | `S/instrumen/{instrumen_id}` | Baca/edit/hapus instrumen. |
+| POST | `R/salin` | Isi rancangan tujuan kosong dari sumber milik dosen yang sama pada periode lain dan kurikulum MK yang sama. |
+
+Daftar anak memakai offset/limit default 0/50, maksimum 100; detail rancangan memuat seluruh tree. Daftar rancangan diurutkan dari periode terbaru, dengan UUID sebagai pembeda. Semua create anak menghasilkan 201, delete 204, edit/pemetaan/salin 200; payload tidak valid 422 dan konflik aturan/duplikasi/kunci 409. Field tak dikenal dan PATCH kosong/null pada field wajib ditolak.
+
+Contoh penggunaan setelah Authorize sebagai Dosen:
+
+1. GET `/api/v1/rancangan-penilaian` untuk menemukan rancangan dan konteks periode. GET detailnya untuk membaca `cpl_tersedia` dan `kelas_pengguna`.
+2. POST `R/cpmk`: `{"kode_cpmk":"CPMK-2","deskripsi":"Mampu merancang basis data","cpl_ids":["<UUID-CPL-dibebankan>"]}`. `cpl_ids` boleh kosong atau dihilangkan selama draft. PATCH CPMK juga dapat memperbarui daftar ini.
+3. PUT `C/cpl`: `{"cpl_ids":["<UUID-CPL-dibebankan>"]}`. Array kosong boleh untuk draft; ID duplikat ditolak. Hanya CPL pada mk_cpl untuk kurikulum_mk rancangan yang sama yang diterima; CPL nasional juga tetap dibatasi versi. Dosen tidak mengubah Master CPL.
+4. POST `C/sub-cpmk`: `{"kode_sub":"SUB-2.1","deskripsi":"Mampu menyusun skema relasional"}`.
+5. POST `S/instrumen`: `{"nama_instrumen":"Tugas 1","jenis_instrumen":"Tugas","bobot_persentase":"20.00"}`. Jenis: Tugas, Kuis, Praktikum, UTS, UAS. Bobot harus >0 hingga 100, maksimal dua desimal; gunakan string desimal untuk mengirim presisi yang jelas. Bobot dan total pada respons diserialisasi sebagai string desimal.
+6. Salin dari periode lain dengan POST ke **rancangan tujuan** `R/salin`: `{"sumber_rancangan_id":"<UUID-rancangan-sumber>"}`. Target harus sudah dibuat Admin melalui penugasan kelas.
+
+Total bobot dijumlahkan oleh service menggunakan Decimal untuk seluruh instrumen rancangan, melintasi semua CPMK/Sub-CPMK. Total di bawah 100 diperbolehkan selama draft; tambah/edit yang membuat total >100 ditolak secara atomik. Penghapusan instrumen/anak draft mengurangi total. Tidak ada pembulatan input berlebih secara diam-diam atau perhitungan kesiapan di frontend.
+
+`siap_dinilai` memerlukan minimal satu CPMK, setiap CPMK terpetakan secara valid, dan total instrumen tepat 100.00%. Kelengkapan ini diturunkan dari data, bukan kolom status yang dapat diedit. `alasan_belum_siap` menjelaskan kekurangan. `boleh_input_nilai` juga memerlukan periode terbuka; flag ini belum menyediakan endpoint input nilai. CPMK/Sub-CPMK tanpa instrumen tidak diberi bobot/capaian buatan; aturan agregasi dan penyebut nol tetap mengikuti SCHEMA.md.
+
+`struktur_terkunci` true ketika periode ditutup atau terdapat nilai pada salah satu kelas pengguna rancangan. Nilai 0 juga mengunci. Semua perubahan CPMK, pemetaan CPL, Sub-CPMK, instrumen dan bobot lalu ditolak, termasuk penghapusan parent yang akan menghapus anak. Rancangan/kelas terkait tetap dapat dibaca; membuka kembali periode tidak menghapus pembekuan karena nilai. Struktur yang sudah terkunci tidak menghalangi koreksi nilai pada periode terbuka jika rancangan siap dinilai, melalui modul nilai berikutnya.
+
+Salin memerlukan tujuan tanpa CPMK/instrumen/nilai pada periode terbuka, dan sumber milik Dosen yang sama dengan kelas penugasan yang masih terkait. Sumber boleh berupa draft belum lengkap, periode tertutup, atau rancangan yang telah memiliki nilai. Kurikulum MK harus persis sama; kode/nama master yang kebetulan sama pada versi lain tidak cukup. Salinan mendapat UUID CPMK/Sub-CPMK/instrumen baru dan pemetaan ke CPL yang sama, serta sumber_rancangan_id. Sumber tidak berubah, dan peserta/kelas/nilai tidak disalin. Tujuan yang sudah berisi ditolak, tidak ditimpa; salinan draft tetap mengikuti status kelengkapannya sendiri.
+
+Mutasi mengunci periode lalu rancangan sebelum memeriksa nilai atau total bobot. Salin mengunci kedua periode lalu kedua rancangan menurut urutan UUID untuk mencegah deadlock. Penugasan diperiksa kembali setelah menunggu lock. Audit dan seluruh perubahan disimpan atomik, termasuk pemetaan dan salinan tree; kegagalan satu validasi/audit membatalkan seluruh transaksi. Endpoint input nilai, penutupan/pembukaan kembali periode, perhitungan capaian, dan laporan tetap tahap berikutnya.

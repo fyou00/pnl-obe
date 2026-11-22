@@ -37,7 +37,7 @@
 * [x] **Modul Akademik:** angkatan/kurikulum, periode Ganjil/Genap, roster kelas A–E/K, status Aktif/Cuti/Nonaktif, paket massal dan penugasan satu dosen per kelas MK melalui rancangan bersama; tanpa pengulangan.
   * [x] Tahap 2: angkatan, periode, kelas A–E/K, profil angkatan dari akun Mahasiswa yang sudah ada, roster/status per periode, audit, validasi prodi/semester dan perlindungan riwayat.
   * [x] Tahap 3: pratinjau dan penerapan paket MK massal atomik/idempoten, satu dosen per kelas MK, rancangan bersama dan koreksi pengampu sebelum nilai.
-* [ ] **Modul Dosen (Perencanaan):** CRUD rancangan bersama per dosen/kurikulum MK/periode, `cpmk`, `sub_cpmk`, instrumen dan pemetaan CPL; salin draft antarperiode, bobot 100%, pembekuan struktur sejak nilai pertama.
+* [x] **Modul Dosen (Perencanaan):** CRUD rancangan bersama per dosen/kurikulum MK/periode, `cpmk`, `sub_cpmk`, instrumen dan pemetaan CPL; salin draft antarperiode, bobot 100%, pembekuan struktur sejak nilai pertama.
 * [ ] **Modul Dosen (Penilaian):** bulk upsert nilai berdasarkan instrumen + peserta kelas MK, atomik, validasi lintas rancangan/kelas/periode, dan audit perubahan.
 * [ ] **Modul Penguncian:** penutupan/pembukaan kembali periode oleh Admin dengan alasan/audit dan lock transaksi; lindungi seluruh riwayat.
 * [ ] **Modul Kalkulasi OBE:** *Service* perhitungan agregat persentase ketercapaian CPMK & CPL + format JSON siap pakai untuk *Radar Chart*.
@@ -91,3 +91,10 @@
 * [x] Validasi kurikulum, prodi, roster Aktif dan dosen aktif; kelas K dikecualikan, tanpa KRS mandiri atau pengulangan MK.
 * [x] Rancangan bersama per dosen/MK kurikulum/periode, audit atomik, penerapan ulang tanpa duplikasi/reset nilai, serta penolakan pergantian dosen setelah ada nilai.
 * [x] Verifikasi 58 tes PostgreSQL lulus (11 tes baru termasuk rollback dan penerapan bersamaan), Ruff lint/format bersih, dan Alembic check tanpa drift; tanpa migrasi baru atau perubahan frontend.
+
+## Modul Dosen: Rancangan Penilaian (22 November 2026)
+* [x] Daftar/detail rancangan milik Dosen dengan label periode, kelas pengguna, CPL tersedia, tree CPMK/Sub-CPMK/instrumen, serta status kesiapan dan alasan penguncian dari backend.
+* [x] CRUD CPMK/Sub-CPMK/instrumen dan pemetaan CPL atomik; CPL harus dibebankan pada MK kurikulum yang sama, bobot memakai Decimal dengan total maksimum 100.00% dan draft belum lengkap tetap diperbolehkan.
+* [x] Perlindungan seluruh struktur bersama setelah nilai pertama (termasuk 0) atau periode ditutup; penguncian periode lalu rancangan dan pemeriksaan ulang penugasan setelah menunggu lock.
+* [x] Salin sumber milik Dosen pada periode lain/kurikulum MK sama ke target kosong hasil penugasan Admin, dengan UUID anak baru, tanpa peserta/nilai dan tanpa menimpa sumber.
+* [x] Verifikasi 73 tes PostgreSQL lulus (15 tes baru termasuk presisi, ACL, rollback, salin dan konkurensi), serta verifikasi ulang respons daftar periode opsional/salin/akses; Ruff lint/format bersih dan Alembic check tanpa drift. Tanpa migrasi baru atau perubahan frontend.
