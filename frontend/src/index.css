@@ -1,0 +1,55 @@
+@import "tailwindcss";
+@import "./styles/tokens.css";
+
+/* Legacy aliases — dipertahankan sementara sampai penyelarasan layar selesai */
+@theme {
+  --color-cream: #FAF8F3;
+  --color-cream-soft: #F3EFE6;
+  --color-cream-table: #F7F4ED;
+  --color-cream-text: #FCF8EE;
+
+  --color-teal-deep: #15333A;
+  --color-teal-hero: #132F36;
+  --color-teal-panel: #193A40;
+  --color-teal-card: #132E33;
+  --color-teal-pill: #22484F;
+  --color-teal-border: #33575E;
+  --color-teal-border-soft: #2C5058;
+  --color-teal-divider: #2E5259;
+  --color-teal-nav: #1D373E;
+  --color-teal-btn: #1D3B42;
+  --color-teal-ink: #314B51;
+  --color-teal-muted: #486065;
+  --color-teal-sub: #4B6267;
+  --color-teal-meta: #5A6F73;
+  --color-teal-caption: #687C80;
+
+  --color-copper: #CC6E38;
+  --color-copper-dark: #B55824;
+  --color-copper-soft: #D88F60;
+  --color-copper-light: #E89B6C;
+  --color-copper-peach: #F0C3A4;
+  --color-copper-tint: #F7EAE1;
+
+  --color-border-warm: #E3DDD1;
+  --color-border-card: #E4DFD4;
+  --color-border-row: #EFECE4;
+
+  --color-sage-bg: #E6F2EE;
+  --color-sage-text: #1A5C4D;
+  --color-sage-open: #1D6353;
+
+  --color-dash-canvas: #F5F5F4;
+  --color-dash-surface: #FFFFFF;
+  --color-dash-active: #F0F0EF;
+  --color-dash-border: #E5E5E5;
+  --color-dash-ink: #252525;
+  --color-dash-muted: #737373;
+  --color-dash-secondary: #525252;
+}
+
+@layer base {
+  body {
+    @apply bg-surface-canvas text-ink-primary font-sans antialiased;
+  }
+}

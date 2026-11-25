@@ -1,0 +1,195 @@
+/**
+ * PNL OBE Design System Tokens
+ * Sumber tunggal: design/pnl-obe.figcraft
+ * 51 Native Variables (31 Colors [Light Theme], 20 Scale [Desktop]),
+ * 11 Text Styles (S:19-S:29), dan 4 Elevation/Glass Effect Styles (S:30-S:33).
+ */
+
+:root {
+  color-scheme: light;
+
+  /* Brand & Accent (8) */
+  --brand-teal-900: #132F36;
+  --brand-teal-800: #15333A;
+  --brand-teal-700: #193A40;
+  --brand-teal-600: #214E56;
+  --brand-teal-100: #E6F0EE;
+  --brand-terracotta-600: #B55824;
+  --brand-terracotta-500: #CC6E38;
+  --brand-terracotta-100: #F7EAE1;
+
+  /* Surfaces (4) */
+  --surface-canvas: #FAF8F3;
+  --surface-subtle: #F3EFE6;
+  --surface-card: #FFFFFF;
+  --surface-muted: #ECEAE3;
+
+  /* Borders (4) */
+  --border-subtle: #EFECE4;
+  --border-default: #E4DFD4;
+  --border-strong: #C9C4B8;
+  --border-focus: #15333A;
+
+  /* Ink / Typography (6) */
+  --ink-primary: #15333A;
+  --ink-body: #334B51;
+  --ink-secondary: #566B70;
+  --ink-muted: #7A8C90;
+  --ink-inverse: #FFFFFF;
+  --ink-inverse-muted: #B8CCCA;
+
+  /* Semantic Status OBE (9) */
+  --semantic-success-text: #1A5C4D;
+  --semantic-success-bg: #E6F2EE;
+  --semantic-warning-text: #B55824;
+  --semantic-warning-bg: #F7EAE1;
+  --semantic-danger-text: #B42318;
+  --semantic-danger-bg: #FEF3F2;
+  --semantic-danger-border: #F04438;
+  --semantic-info-text: #1E4D6B;
+  --semantic-info-bg: #EBF3F7;
+
+  /* Scale · Spacing (10) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-18: 72px;
+
+  /* Scale · Radius (5) */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-full: 999px;
+
+  /* Scale · Layout (5) */
+  --layout-desktop-width: 1440px;
+  --layout-sidebar-width: 240px;
+  --layout-topbar-height: 64px;
+  --layout-app-padding: 32px;
+  --layout-landing-margin: 72px;
+
+  /* Elevation & Surface Effects (S:30-S:33) */
+  --elevation-card: 0 8px 24px 0 rgba(21, 51, 58, 0.06);
+  --elevation-popover: 0 12px 32px 0 rgba(21, 51, 58, 0.10);
+  --elevation-button-primary: 0 6px 16px 0 rgba(21, 51, 58, 0.15);
+  --elevation-glass: 0 8px 24px 0 rgba(21, 51, 58, 0.08);
+  --glass-blur: 20px;
+}
+
+@theme inline {
+  /* Fonts */
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
+
+  /* Colors (31 Semantic Bridges -> CSS Custom Properties) */
+  --color-brand-teal-900: var(--brand-teal-900);
+  --color-brand-teal-800: var(--brand-teal-800);
+  --color-brand-teal-700: var(--brand-teal-700);
+  --color-brand-teal-600: var(--brand-teal-600);
+  --color-brand-teal-100: var(--brand-teal-100);
+  --color-brand-terracotta-600: var(--brand-terracotta-600);
+  --color-brand-terracotta-500: var(--brand-terracotta-500);
+  --color-brand-terracotta-100: var(--brand-terracotta-100);
+
+  --color-surface-canvas: var(--surface-canvas);
+  --color-surface-subtle: var(--surface-subtle);
+  --color-surface-card: var(--surface-card);
+  --color-surface-muted: var(--surface-muted);
+
+  --color-border-subtle: var(--border-subtle);
+  --color-border-default: var(--border-default);
+  --color-border-strong: var(--border-strong);
+  --color-border-focus: var(--border-focus);
+
+  --color-ink-primary: var(--ink-primary);
+  --color-ink-body: var(--ink-body);
+  --color-ink-secondary: var(--ink-secondary);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-inverse: var(--ink-inverse);
+  --color-ink-inverse-muted: var(--ink-inverse-muted);
+
+  --color-semantic-success-text: var(--semantic-success-text);
+  --color-semantic-success-bg: var(--semantic-success-bg);
+  --color-semantic-warning-text: var(--semantic-warning-text);
+  --color-semantic-warning-bg: var(--semantic-warning-bg);
+  --color-semantic-danger-text: var(--semantic-danger-text);
+  --color-semantic-danger-bg: var(--semantic-danger-bg);
+  --color-semantic-danger-border: var(--semantic-danger-border);
+  --color-semantic-info-text: var(--semantic-info-text);
+  --color-semantic-info-bg: var(--semantic-info-bg);
+
+  /* Typography Scale (11 Text Styles S:19-S:29) */
+  --text-display-hero: 56px;
+  --text-display-hero--line-height: 64px;
+  --text-display-hero--letter-spacing: -0.01em;
+
+  --text-display-section: 42px;
+  --text-display-section--line-height: 50px;
+
+  --text-heading-page: 28px;
+  --text-heading-page--line-height: 36px;
+  --text-heading-page--letter-spacing: -0.01em;
+
+  --text-heading-section: 20px;
+  --text-heading-section--line-height: 28px;
+
+  --text-heading-card: 16px;
+  --text-heading-card--line-height: 24px;
+
+  --text-body-large: 16px;
+  --text-body-large--line-height: 25px;
+
+  --text-body-default: 14px;
+  --text-body-default--line-height: 22px;
+
+  --text-body-small: 13px;
+  --text-body-small--line-height: 20px;
+
+  --text-label-ui: 14px;
+  --text-label-ui--line-height: 20px;
+
+  --text-label-overline: 11px;
+  --text-label-overline--line-height: 16px;
+  --text-label-overline--letter-spacing: 0.08em;
+
+  --text-data-kpi: 28px;
+  --text-data-kpi--line-height: 34px;
+
+  /* Radius */
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-full: 999px;
+
+  /* Layout Helpers */
+  --spacing-sidebar: var(--layout-sidebar-width);
+  --spacing-topbar: var(--layout-topbar-height);
+  --spacing-app-pad: var(--layout-app-padding);
+  --spacing-landing-margin: var(--layout-landing-margin);
+  --container-desktop: var(--layout-desktop-width);
+
+  /* Elevation Shadows */
+  --shadow-card: var(--elevation-card);
+  --shadow-popover: var(--elevation-popover);
+  --shadow-btn-primary: var(--elevation-button-primary);
+  --shadow-glass: var(--elevation-glass);
+}
+
+@layer utilities {
+  .font-kpi {
+    font-variant-numeric: tabular-nums;
+  }
+
+  .surface-glass {
+    backdrop-filter: blur(var(--glass-blur));
+    box-shadow: var(--elevation-glass);
+  }
+}
