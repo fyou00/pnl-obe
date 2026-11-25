@@ -6,7 +6,16 @@ from fastapi.responses import JSONResponse
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
-from app.api.v1.endpoints import academic, assessment, auth, classes, curriculum, grading, teaching
+from app.api.v1.endpoints import (
+    academic,
+    assessment,
+    auth,
+    classes,
+    curriculum,
+    grading,
+    reporting,
+    teaching,
+)
 from app.core.config import Settings
 from app.core.database import Database
 
@@ -31,6 +40,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             allow_origins=settings.cors_origins,
             allow_methods=["GET", "POST", "PATCH", "PUT", "DELETE"],
             allow_headers=["Authorization", "Content-Type"],
+            expose_headers=["Content-Disposition"],
         )
 
     @app.exception_handler(SQLAlchemyError)
@@ -67,4 +77,5 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(teaching.router, prefix="/api/v1")
     app.include_router(assessment.router, prefix="/api/v1")
     app.include_router(grading.router, prefix="/api/v1")
+    app.include_router(reporting.router, prefix="/api/v1")
     return app

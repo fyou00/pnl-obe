@@ -11,16 +11,19 @@
 * [x] Perancangan awal Class Diagram & Physical ERD (11 tabel; digantikan revisi akademik pra-migrasi 21 tabel).
 
 ## Fase 2: Desain Antarmuka Pengguna (UI/UX Figma)
-* [x] Penyempurnaan dashboard desktop via Figcraft MCP: profil di bawah sidebar, pemilih konteks di samping judul, topbar dengan tampilan toggle dark mode serta jam/tanggal WIB, serta varian kosong, loading, data ilustrasi, dan penilaian belum lengkap. Jam/tanggal masih contoh statis pada desain. Desain mobile tidak termasuk lingkup proyek.
+* [x] Penyempurnaan dashboard desktop via Figcraft MCP: profil di bawah sidebar, pemilih konteks di samping judul, topbar Light Theme dengan jam/tanggal WIB (toggle dark mode dihapus), serta papan varian kosong (TI-K), terkunci periode, loading skeleton, auth/error guards (403/401), data ilustrasi, penilaian belum lengkap, dan spesifikasi motion ikon duotone fill + scale ringan. Jam/tanggal masih contoh statis pada desain. Desain mobile tidak termasuk lingkup proyek.
 * [x] Menyusun Master Prompt UI & mengekstrak *color tone* eksisting.
-* [ ] Generate & finalisasi 6 *screen* utama di Figma via `figma-console-mcp`:
-  * [ ] Layout Utama (Sidebar, Topbar, Statistik Dashboard).
-    * [x] Skeleton dashboard Admin, Dosen, dan Mahasiswa berpalet netral di `design/pnl-obe.figcraft` via Figcraft MCP; sidebar, topbar, statistik, dan panel per peran telah diperiksa melalui screenshot. Finalisasi desain belum selesai.
-  * [ ] Halaman Kelola Master CPL (Kaprodi).
-  * [ ] Halaman Matriks Pembebanan CPL-MK (Kaprodi).
-  * [ ] Halaman Susun CPMK, Sub-CPMK & Instrumen (Dosen).
-  * [ ] Halaman Input Nilai Mahasiswa / Spreadsheet Grid (Dosen).
-  * [ ] Halaman Visualisasi Capaian Radar Chart (Dosen & Mahasiswa).
+* [x] Generate & finalisasi 6 *screen* utama dan layar ekstensi di `design/pnl-obe.figcraft` (Halaman `01`–`08`, 15 layar desktop + 3 papan *system states* & *motion spec*, Light Theme Only):
+  * [x] Layout Utama (Sidebar 9 item Admin / Dosen / Mahasiswa, Topbar Light, Statistik Dashboard, Auth Login, Angkatan & Roster, Paket & Penugasan, serta Laporan & Audit Log).
+    * [x] Skeleton dashboard Admin, Dosen, dan Mahasiswa berpalet netral di `design/pnl-obe.figcraft` via Figcraft MCP; seluruh 15 layar desktop dan papan *system states* & *motion* terorganisasi pada Halaman `06` (`01`–`08` Auth & Admin), Halaman `07` (`09`–`15` Dosen & Mahasiswa), dan Halaman `08` (`01`–`03` *System States* & *Motion*), dan telah diperiksa melalui screenshot.
+  * [x] Halaman Kelola Master CPL & Versi Kurikulum (Kaprodi).
+  * [x] Halaman Matriks Pembebanan CPL-MK (Kaprodi).
+  * [x] Halaman Susun CPMK, Sub-CPMK & Instrumen (Dosen).
+    * [x] Dua kondisi rancangan tersedia di Figcraft dan terhubung dari Dashboard Dosen: draft Jaringan TI-3C (bobot 80%, satu CPMK belum terpetakan) dan rancangan Basis Data terkunci untuk TI-3A/TI-3B (bobot 100%). Navigasi ke kedua frame dan kembali ke dashboard sudah diperiksa; kontrol pengisian masih berupa desain statis.
+  * [x] Halaman Input Nilai Mahasiswa / Spreadsheet Grid (Dosen).
+    * [x] Satu layar input nilai Basis Data TI-3A dengan 30 peserta ilustratif dan empat instrumen. Spesifikasi validasi inline untuk implementasi frontend ada di docs/DESIGN.md §5.
+  * [x] Halaman Visualisasi Capaian Radar Chart & Rekap Laporan Kelas (Dosen & Mahasiswa, tanpa garis target CPL).
+    * [x] Satu layar rincian nilai Mahasiswa dan satu layar Rekap & Laporan Kelas Dosen menampilkan instrumen terinput vs `—` (NULL) serta angka `0` valid beserta capaian per CPMK dan CPL aktual.
 
 ## Fase 3: Setup Backend & Database Layer (FastAPI + PostgreSQL)
 * [x] Inisialisasi struktur proyek FastAPI (`app/core`, `app/models`, `app/schemas`, `app/services`, `app/api/v1`).
@@ -41,7 +44,7 @@
 * [x] **Modul Dosen (Penilaian):** bulk upsert nilai berdasarkan instrumen + peserta kelas MK, atomik, validasi lintas rancangan/kelas/periode, dan audit perubahan.
 * [x] **Modul Penguncian:** penutupan/pembukaan kembali periode oleh Admin dengan alasan/audit dan lock transaksi; lindungi seluruh riwayat.
 * [x] **Modul Kalkulasi OBE:** *Service* perhitungan agregat persentase ketercapaian CPMK & CPL + format JSON siap pakai untuk *Radar Chart*.
-* [ ] **Modul Pelaporan:** *Endpoint* ekspor rekap nilai & capaian OBE ke CSV/PDF.
+* [x] **Modul Pelaporan:** *Endpoint* audit log, laporan prodi/lintas kelas, serta ekspor rekap nilai & capaian OBE ke CSV/PDF.
 
 ## Fase 5: Pengembangan & Integrasi Frontend (React.js)
 * [ ] Setup proyek React.js, TailwindCSS (sesuai *color tone* Figma), dan state management / HTTP client (Axios/TanStack Query).
@@ -65,7 +68,7 @@
 * [x] Konfirmasi paket per angkatan/semester, kurikulum berversi, satu dosen per kelas MK, rancangan bersama per dosen/MK kurikulum/periode, tanpa pengulangan MK, dan penguncian periode.
 * [x] Selaraskan AGENTS.md, SCHEMA.md (21 tabel, integritas, rumus, diagram dan skenario penerimaan), serta docs/DESIGN.md. Pemeriksaan konsistensi dokumentasi selesai; belum membuat backend/migrasi.
 * [ ] Terapkan skenario penerimaan SCHEMA.md §4 pada model, layanan, API, dan uji concurrency saat backend dibangun.
-* [ ] Sesuaikan artefak Figcraft dengan konteks periode/kelas/kurikulum dan label filter mahasiswa; tugas revisi skema ini tidak mengubah desain.
+* [x] Sesuaikan artefak Figcraft dengan konteks periode/kelas/kurikulum dan label filter mahasiswa; artefak final 15 layar desktop dan 3 papan states/motion pada halaman `06`–`08` telah diselaraskan (isolasi kurikulum, pengecualian paket TI-K tanpa teks "Kelas K" di sidebar, sidebar Admin 9 item konsisten, Light Theme Only).
 
 ## Verifikasi fondasi backend (17 November 2026)
 * [x] FastAPI factory, konfigurasi environment privat, SQLAlchemy session, endpoint health/readiness dan panduan menjalankan backend.
@@ -105,3 +108,10 @@
 * [x] Nilai dan capaian pribadi Mahasiswa dari identitas JWT, rincian Sub-CPMK/CPMK/CPL/MK dan rekap kelas hanya bagi Admin/Dosen terkait; kelas pengguna rancangan bersama tetap terpisah.
 * [x] CPL pribadi lintas MK per periode atau kumulatif hingga periode pilihan, tanpa bobot SKS tambahan atau penggabungan lintas versi; Decimal dibulatkan HALF_UP hanya pada hasil akhir, nilai hilang tetap null dan rekap memakai mahasiswa lengkap beserta jumlah lengkap/total.
 * [x] Verifikasi 94 tes PostgreSQL lulus (21 tes baru: presisi, kelengkapan, privasi, rollback audit, upsert, penguncian/penugasan bersamaan dan agregasi lintas MK/periode/versi), Ruff lint/format bersih dan Alembic check tanpa drift. Tanpa migrasi baru atau perubahan frontend. Ekspor CSV/PDF dan rekap lintas beberapa kelas belum termasuk tahap ini.
+
+## Tahap 6: Audit Log & Pelaporan CSV/PDF (25 November 2026)
+* [x] Endpoint Admin `GET /api/v1/audit-log` (isolasi prodi, filter `periode_id`/`aksi`/`entitas`, pencarian literal `q`, paginasi, urut terbaru lebih dulu, dan sanitasi field sensitif).
+* [x] Endpoint Admin `GET /api/v1/laporan/prodi` dan `/laporan/prodi/ekspor` (`csv`/`pdf`) dengan isolasi versi kurikulum eksplisit, filter `semester`, pengecualian kelas TI-K, dan agregasi CPL terbobot peserta lengkap.
+* [x] Endpoint Admin/Dosen `GET /api/v1/laporan/lintas-kelas` dan `/laporan/lintas-kelas/ekspor` dengan rata-rata terbobot `Decimal` (tanpa rata-rata kelas tak berbobot) dan penolakan lintas versi kurikulum (`409`).
+* [x] Endpoint ekspor kelas `GET /api/v1/kelas-mk/{kelas_mk_id}/ekspor` (Admin/Dosen) serta ekspor pribadi Mahasiswa `GET /api/v1/capaian/saya/ekspor` (`csv`/`pdf`, periodik/kumulatif, bebas kebocoran nilai mahasiswa lain, dan dukungan state TI-K) menggunakan pembangun PDF 1.4 stdlib tanpa dependensi eksternal tambahan.
+* [x] Verifikasi: 99 tes PostgreSQL lulus (`pytest -q`, mencakup 5 skenario baru pada `tests/test_reporting.py`), `ruff check .` dan `ruff format --check .` bersih pada seluruh 61 file backend; header CORS `Content-Disposition` diekspos dan frontend belum diubah.

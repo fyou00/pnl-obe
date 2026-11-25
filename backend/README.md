@@ -272,4 +272,20 @@ Perhitungan memakai Decimal, pembulatan HALF_UP dua desimal hanya pada hasil akh
 
 Nilai yang dibutuhkan belum diisi atau penyebut nol menghasilkan `capaian: null`, status `Belum lengkap`; rancangan belum siap menghasilkan null, `Belum siap dinilai`. Nilai 0 yang sudah diinput tetap sah dan lengkap. Rekap hanya merata-ratakan capaian mahasiswa lengkap sebelum pembulatan, disertai jumlah lengkap/total. Jika sebagian mahasiswa belum lengkap, rata-rata yang tersedia tetap ditampilkan dengan status `Belum lengkap`; tanpa mahasiswa lengkap, capaian null. Kelas A/B tidak digabung walaupun instrumennya sama. GET historis tetap tersedia setelah periode ditutup.
 
-Laporan CPL pribadi selalu membatasi peserta berdasarkan identitas JWT. Periode wajib eksplisit, urutan kumulatif mengikuti tahun akademik lalu Ganjil/Genap; semester masa depan dan MK yang tidak diikuti tidak dimasukkan. Cuti/Nonaktif di K tanpa peserta tidak menambah instrumen wajib. Endpoint ini tidak menerima pilihan mahasiswa lain. Ekspor CSV/PDF, manajemen akun, dan rekap lintas beberapa kelas belum termasuk tahap ini.
+Laporan CPL pribadi selalu membatasi peserta berdasarkan identitas JWT. Periode wajib eksplisit, urutan kumulatif mengikuti tahun akademik lalu Ganjil/Genap; semester masa depan dan MK yang tidak diikuti tidak dimasukkan. Cuti/Nonaktif di K tanpa peserta tidak menambah instrumen wajib. Endpoint ini tidak menerima pilihan mahasiswa lain. Endpoint audit log, laporan prodi/lintas kelas, dan ekspor CSV/PDF tersedia pada Tahap 6 di bawah.
+
+## Tahap 6: Audit log, laporan prodi/lintas kelas, dan ekspor CSV/PDF
+
+Seluruh path menggunakan prefix `/api/v1` tanpa migrasi database maupun dependensi eksternal baru (ekspor PDF memakai PDF 1.4 stdlib dengan font Type1 Helvetica/WinAnsiEncoding dan CSV UTF-8 BOM yang dinetralkan dari *formula injection*).
+
+| Method | Path | Hak akses dan fungsi |
+| --- | --- | --- |
+| GET | `/audit-log` | Khusus Admin prodi: riwayat `audit_log` terbaru lebih dulu dengan filter opsional `periode_id`, `aksi`, `entitas`, pencarian literal `q`, `offset`, `limit` (1–100); menyertakan `aktor_nama`, `aktor_role`, serta `alasan` pembukaan kembali tanpa field sensitif. |
+| GET | `/laporan/prodi` | Khusus Admin prodi: rekap kelas MK dan agregasi CPL terisolasi per `periode_id` + `kurikulum_id` (+ filter opsional `semester`), mengecualikan kelas TI-K dan menghitung `total_audit_periode`. |
+| GET | `/laporan/prodi/ekspor` | Khusus Admin prodi: unduhan CSV/PDF dari laporan prodi (`format=csv|pdf`). |
+| GET | `/laporan/lintas-kelas` | Admin prodi atau Dosen pengampu: agregasi terbobot `Decimal` lintas `kelas_mk_ids` eksplisit pada satu `periode_id` dan satu `kurikulum_id` yang sama (`409` bila lintas kurikulum, `422` bila duplikat/kosong). |
+| GET | `/laporan/lintas-kelas/ekspor` | Admin prodi atau Dosen pengampu: unduhan CSV/PDF laporan lintas kelas (`format=csv|pdf`). |
+| GET | `/kelas-mk/{kelas_mk_id}/ekspor` | Admin prodi atau Dosen pengampu: unduhan CSV/PDF rekap kelas beserta rincian instrumen/CPMK/CPL/MK tiap peserta; tetap tersedia saat periode ditutup, memisahkan nilai kosong (`""`/`-`) dari `0.00` valid. |
+| GET | `/capaian/saya/ekspor` | Khusus Mahasiswa (identitas JWT): unduhan PDF (default) atau CSV capaian CPL/MK pribadi per periode atau kumulatif tanpa nilai teman sejawat maupun rekap kelas; peserta TI-K tetap dapat mengunduh tanpa angka `0.00` buatan. |
+
+Verifikasi: 99 tes PostgreSQL lulus (termasuk 5 grup skenario pelaporan, isolasi kurikulum, rata-rata terbobot lintas kelas, pemisahan NULL vs `0.00`, validasi xref PDF 1.4, dan ACL audit/ekspor), serta `ruff check` dan `ruff format --check` lolos pada 61 file.
