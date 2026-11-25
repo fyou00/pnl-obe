@@ -138,10 +138,10 @@ export default function AdminKurikulumPage() {
     <div className="max-w-[1136px] flex flex-col gap-6">
       <div className="flex items-start justify-between gap-4">
         <div>
-          <h1 className="text-[28px] font-semibold leading-[34px] text-[#252525] dark:text-[#F5F5F4]">
-            Versi kurikulum
+          <h1 className="text-[28px] font-semibold leading-[34px] text-[#15333A]">
+            Versi Kurikulum
           </h1>
-          <p className="text-[14px] text-[#737373] dark:text-[#A3A3A0] mt-2">
+          <p className="text-[14px] text-[#566B70] mt-2">
             Kurikulum Aktif dan Arsip bersifat read-only. Revisi isi dilakukan
             melalui salinan versi Draft baru.
           </p>
@@ -164,8 +164,8 @@ export default function AdminKurikulumPage() {
       )}
 
       {/* Form tambah Draft */}
-      <section className="bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-6">
-        <h2 className="text-[17px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+      <section className="bg-white border border-[#E4DFD4] rounded-[12px] p-6">
+        <h2 className="text-[17px] font-semibold text-[#15333A]">
           Buat Versi Kurikulum Draft
         </h2>
         <form
@@ -175,7 +175,7 @@ export default function AdminKurikulumPage() {
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="kur-kode"
-              className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]"
+              className="text-[12px] font-medium text-[#334B51]"
             >
               Kode kurikulum
             </label>
@@ -192,14 +192,14 @@ export default function AdminKurikulumPage() {
                 }))
               }
               placeholder="TI-2026"
-              className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+              className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="kur-nama"
-              className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]"
+              className="text-[12px] font-medium text-[#334B51]"
             >
               Nama versi kurikulum
             </label>
@@ -213,14 +213,14 @@ export default function AdminKurikulumPage() {
                 setCreateForm((prev) => ({ ...prev, nama: e.target.value }))
               }
               placeholder="Kurikulum TI 2026"
-              className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+              className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
             />
           </div>
 
           <button
             type="submit"
             disabled={busyId === 'create'}
-            className="h-[38px] px-4 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer disabled:opacity-60"
+            className="h-[38px] px-4 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer disabled:opacity-60"
           >
             {busyId === 'create' ? 'Menyimpan...' : '+ Buat Draft'}
           </button>
@@ -229,8 +229,8 @@ export default function AdminKurikulumPage() {
 
       {/* Form salin kurikulum */}
       {cloningId && (
-        <section className="bg-white dark:bg-[#1D1D1B] border border-[#252525] dark:border-[#F5F5F4] rounded-[12px] p-6">
-          <h2 className="text-[16px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+        <section className="bg-white border border-[#15333A] rounded-[12px] p-6">
+          <h2 className="text-[16px] font-semibold text-[#15333A]">
             Salin ke Versi Draft Baru
           </h2>
           <form
@@ -249,7 +249,7 @@ export default function AdminKurikulumPage() {
                 }))
               }
               placeholder="Kode baru (mis. TI-2027)"
-              className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+              className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
             />
             <input
               type="text"
@@ -260,19 +260,19 @@ export default function AdminKurikulumPage() {
                 setCloneForm((prev) => ({ ...prev, nama: e.target.value }))
               }
               placeholder="Nama versi kurikulum baru"
-              className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+              className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
             />
             <button
               type="submit"
               disabled={busyId === cloningId}
-              className="h-[38px] px-4 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer"
+              className="h-[38px] px-4 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer"
             >
               Salin
             </button>
             <button
               type="button"
               onClick={() => setCloningId('')}
-              className="h-[38px] px-4 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+              className="h-[38px] px-4 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
             >
               Batal
             </button>
@@ -281,9 +281,9 @@ export default function AdminKurikulumPage() {
       )}
 
       {/* Daftar Kurikulum */}
-      <section className="bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-6 flex flex-col gap-5">
+      <section className="bg-white border border-[#E4DFD4] rounded-[12px] p-6 flex flex-col gap-5">
         <div className="flex items-center justify-between gap-4">
-          <h2 className="text-[17px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+          <h2 className="text-[17px] font-semibold text-[#15333A]">
             Daftar Versi Kurikulum
           </h2>
 
@@ -293,13 +293,13 @@ export default function AdminKurikulumPage() {
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Cari kode atau nama..."
-              className="h-[36px] w-[220px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[12px]"
+              className="h-[36px] w-[220px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[12px]"
             />
             <select
               aria-label="Filter status kurikulum"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
-              className="h-[36px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[12px]"
+              className="h-[36px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[12px]"
             >
               <option value="">Semua status</option>
               <option value="Draft">Draft</option>
@@ -310,15 +310,15 @@ export default function AdminKurikulumPage() {
         </div>
 
         {loading ? (
-          <div className="py-8 text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+          <div className="py-8 text-[13px] text-[#566B70]">
             Memuat daftar kurikulum...
           </div>
         ) : items.length === 0 ? (
-          <div className="py-8 text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+          <div className="py-8 text-[13px] text-[#566B70]">
             Belum ada versi kurikulum.
           </div>
         ) : (
-          <div className="divide-y divide-[#E5E5E5] dark:divide-[#2E2E2B]">
+          <div className="divide-y divide-[#EFECE4]">
             {items.map((item) => {
               const isEditing = editingId === item.id;
               const isSelected = selectedCurriculumId === item.id;
@@ -343,7 +343,7 @@ export default function AdminKurikulumPage() {
                             kode_kurikulum: e.target.value,
                           }))
                         }
-                        className="h-[34px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[13px]"
+                        className="h-[34px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[13px]"
                       />
                       <input
                         type="text"
@@ -356,19 +356,19 @@ export default function AdminKurikulumPage() {
                             nama: e.target.value,
                           }))
                         }
-                        className="h-[34px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[13px]"
+                        className="h-[34px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[13px]"
                       />
                       <button
                         type="submit"
                         disabled={busyId === item.id}
-                        className="h-[34px] px-3 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer"
+                        className="h-[34px] px-3 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer"
                       >
                         Simpan
                       </button>
                       <button
                         type="button"
                         onClick={() => setEditingId('')}
-                        className="h-[34px] px-3 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+                        className="h-[34px] px-3 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
                       >
                         Batal
                       </button>
@@ -377,19 +377,19 @@ export default function AdminKurikulumPage() {
                     <>
                       <div className="flex flex-col gap-1 min-w-0">
                         <div className="flex items-center gap-2.5">
-                          <span className="text-[14px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+                          <span className="text-[14px] font-semibold text-[#15333A]">
                             {item.nama}
                           </span>
-                          <span className="px-2.5 py-0.5 rounded-full bg-[#F0F0EF] dark:bg-[#2A2A27] border border-[#E5E5E5] dark:border-[#343430] text-[11px] font-medium">
+                          <span className="px-2.5 py-0.5 rounded-full bg-[#E6F0EE] border border-[#E4DFD4] text-[11px] font-medium">
                             {item.status}
                           </span>
                           {isSelected && (
-                            <span className="text-[11px] text-[#737373] dark:text-[#A3A3A0]">
+                            <span className="text-[11px] text-[#566B70]">
                               · Konteks aktif
                             </span>
                           )}
                         </div>
-                        <span className="text-[12px] text-[#737373] dark:text-[#A3A3A0]">
+                        <span className="text-[12px] text-[#566B70]">
                           Kode: {item.kode_kurikulum}
                         </span>
                       </div>
@@ -399,7 +399,7 @@ export default function AdminKurikulumPage() {
                           <button
                             type="button"
                             onClick={() => setSelectedCurriculumId(item.id)}
-                            className="h-[32px] px-3 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer hover:bg-[#F5F5F4] dark:hover:bg-[#2A2A27]"
+                            className="h-[32px] px-3 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer hover:bg-[#FAF8F3]"
                           >
                             Pilih konteks
                           </button>
@@ -415,7 +415,7 @@ export default function AdminKurikulumPage() {
                                   nama: item.nama,
                                 });
                               }}
-                              className="h-[32px] px-3 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+                              className="h-[32px] px-3 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
                             >
                               Ubah
                             </button>
@@ -423,7 +423,7 @@ export default function AdminKurikulumPage() {
                               type="button"
                               disabled={busyId === item.id}
                               onClick={() => handleTransition(item, 'activate')}
-                              className="h-[32px] px-3 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer"
+                              className="h-[32px] px-3 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer"
                             >
                               Aktifkan
                             </button>
@@ -431,7 +431,7 @@ export default function AdminKurikulumPage() {
                               type="button"
                               disabled={busyId === item.id}
                               onClick={() => handleTransition(item, 'delete')}
-                              className="h-[32px] px-3 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] text-[#B55824] cursor-pointer"
+                              className="h-[32px] px-3 rounded-[7px] border border-[#E4DFD4] text-[12px] text-[#B55824] cursor-pointer"
                             >
                               Hapus
                             </button>
@@ -442,7 +442,7 @@ export default function AdminKurikulumPage() {
                             type="button"
                             disabled={busyId === item.id}
                             onClick={() => handleTransition(item, 'archive')}
-                            className="h-[32px] px-3 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+                            className="h-[32px] px-3 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
                           >
                             Arsipkan
                           </button>
@@ -456,7 +456,7 @@ export default function AdminKurikulumPage() {
                               nama: `${item.nama} (Revisi)`,
                             });
                           }}
-                          className="h-[32px] px-3 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+                          className="h-[32px] px-3 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
                         >
                           Salin versi baru
                         </button>

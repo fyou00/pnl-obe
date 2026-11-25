@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { LockedPeriodBanner } from '../../components/states/SystemStates.jsx';
 import { useDosenWorkspace } from '../../context/DosenWorkspaceContext.jsx';
 import {
   getKelasMkCapaian,
@@ -192,15 +193,15 @@ export default function DosenInputNilaiPage() {
         <div className="flex flex-col gap-2">
           <Link
             to="/dosen"
-            className="text-[13px] font-medium text-[#252525] dark:text-[#F5F5F4] hover:underline w-fit"
+            className="text-[13px] font-medium text-[#15333A] hover:underline w-fit"
           >
             ‹ Dashboard Dosen
           </Link>
-          <h1 className="text-[34px] font-bold leading-[41px] text-[#252525] dark:text-[#F5F5F4]">
-            Input nilai
+          <h1 className="text-[34px] font-bold leading-[41px] text-[#15333A]">
+            Input Nilai
           </h1>
           {activeClass && (
-            <p className="text-[16px] text-[#525252] dark:text-[#A3A3A0]">
+            <p className="text-[16px] text-[#334B51]">
               {activeClass.nama_mk} / {activeClass.kelas} /{' '}
               {selectedPeriod
                 ? `${selectedPeriod.tahun_akademik} ${selectedPeriod.semester}`
@@ -215,7 +216,7 @@ export default function DosenInputNilaiPage() {
               aria-label="Pilih kelas MK"
               value={activeClassId}
               onChange={(e) => navigate(`/dosen/nilai/${e.target.value}`)}
-              className="min-w-[230px] h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] text-[12px] font-medium"
+              className="min-w-[230px] h-[38px] px-3 rounded-[7px] bg-white border border-[#E4DFD4] text-[12px] font-medium"
             >
               {classes.map((cls) => (
                 <option key={cls.id} value={cls.id}>
@@ -228,16 +229,18 @@ export default function DosenInputNilaiPage() {
             <p className="text-[20px] font-semibold leading-[24px] tabular-nums">
               {completeParticipants} dari {totalParticipants} peserta lengkap
             </p>
-            <p className="text-[13px] text-[#737373] dark:text-[#A3A3A0] mt-1">
+            <p className="text-[13px] text-[#566B70] mt-1">
               Berdasarkan nilai yang sudah disimpan
             </p>
           </div>
         </div>
       </div>
 
+      <LockedPeriodBanner period={selectedPeriod} />
+
       {design && !design.boleh_input_nilai && (
-        <div className="rounded-[10px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] px-4 py-3 flex items-center justify-between gap-4 text-[13px]">
-          <span className="text-[#B55824] dark:text-[#F0C3A4]">
+        <div className="rounded-[10px] bg-white border border-[#E4DFD4] px-4 py-3 flex items-center justify-between gap-4 text-[13px]">
+          <span className="text-[#B55824]">
             {design.periode_ditutup
               ? 'Periode akademik ditutup — nilai bersifat read-only.'
               : `Rancangan belum siap dinilai: ${design.alasan_belum_siap.join('; ')}`}
@@ -268,16 +271,16 @@ export default function DosenInputNilaiPage() {
         </div>
       )}
 
-      <section className="bg-white dark:bg-[#1D1D1B] border border-[#DEDEDE] dark:border-[#2E2E2B] rounded-[12px] p-6 flex flex-col gap-5">
+      <section className="bg-white border border-[#E4DFD4] rounded-[12px] p-6 flex flex-col gap-5">
         <div>
-          <h2 className="text-[22px] font-semibold leading-[27px] text-[#252525] dark:text-[#F5F5F4]">
+          <h2 className="text-[22px] font-semibold leading-[27px] text-[#15333A]">
             Nilai per instrumen
           </h2>
-          <p className="text-[14px] text-[#737373] dark:text-[#A3A3A0] mt-1">
+          <p className="text-[14px] text-[#566B70] mt-1">
             Skor 0–100. Tanda — berarti nilai belum diinput; angka 0 adalah skor
             sah.
           </p>
-          <p className="text-[11.5px] text-[#737373] dark:text-[#A3A3A0] mt-1">
+          <p className="text-[11.5px] text-[#566B70] mt-1">
             Catatan backend: endpoint peserta kelas saat ini mengembalikan ID
             (UUID) mahasiswa sehingga nama &amp; NIM menunggu pembaruan API
             peserta.
@@ -285,30 +288,30 @@ export default function DosenInputNilaiPage() {
         </div>
 
         {loading ? (
-          <p className="py-8 text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+          <p className="py-8 text-[13px] text-[#566B70]">
             Memuat grid penilaian...
           </p>
         ) : !activeClass ? (
-          <p className="py-8 text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+          <p className="py-8 text-[13px] text-[#566B70]">
             Belum ada kelas penugasan pada periode ini.
           </p>
         ) : instruments.length === 0 ? (
-          <p className="py-8 text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+          <p className="py-8 text-[13px] text-[#566B70]">
             Belum ada instrumen pada rancangan kelas ini.
           </p>
         ) : participants.length === 0 ? (
-          <p className="py-8 text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+          <p className="py-8 text-[13px] text-[#566B70]">
             Belum ada peserta terdaftar pada kelas MK ini.
           </p>
         ) : (
           <>
-            <div className="overflow-x-auto max-h-[420px] overflow-y-auto border-y border-[#E5E5E4] dark:border-[#2E2E2B]">
+            <div className="overflow-x-auto max-h-[420px] overflow-y-auto border-y border-[#E4DFD4]">
               <table className="w-full text-left border-collapse">
-                <thead className="sticky top-0 z-10 bg-white dark:bg-[#1D1D1B]">
-                  <tr className="border-b border-[#E5E5E4] dark:border-[#2E2E2B]">
+                <thead className="sticky top-0 z-10 bg-white">
+                  <tr className="border-b border-[#E4DFD4]">
                     <th className="py-3 pr-4 min-w-[260px]">
                       <div className="text-[14px] font-semibold">Peserta</div>
-                      <div className="text-[12px] font-normal text-[#737373] dark:text-[#A3A3A0]">
+                      <div className="text-[12px] font-normal text-[#566B70]">
                         ID Mahasiswa
                       </div>
                     </th>
@@ -317,21 +320,21 @@ export default function DosenInputNilaiPage() {
                         <div className="text-[14px] font-semibold truncate">
                           {inst.nama_instrumen}
                         </div>
-                        <div className="text-[12px] font-normal text-[#737373] dark:text-[#A3A3A0]">
+                        <div className="text-[12px] font-normal text-[#566B70]">
                           {Number(inst.bobot_persentase)}% · {inst.jenis_instrumen}
                         </div>
                       </th>
                     ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#E5E5E4] dark:divide-[#2E2E2B]">
+                <tbody className="divide-y divide-[#EFECE4]">
                   {participants.map((studentId, index) => (
                     <tr key={studentId}>
                       <td className="py-3 pr-4 align-top">
-                        <div className="text-[14px] font-medium text-[#252525] dark:text-[#F5F5F4]">
+                        <div className="text-[14px] font-medium text-[#15333A]">
                           Peserta #{index + 1}
                         </div>
-                        <div className="text-[11.5px] font-mono text-[#737373] dark:text-[#A3A3A0] break-all">
+                        <div className="text-[11.5px] font-mono text-[#566B70] break-all">
                           {studentId}
                         </div>
                       </td>
@@ -358,16 +361,16 @@ export default function DosenInputNilaiPage() {
                                 }));
                               }}
                               className={[
-                                'w-[141px] h-[40px] px-3 rounded-[5px] bg-white dark:bg-[#242422] text-[14px] focus:outline-none disabled:opacity-60',
+                                'w-[141px] h-[40px] px-3 rounded-[5px] bg-[#FAF8F3] text-[14px] focus:outline-none disabled:opacity-60',
                                 cellError
-                                  ? 'border-2 border-[#DC2626]'
-                                  : 'border border-[#DEDEDE] dark:border-[#343430] focus:border-[#777777]',
+                                  ? 'border-2 border-[#F04438]'
+                                  : 'border border-[#E4DFD4] focus:border-[#15333A]',
                               ].join(' ')}
                             />
                             {cellError && (
                               <p
                                 id={errId}
-                                className="mt-1 text-[11px] font-medium text-[#DC2626]"
+                                className="mt-1 text-[11px] font-medium text-[#B42318]"
                               >
                                 {cellError}
                               </p>
@@ -384,12 +387,12 @@ export default function DosenInputNilaiPage() {
             {/* Footer simpan */}
             <div className="flex items-center justify-between gap-4 pt-1">
               <div className="flex flex-col gap-1">
-                <p className="text-[15px] font-medium text-[#252525] dark:text-[#F5F5F4]">
+                <p className="text-[15px] font-medium text-[#15333A]">
                   {errorCount > 0
                     ? `${errorCount} sel memiliki nilai tidak valid`
                     : `${dirtyItems.length} perubahan belum disimpan`}
                 </p>
-                <p className="text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+                <p className="text-[13px] text-[#566B70]">
                   {errorCount > 0
                     ? 'Perbaiki input bertanda merah sebelum menyimpan.'
                     : dirtyItems.length > 0
@@ -407,7 +410,7 @@ export default function DosenInputNilaiPage() {
                     type="button"
                     disabled={saving}
                     onClick={handleReset}
-                    className="h-[45px] px-4 rounded-[6px] border border-[#E5E5E5] dark:border-[#343430] text-[13px] font-medium cursor-pointer"
+                    className="h-[45px] px-4 rounded-[6px] border border-[#E4DFD4] text-[13px] font-medium cursor-pointer"
                   >
                     Reset
                   </button>
@@ -422,7 +425,7 @@ export default function DosenInputNilaiPage() {
                     dirtyItems.length === 0
                   }
                   onClick={handleSave}
-                  className="h-[45px] px-5 rounded-[6px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[14px] font-medium cursor-pointer disabled:opacity-45"
+                  className="h-[45px] px-5 rounded-[6px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[14px] font-medium cursor-pointer disabled:opacity-45"
                 >
                   {saving ? 'Menyimpan...' : 'Simpan perubahan'}
                 </button>

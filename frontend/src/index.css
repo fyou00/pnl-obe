@@ -1,7 +1,7 @@
 @import "tailwindcss";
 @import "./styles/tokens.css";
 
-/* Legacy aliases — dipertahankan sementara sampai penyelarasan layar selesai */
+/* Palette aliases untuk landing & komponen utilitas */
 @theme {
   --color-cream: #FAF8F3;
   --color-cream-soft: #F3EFE6;
@@ -38,18 +38,101 @@
   --color-sage-bg: #E6F2EE;
   --color-sage-text: #1A5C4D;
   --color-sage-open: #1D6353;
-
-  --color-dash-canvas: #F5F5F4;
-  --color-dash-surface: #FFFFFF;
-  --color-dash-active: #F0F0EF;
-  --color-dash-border: #E5E5E5;
-  --color-dash-ink: #252525;
-  --color-dash-muted: #737373;
-  --color-dash-secondary: #525252;
 }
 
 @layer base {
   body {
     @apply bg-surface-canvas text-ink-primary font-sans antialiased;
+  }
+}
+
+/* Micro-interaction ikon navigasi: Duotone Fill + Scale ringan (Board 08/03) */
+.obe-nav-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(1);
+  color: var(--ink-muted);
+  transition:
+    transform var(--motion-spring) var(--motion-ease-spring),
+    color var(--motion-hover) ease;
+}
+
+.obe-nav-icon[data-surface="dark"] {
+  color: var(--ink-inverse);
+}
+
+.obe-duotone-fill {
+  fill: rgba(204, 110, 56, 0.24);
+  stroke: none;
+  opacity: 0;
+  transition: opacity var(--motion-hover) ease;
+}
+
+.obe-nav-icon[data-surface="dark"] .obe-duotone-fill {
+  fill: rgba(204, 110, 56, 0.38);
+}
+
+.obe-nav-trigger:hover .obe-nav-icon[data-surface="light"] {
+  color: var(--ink-primary);
+}
+
+.obe-nav-trigger:hover .obe-nav-icon[data-surface="dark"] {
+  color: var(--brand-terracotta-500);
+}
+
+.obe-nav-trigger:active .obe-nav-icon,
+.obe-nav-icon:active {
+  transform: scale(0.92);
+  transition-duration: var(--motion-press);
+}
+
+.obe-nav-trigger:active .obe-nav-icon[data-surface="light"],
+.obe-nav-trigger[data-active="true"] .obe-nav-icon[data-surface="light"],
+.obe-nav-icon[data-surface="light"][data-active="true"] {
+  color: var(--ink-primary);
+}
+
+.obe-nav-trigger:active .obe-nav-icon[data-surface="dark"],
+.obe-nav-trigger[data-active="true"] .obe-nav-icon[data-surface="dark"],
+.obe-nav-icon[data-surface="dark"][data-active="true"] {
+  color: var(--brand-terracotta-500);
+}
+
+.obe-nav-trigger:active .obe-duotone-fill,
+.obe-nav-trigger[data-active="true"] .obe-duotone-fill,
+.obe-nav-icon[data-active="true"] .obe-duotone-fill {
+  opacity: 1;
+}
+
+.obe-skeleton {
+  background-color: var(--surface-muted);
+  animation: obePulse 1.6s ease-in-out infinite;
+}
+
+@keyframes obePulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.58;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .obe-nav-icon,
+  .obe-nav-trigger:active .obe-nav-icon,
+  .obe-nav-icon:active {
+    transform: none !important;
+    transition: color 80ms ease;
+  }
+
+  .obe-duotone-fill {
+    transition: opacity 80ms ease;
+  }
+
+  .obe-skeleton {
+    animation: none;
   }
 }

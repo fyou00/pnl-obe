@@ -7,7 +7,13 @@ from fastapi import APIRouter, Depends, Query, Response
 
 from app.api.dependencies import DB, require_roles
 from app.models import User
-from app.schemas.reporting import AuditLogResponse, CrossClassReportResponse, ProdiReportResponse
+from app.schemas.reporting import (
+    AuditLogResponse,
+    CrossClassReportResponse,
+    ProdiReportResponse,
+    StudentCourseDetailResponse,
+    StudentPeriodResponse,
+)
 from app.services import reporting
 
 Admin = Annotated[User, Depends(require_roles("Admin"))]
@@ -136,3 +142,16 @@ def export_personal_report(
         db, user, periode_id=periode_id, kumulatif=kumulatif, fmt=format
     )
     return _attachment(data, media_type, filename)
+
+
+@router.get("/mahasiswa/periode", response_model=list[StudentPeriodResponse])
+def student_periods(db: DB, user: Mahasiswa):
+    return reporting.list_student_periods(db, user)
+
+
+@router.get(
+    "/mahasiswa/kelas-mk/{kelas_mk_id}/rincian",
+    response_model=StudentCourseDetailResponse,
+)
+def student_course_detail(db: DB, user: Mahasiswa, kelas_mk_id: UUID):
+    return reporting.student_course_detail(db, user, kelas_mk_id=kelas_mk_id)

@@ -1,4 +1,4 @@
-import { apiRequest } from './apiClient.js';
+import { apiDownload, apiRequest } from './apiClient.js';
 
 export function listRancangan({ periode_id, offset = 0, limit = 100 } = {}) {
   return apiRequest('/api/v1/rancangan-penilaian', {
@@ -149,5 +149,30 @@ export function saveKelasMkNilai(kelasMkId, items) {
         ),
       })),
     },
+  });
+}
+
+// --- Tahap 6: Ekspor Kelas & Laporan Lintas Kelas ---
+export function exportKelasMkReport(kelasMkId, format = 'csv') {
+  return apiDownload(`/api/v1/kelas-mk/${kelasMkId}/ekspor`, {
+    params: { format },
+    fallbackFilename: `laporan-kelas.${format}`,
+  });
+}
+
+export function getCrossClassReport({ periode_id, kelas_mk_ids } = {}) {
+  return apiRequest('/api/v1/laporan/lintas-kelas', {
+    params: { periode_id, kelas_mk_ids },
+  });
+}
+
+export function exportCrossClassReport({
+  periode_id,
+  kelas_mk_ids,
+  format = 'pdf',
+} = {}) {
+  return apiDownload('/api/v1/laporan/lintas-kelas/ekspor', {
+    params: { periode_id, kelas_mk_ids, format },
+    fallbackFilename: `laporan-lintas-kelas.${format}`,
   });
 }

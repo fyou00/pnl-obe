@@ -128,10 +128,10 @@ export default function AdminCplPage() {
     <div className="max-w-[1136px] flex flex-col gap-6">
       <div className="flex items-start justify-between gap-6">
         <div>
-          <h1 className="text-[28px] font-semibold leading-[34px] text-[#252525] dark:text-[#F5F5F4]">
+          <h1 className="text-[28px] font-semibold leading-[34px] text-[#15333A]">
             Master CPL
           </h1>
-          <p className="text-[14px] text-[#737373] dark:text-[#A3A3A0] mt-2">
+          <p className="text-[14px] text-[#566B70] mt-2">
             Kelola Capaian Pembelajaran Lulusan per versi kurikulum. Perubahan
             hanya diizinkan pada kurikulum berstatus Draft.
           </p>
@@ -142,7 +142,7 @@ export default function AdminCplPage() {
           value={selectedCurriculumId}
           onChange={(e) => setSelectedCurriculumId(e.target.value)}
           disabled={curricula.length === 0}
-          className="min-w-[218px] h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] text-[12px] font-medium"
+          className="min-w-[218px] h-[38px] px-3 rounded-[7px] bg-white border border-[#E4DFD4] text-[12px] font-medium"
         >
           {curricula.length === 0 ? (
             <option value="">Belum ada kurikulum</option>
@@ -157,7 +157,7 @@ export default function AdminCplPage() {
       </div>
 
       {selectedCurriculum && !isDraft && (
-        <div className="rounded-[10px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] px-4 py-3 text-[13px] text-[#525252] dark:text-[#D4D4D0]">
+        <div className="rounded-[10px] bg-white border border-[#E4DFD4] px-4 py-3 text-[13px] text-[#334B51]">
           Kurikulum <strong>{selectedCurriculum.nama}</strong> berstatus{' '}
           <strong>{selectedCurriculum.status}</strong> (read-only). Salin
           menjadi versi Draft di menu Versi kurikulum bila perlu mengubah CPL.
@@ -180,14 +180,14 @@ export default function AdminCplPage() {
       )}
 
       {isDraft && (
-        <section className="bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-6">
-          <h2 className="text-[17px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+        <section className="bg-white border border-[#E4DFD4] rounded-[12px] p-6">
+          <h2 className="text-[17px] font-semibold text-[#15333A]">
             Tambah Master CPL
           </h2>
           <form onSubmit={handleCreate} className="mt-4 flex flex-col gap-4">
             <div className="grid grid-cols-[180px_240px_1fr] gap-4 items-end">
               <div className="flex flex-col gap-1.5">
-                <label className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]">
+                <label className="text-[12px] font-medium text-[#334B51]">
                   Kode CPL
                 </label>
                 <input
@@ -202,12 +202,12 @@ export default function AdminCplPage() {
                     }))
                   }
                   placeholder="CPL-01"
-                  className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+                  className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
                 />
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]">
+                <label className="text-[12px] font-medium text-[#334B51]">
                   Kategori
                 </label>
                 <select
@@ -218,7 +218,7 @@ export default function AdminCplPage() {
                       kategori: e.target.value,
                     }))
                   }
-                  className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+                  className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
                 >
                   {KATEGORI_OPTIONS.map((opt) => (
                     <option key={opt.value} value={opt.value}>
@@ -228,7 +228,7 @@ export default function AdminCplPage() {
                 </select>
               </div>
 
-              <label className="h-[38px] inline-flex items-center gap-2 text-[13px] text-[#252525] dark:text-[#F5F5F4] cursor-pointer">
+              <label className="h-[38px] inline-flex items-center gap-2 text-[13px] text-[#15333A] cursor-pointer">
                 <input
                   type="checkbox"
                   checked={createForm.nasional}
@@ -245,7 +245,7 @@ export default function AdminCplPage() {
 
             <div className="grid grid-cols-[1fr_auto] gap-4 items-end">
               <div className="flex flex-col gap-1.5">
-                <label className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]">
+                <label className="text-[12px] font-medium text-[#334B51]">
                   Deskripsi CPL
                 </label>
                 <input
@@ -259,14 +259,14 @@ export default function AdminCplPage() {
                     }))
                   }
                   placeholder="Mampu merancang dan mengimplementasikan sistem..."
-                  className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+                  className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
                 />
               </div>
 
               <button
                 type="submit"
                 disabled={busyId === 'create'}
-                className="h-[38px] px-4 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer"
+                className="h-[38px] px-4 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer"
               >
                 {busyId === 'create' ? 'Menyimpan...' : '+ Tambah CPL'}
               </button>
@@ -275,9 +275,9 @@ export default function AdminCplPage() {
         </section>
       )}
 
-      <section className="bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-6 flex flex-col gap-4">
+      <section className="bg-white border border-[#E4DFD4] rounded-[12px] p-6 flex flex-col gap-4">
         <div className="flex items-center justify-between gap-4">
-          <h2 className="text-[17px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+          <h2 className="text-[17px] font-semibold text-[#15333A]">
             Daftar CPL ({cpls.length})
           </h2>
 
@@ -286,20 +286,20 @@ export default function AdminCplPage() {
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Cari kode atau deskripsi..."
-            className="h-[36px] w-[240px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[12px]"
+            className="h-[36px] w-[240px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[12px]"
           />
         </div>
 
         {loading ? (
-          <p className="py-6 text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+          <p className="py-6 text-[13px] text-[#566B70]">
             Memuat daftar CPL...
           </p>
         ) : cpls.length === 0 ? (
-          <p className="py-6 text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+          <p className="py-6 text-[13px] text-[#566B70]">
             Belum ada CPL pada kurikulum ini.
           </p>
         ) : (
-          <div className="divide-y divide-[#E5E5E5] dark:divide-[#2E2E2B]">
+          <div className="divide-y divide-[#EFECE4]">
             {cpls.map((cpl) => {
               const isEditing = editingId === cpl.id;
               return (
@@ -320,7 +320,7 @@ export default function AdminCplPage() {
                             kode_cpl: e.target.value,
                           }))
                         }
-                        className="h-[34px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[13px]"
+                        className="h-[34px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[13px]"
                       />
                       <select
                         value={editForm.kategori}
@@ -330,7 +330,7 @@ export default function AdminCplPage() {
                             kategori: e.target.value,
                           }))
                         }
-                        className="h-[34px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[13px]"
+                        className="h-[34px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[13px]"
                       >
                         {KATEGORI_OPTIONS.map((opt) => (
                           <option key={opt.value} value={opt.value}>
@@ -348,7 +348,7 @@ export default function AdminCplPage() {
                             deskripsi: e.target.value,
                           }))
                         }
-                        className="h-[34px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[13px]"
+                        className="h-[34px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[13px]"
                       />
                       <label className="text-[12px] inline-flex items-center gap-1.5">
                         <input
@@ -366,14 +366,14 @@ export default function AdminCplPage() {
                       <button
                         type="submit"
                         disabled={busyId === cpl.id}
-                        className="h-[34px] px-3 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer"
+                        className="h-[34px] px-3 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer"
                       >
                         Simpan
                       </button>
                       <button
                         type="button"
                         onClick={() => setEditingId('')}
-                        className="h-[34px] px-3 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+                        className="h-[34px] px-3 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
                       >
                         Batal
                       </button>
@@ -381,17 +381,17 @@ export default function AdminCplPage() {
                   ) : (
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex items-start gap-4 min-w-0">
-                        <span className="w-[84px] shrink-0 text-[13px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+                        <span className="w-[84px] shrink-0 text-[13px] font-semibold text-[#15333A]">
                           {cpl.kode_cpl}
                         </span>
-                        <span className="px-2 py-0.5 rounded bg-[#F0F0EF] dark:bg-[#2A2A27] text-[11px] font-medium shrink-0">
+                        <span className="px-2 py-0.5 rounded bg-[#E6F0EE] text-[11px] font-medium shrink-0">
                           {cpl.kategori}
                         </span>
                         <div className="flex flex-col gap-1 min-w-0">
-                          <p className="text-[13px] leading-[19px] text-[#252525] dark:text-[#F5F5F4]">
+                          <p className="text-[13px] leading-[19px] text-[#15333A]">
                             {cpl.deskripsi}
                           </p>
-                          <span className="text-[11px] text-[#737373] dark:text-[#A3A3A0]">
+                          <span className="text-[11px] text-[#566B70]">
                             {cpl.prodi_id === null ? 'Nasional' : 'Program Studi'}
                           </span>
                         </div>
@@ -410,7 +410,7 @@ export default function AdminCplPage() {
                                 nasional: cpl.prodi_id === null,
                               });
                             }}
-                            className="h-[30px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+                            className="h-[30px] px-2.5 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
                           >
                             Ubah
                           </button>
@@ -418,7 +418,7 @@ export default function AdminCplPage() {
                             type="button"
                             disabled={busyId === cpl.id}
                             onClick={() => handleDelete(cpl)}
-                            className="h-[30px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] text-[#B55824] cursor-pointer"
+                            className="h-[30px] px-2.5 rounded-[7px] border border-[#E4DFD4] text-[12px] text-[#B55824] cursor-pointer"
                           >
                             Hapus
                           </button>

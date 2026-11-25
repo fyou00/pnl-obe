@@ -1,4 +1,4 @@
-import { apiRequest } from './apiClient.js';
+import { apiDownload, apiRequest } from './apiClient.js';
 
 export function loginToken(email, password) {
   const formBody = new URLSearchParams();
@@ -424,4 +424,60 @@ export function getKelasMkNilai(kelasMkId) {
 
 export function getKelasMkCapaian(kelasMkId) {
   return apiRequest(`/api/v1/kelas-mk/${kelasMkId}/capaian`);
+}
+
+// --- Tahap 6: Audit Log, Laporan Prodi, Lintas Kelas & Ekspor CSV/PDF ---
+export function listAuditLogs({
+  periode_id,
+  aksi,
+  entitas,
+  q,
+  offset = 0,
+  limit = 100,
+} = {}) {
+  return apiRequest('/api/v1/audit-log', {
+    params: { periode_id, aksi, entitas, q, offset, limit },
+  });
+}
+
+export function getProdiReport({ periode_id, kurikulum_id, semester } = {}) {
+  return apiRequest('/api/v1/laporan/prodi', {
+    params: { periode_id, kurikulum_id, semester },
+  });
+}
+
+export function exportProdiReport({
+  periode_id,
+  kurikulum_id,
+  semester,
+  format = 'pdf',
+} = {}) {
+  return apiDownload('/api/v1/laporan/prodi/ekspor', {
+    params: { periode_id, kurikulum_id, semester, format },
+    fallbackFilename: `laporan-prodi.${format}`,
+  });
+}
+
+export function getCrossClassReport({ periode_id, kelas_mk_ids } = {}) {
+  return apiRequest('/api/v1/laporan/lintas-kelas', {
+    params: { periode_id, kelas_mk_ids },
+  });
+}
+
+export function exportCrossClassReport({
+  periode_id,
+  kelas_mk_ids,
+  format = 'pdf',
+} = {}) {
+  return apiDownload('/api/v1/laporan/lintas-kelas/ekspor', {
+    params: { periode_id, kelas_mk_ids, format },
+    fallbackFilename: `laporan-lintas-kelas.${format}`,
+  });
+}
+
+export function exportKelasMkReport(kelasMkId, format = 'csv') {
+  return apiDownload(`/api/v1/kelas-mk/${kelasMkId}/ekspor`, {
+    params: { format },
+    fallbackFilename: `laporan-kelas.${format}`,
+  });
 }

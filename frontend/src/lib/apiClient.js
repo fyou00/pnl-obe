@@ -47,7 +47,13 @@ function buildUrl(path, params) {
   }
   const search = new URLSearchParams();
   for (const [key, value] of Object.entries(params)) {
-    if (value !== undefined && value !== null && value !== '') {
+    if (Array.isArray(value)) {
+      for (const item of value) {
+        if (item !== undefined && item !== null && item !== '') {
+          search.append(key, String(item));
+        }
+      }
+    } else if (value !== undefined && value !== null && value !== '') {
       search.set(key, String(value));
     }
   }
@@ -78,6 +84,23 @@ function parseErrorMessage(payload, status) {
   if (status === 404) return 'Data tidak ditemukan.';
   if (status === 503) return 'Layanan database sedang tidak tersedia.';
   return `Permintaan gagal (${status}).`;
+}
+
+function extractFilename(disposition, fallback) {
+  if (!disposition) return fallback;
+  const utfMatch = disposition.match(/filename\*=UTF-8''([^;]+)/i);
+  if (utfMatch?.[1]) {
+    try {
+      return decodeURIComponent(utfMatch[1].trim());
+    } catch {
+      return utfMatch[1].trim();
+    }
+  }
+  const plainMatch = disposition.match(/filename="?([^";]+)"?/i);
+  if (plainMatch?.[1]) {
+    return plainMatch[1].trim();
+  }
+  return fallback;
 }
 
 export async function apiRequest(
@@ -137,4 +160,61 @@ export async function apiRequest(
   }
 
   return payload;
+}
+
+export async function apiDownload(
+  path,
+  { params, fallbackFilename = 'laporan' } = {},
+) {
+  const headers = {};
+  const token = getToken();
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  let response;
+  try {
+    response = await fetch(buildUrl(path, params), {
+      method: 'GET',
+      headers,
+    });
+  } catch {
+    throw new ApiError(
+      'Tidak dapat terhubung ke server API. Pastikan backend berjalan.',
+      0,
+    );
+  }
+
+  if (!response.ok) {
+    const contentType = response.headers.get('content-type') || '';
+    const payload = contentType.includes('application/json')
+      ? await response.json().catch(() => null)
+      : await response.text().catch(() => null);
+    if (response.status === 401) {
+      clearToken();
+      if (unauthorizedHandler) {
+        unauthorizedHandler();
+      }
+    }
+    throw new ApiError(
+      parseErrorMessage(payload, response.status),
+      response.status,
+      payload,
+    );
+  }
+
+  const blob = await response.blob();
+  const filename = extractFilename(
+    response.headers.get('content-disposition'),
+    fallbackFilename,
+  );
+  const objectUrl = URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = objectUrl;
+  anchor.download = filename;
+  document.body.appendChild(anchor);
+  anchor.click();
+  anchor.remove();
+  setTimeout(() => URL.revokeObjectURL(objectUrl), 1000);
+  return { filename };
 }

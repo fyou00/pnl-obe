@@ -47,11 +47,11 @@
 * [x] **Modul Pelaporan:** *Endpoint* audit log, laporan prodi/lintas kelas, serta ekspor rekap nilai & capaian OBE ke CSV/PDF.
 
 ## Fase 5: Pengembangan & Integrasi Frontend (React.js)
-* [ ] Setup proyek React.js, TailwindCSS (sesuai *color tone* Figma), dan state management / HTTP client (Axios/TanStack Query).
-* [ ] Implementasi integrasi Halaman Login & penyimpanan token JWT (Protected Routes per Role).
-* [ ] Implementasi Halaman Kaprodi (Tabel Master CPL & Matriks Pembebanan interaktif).
-* [ ] Implementasi Halaman Dosen (Accordion CPMK/Sub-CPMK & Spreadsheet Grid Input Nilai).
-* [ ] Implementasi Komponen Visualisasi *Radar Chart* untuk Dosen dan Mahasiswa.
+* [x] Setup proyek React.js, TailwindCSS v4 dengan token Light Theme PNL OBE (`src/styles/tokens.css`, animasi ikon duotone fill + scale `<AnimatedNavIcon />`), serta manajemen state React Context & HTTP client berbasis `fetch` (`apiClient.js` termasuk unduhan blob CSV/PDF).
+* [x] Implementasi integrasi Halaman Login & penyimpanan token JWT (*Protected Routes* per *Role* dengan *guard* UI `403` `AccessDeniedState` dan `401` `SessionExpiredBanner`).
+* [x] Implementasi Halaman Kaprodi (sidebar kanonik 9 item tanpa *Kelas K*, Master CPL, Versi Kurikulum, Mata Kuliah Paket, Matriks Pembebanan, Periode, Angkatan & Roster, Paket & Penugasan, serta Laporan Prodi & Audit Log + ekspor CSV/PDF).
+* [x] Implementasi Halaman Dosen (Rancangan Penilaian CPMK/Sub-CPMK/Instrumen, Spreadsheet Grid Input Nilai, serta Rekap & Laporan Kelas + agregasi lintas kelas & ekspor CSV/PDF).
+* [x] Implementasi Komponen Visualisasi *Radar Chart* (`RadarCapaianChart`, tanpa garis target CPL) dan portal penuh Mahasiswa (`/mahasiswa`, `/mahasiswa/mata-kuliah`, `/mahasiswa/rincian`, `/mahasiswa/capaian`, mode *read-only*, ekspor PDF/CSV, dan *empty state* `TI-K` Cuti/Nonaktif).
 
 ## Fase 6: Pengujian & Deployment
 * [ ] Pengujian integrasi API (memastikan isolasi hak akses antar-role berjalan ketat).
@@ -115,3 +115,9 @@
 * [x] Endpoint Admin/Dosen `GET /api/v1/laporan/lintas-kelas` dan `/laporan/lintas-kelas/ekspor` dengan rata-rata terbobot `Decimal` (tanpa rata-rata kelas tak berbobot) dan penolakan lintas versi kurikulum (`409`).
 * [x] Endpoint ekspor kelas `GET /api/v1/kelas-mk/{kelas_mk_id}/ekspor` (Admin/Dosen) serta ekspor pribadi Mahasiswa `GET /api/v1/capaian/saya/ekspor` (`csv`/`pdf`, periodik/kumulatif, bebas kebocoran nilai mahasiswa lain, dan dukungan state TI-K) menggunakan pembangun PDF 1.4 stdlib tanpa dependensi eksternal tambahan.
 * [x] Verifikasi: 99 tes PostgreSQL lulus (`pytest -q`, mencakup 5 skenario baru pada `tests/test_reporting.py`), `ruff check .` dan `ruff format --check .` bersih pada seluruh 61 file backend; header CORS `Content-Disposition` diekspos dan frontend belum diubah.
+
+## Tahap P3: Integrasi Frontend Light-Only, Motion Ikon & Portal Mahasiswa (25 November 2026)
+* [x] Tambahan endpoint baca Mahasiswa (*read-only*, tanpa migrasi): `GET /api/v1/mahasiswa/periode` (daftar periode pribadi, kelas `TI-1A`–`TI-4E`/`TI-K`, status `Aktif`/`Cuti`/`Nonaktif`, kurikulum angkatan) dan `GET /api/v1/mahasiswa/kelas-mk/{kelas_mk_id}/rincian` (daftar instrumen lengkap mempertahankan `0.00` vs `null` / `Belum diinput`, pemetaan CPMK/Sub-CPMK/CPL, dan capaian pribadi tanpa data teman sejawat).
+* [x] Penyelarasan penuh Light Theme Only (`ThemeContext.jsx` dihapus, zero utilitas `dark:*`), token motion `--motion-press`/`--motion-spring` pada `src/styles/tokens.css`, ikon SVG duotone fill + scale `<AnimatedNavIcon />` (termasuk ikon rak buku untuk `Paket & Penugasan`), dan komponen *system states* (`LoadingSkeleton`, `LockedPeriodBanner`, `EmptyTikState`, `AccessDeniedState` 403, `SessionExpiredBanner` 401).
+* [x] Pembaruan sidebar Admin kanonik 9 item (tanpa `/admin/pengguna` dan tanpa teks `"Kelas K"` di sidebar), integrasi penuh `AdminLaporanPage` (`/laporan/prodi` & `/audit-log`) dan `DosenCapaianPage` (`/kelas-mk/{id}/ekspor` & `/laporan/lintas-kelas`), serta portal Mahasiswa lengkap di `/mahasiswa/*`.
+* [x] Verifikasi: Backend lolos `ruff check .`, `ruff format --check .` (61 file), dan `pytest -q` (**100 tes PostgreSQL lulus** termasuk tes endpoint Mahasiswa baru); Frontend lolos pemeriksaan statis (`0` baris utilitas Tailwind `dark:`, `0` referensi `ThemeContext`, `0` `"Kelas K"` di sidebar/dashboard components) serta `npm --prefix frontend run build` (`vite build` keluar `0`, 501 modul terbundel). Belum dilakukan uji interaksi browser E2E langsung pada server dev aktif.

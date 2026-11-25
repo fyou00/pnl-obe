@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { LockedPeriodBanner } from '../../components/states/SystemStates.jsx';
 import { useDosenWorkspace } from '../../context/DosenWorkspaceContext.jsx';
 import {
   copyRancangan,
@@ -26,8 +27,13 @@ function formatWeight(value) {
 export default function DosenRancanganPage() {
   const { rancanganId } = useParams();
   const navigate = useNavigate();
-  const { allDesigns, periodDesigns, classes, refreshDosenWorkspace } =
-    useDosenWorkspace();
+  const {
+    allDesigns,
+    periodDesigns,
+    selectedPeriod,
+    classes,
+    refreshDosenWorkspace,
+  } = useDosenWorkspace();
 
   const activeId = rancanganId || periodDesigns[0]?.id || '';
 
@@ -336,15 +342,15 @@ export default function DosenRancanganPage() {
         <div className="flex flex-col gap-2">
           <Link
             to="/dosen"
-            className="text-[13px] font-medium text-[#252525] dark:text-[#F5F5F4] hover:underline w-fit"
+            className="text-[13px] font-medium text-[#15333A] hover:underline w-fit"
           >
             ‹ Dashboard Dosen
           </Link>
-          <h1 className="text-[32px] font-bold leading-[39px] text-[#252525] dark:text-[#F5F5F4]">
-            Rancangan penilaian
+          <h1 className="text-[32px] font-bold leading-[39px] text-[#15333A]">
+            Rancangan Penilaian
           </h1>
           {detail && (
-            <p className="text-[16px] text-[#525252] dark:text-[#A3A3A0]">
+            <p className="text-[16px] text-[#334B51]">
               {activeMkName} / {detail.tahun_akademik} {detail.semester} /{' '}
               {detail.kelas_pengguna.map((k) => k.label).join(' dan ')}
             </p>
@@ -356,7 +362,7 @@ export default function DosenRancanganPage() {
             aria-label="Pilih rancangan mata kuliah"
             value={activeId}
             onChange={(e) => navigate(`/dosen/rancangan/${e.target.value}`)}
-            className="min-w-[230px] h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] text-[12px] font-medium"
+            className="min-w-[230px] h-[38px] px-3 rounded-[7px] bg-white border border-[#E4DFD4] text-[12px] font-medium"
           >
             {periodDesigns.map((d) => (
               <option key={d.id} value={d.id}>
@@ -367,6 +373,8 @@ export default function DosenRancanganPage() {
           </select>
         )}
       </div>
+
+      <LockedPeriodBanner period={selectedPeriod} />
 
       {error && (
         <div
@@ -384,23 +392,23 @@ export default function DosenRancanganPage() {
       )}
 
       {loading ? (
-        <div className="bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-6 text-[13px] text-[#737373]">
+        <div className="bg-white border border-[#E4DFD4] rounded-[12px] p-6 text-[13px] text-[#566B70]">
           Memuat rancangan penilaian...
         </div>
       ) : !detail ? (
-        <div className="bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-6 text-[13px] text-[#737373]">
+        <div className="bg-white border border-[#E4DFD4] rounded-[12px] p-6 text-[13px] text-[#566B70]">
           Belum ada rancangan penilaian pada periode terpilih.
         </div>
       ) : (
         <div className="grid grid-cols-[minmax(0,738fr)_minmax(0,374fr)] gap-6 items-start">
           {/* Kolom Kiri: Struktur Penilaian */}
-          <section className="bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-6 flex flex-col gap-5">
-            <div className="flex items-start justify-between gap-4 border-b border-[#E5E5E5] dark:border-[#2E2E2B] pb-4">
+          <section className="bg-white border border-[#E4DFD4] rounded-[12px] p-6 flex flex-col gap-5">
+            <div className="flex items-start justify-between gap-4 border-b border-[#E4DFD4] pb-4">
               <div>
-                <h2 className="text-[22px] font-semibold leading-[27px] text-[#252525] dark:text-[#F5F5F4]">
+                <h2 className="text-[22px] font-semibold leading-[27px] text-[#15333A]">
                   Pemetaan dan instrumen
                 </h2>
-                <p className="text-[13px] text-[#737373] dark:text-[#A3A3A0] mt-1">
+                <p className="text-[13px] text-[#566B70] mt-1">
                   Setiap instrumen menilai satu Sub-CPMK.
                 </p>
               </div>
@@ -409,7 +417,7 @@ export default function DosenRancanganPage() {
                 <button
                   type="button"
                   onClick={() => setShowAddCpmk((prev) => !prev)}
-                  className="h-[38px] px-3.5 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px] font-medium cursor-pointer shrink-0 hover:bg-[#F5F5F4] dark:hover:bg-[#2A2A27]"
+                  className="h-[38px] px-3.5 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px] font-medium cursor-pointer shrink-0 hover:bg-[#FAF8F3]"
                 >
                   + Tambah CPMK
                 </button>
@@ -420,12 +428,12 @@ export default function DosenRancanganPage() {
             {!detail.struktur_terkunci &&
               detail.cpmk.length === 0 &&
               copyCandidates.length > 0 && (
-                <div className="rounded-[10px] bg-[#F5F5F4] dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] p-4 flex items-center justify-between gap-4">
+                <div className="rounded-[10px] bg-[#FAF8F3] border border-[#E4DFD4] p-4 flex items-center justify-between gap-4">
                   <div className="flex flex-col gap-1">
                     <span className="text-[13px] font-medium">
                       Salin dari rancangan periode sebelumnya
                     </span>
-                    <span className="text-[12px] text-[#737373] dark:text-[#A3A3A0]">
+                    <span className="text-[12px] text-[#566B70]">
                       Hanya tersedia saat draft masih kosong pada MK kurikulum
                       yang sama.
                     </span>
@@ -435,7 +443,7 @@ export default function DosenRancanganPage() {
                       aria-label="Pilih sumber rancangan"
                       value={copySourceId}
                       onChange={(e) => setCopySourceId(e.target.value)}
-                      className="h-[34px] px-2.5 rounded-[7px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#343430] text-[12px]"
+                      className="h-[34px] px-2.5 rounded-[7px] bg-white border border-[#E4DFD4] text-[12px]"
                     >
                       {copyCandidates.map((cand) => (
                         <option key={cand.id} value={cand.id}>
@@ -448,7 +456,7 @@ export default function DosenRancanganPage() {
                       type="button"
                       disabled={busyKey === 'copy'}
                       onClick={handleCopyDesign}
-                      className="h-[34px] px-3 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer"
+                      className="h-[34px] px-3 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer"
                     >
                       Salin draft
                     </button>
@@ -460,7 +468,7 @@ export default function DosenRancanganPage() {
             {!detail.struktur_terkunci && showAddCpmk && (
               <form
                 onSubmit={handleCreateCpmk}
-                className="rounded-[10px] bg-[#F5F5F4] dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] p-4 flex flex-col gap-3"
+                className="rounded-[10px] bg-[#FAF8F3] border border-[#E4DFD4] p-4 flex flex-col gap-3"
               >
                 <div className="grid grid-cols-[160px_1fr] gap-3">
                   <input
@@ -475,7 +483,7 @@ export default function DosenRancanganPage() {
                       }))
                     }
                     placeholder="CPMK-01"
-                    className="h-[36px] px-3 rounded-[7px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+                    className="h-[36px] px-3 rounded-[7px] bg-white border border-[#E4DFD4] text-[13px]"
                   />
                   <input
                     type="text"
@@ -488,7 +496,7 @@ export default function DosenRancanganPage() {
                       }))
                     }
                     placeholder="Deskripsi capaian mata kuliah"
-                    className="h-[36px] px-3 rounded-[7px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+                    className="h-[36px] px-3 rounded-[7px] bg-white border border-[#E4DFD4] text-[13px]"
                   />
                 </div>
 
@@ -522,14 +530,14 @@ export default function DosenRancanganPage() {
                   <button
                     type="submit"
                     disabled={busyKey === 'create-cpmk'}
-                    className="h-[34px] px-3.5 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer"
+                    className="h-[34px] px-3.5 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer"
                   >
                     Simpan CPMK
                   </button>
                   <button
                     type="button"
                     onClick={() => setShowAddCpmk(false)}
-                    className="h-[34px] px-3 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+                    className="h-[34px] px-3 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
                   >
                     Batal
                   </button>
@@ -539,12 +547,12 @@ export default function DosenRancanganPage() {
 
             {/* Daftar CPMK */}
             {detail.cpmk.length === 0 ? (
-              <p className="py-6 text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+              <p className="py-6 text-[13px] text-[#566B70]">
                 Belum ada CPMK pada rancangan ini. Klik “+ Tambah CPMK” untuk
                 memulai penyusunan.
               </p>
             ) : (
-              <div className="divide-y divide-[#E5E5E5] dark:divide-[#2E2E2B]">
+              <div className="divide-y divide-[#EFECE4]">
                 {detail.cpmk.map((cpmk) => (
                   <div key={cpmk.id} className="py-5 first:pt-1 flex flex-col gap-4">
                     {/* Header CPMK */}
@@ -564,7 +572,7 @@ export default function DosenRancanganPage() {
                               kode_cpmk: e.target.value,
                             }))
                           }
-                          className="h-[34px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[13px]"
+                          className="h-[34px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[13px]"
                         />
                         <input
                           type="text"
@@ -576,19 +584,19 @@ export default function DosenRancanganPage() {
                               deskripsi: e.target.value,
                             }))
                           }
-                          className="h-[34px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[13px]"
+                          className="h-[34px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[13px]"
                         />
                         <button
                           type="submit"
                           disabled={busyKey === cpmk.id}
-                          className="h-[34px] px-3 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer"
+                          className="h-[34px] px-3 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer"
                         >
                           Simpan
                         </button>
                         <button
                           type="button"
                           onClick={() => setEditingCpmkId('')}
-                          className="h-[34px] px-3 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+                          className="h-[34px] px-3 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
                         >
                           Batal
                         </button>
@@ -596,7 +604,7 @@ export default function DosenRancanganPage() {
                     ) : (
                       <div className="flex items-start justify-between gap-4">
                         <div className="flex flex-col gap-1">
-                          <h3 className="text-[18px] font-semibold leading-[24px] text-[#252525] dark:text-[#F5F5F4]">
+                          <h3 className="text-[18px] font-semibold leading-[24px] text-[#15333A]">
                             {cpmk.kode_cpmk}{' '}
                             <span className="font-normal text-[16px]">
                               {cpmk.deskripsi}
@@ -608,7 +616,7 @@ export default function DosenRancanganPage() {
                                 cpmk.cpl_ids.map((cid) => (
                                   <span
                                     key={cid}
-                                    className="px-2.5 py-0.5 rounded bg-[#F0F0EF] dark:bg-[#2A2A27] text-[12px] font-medium"
+                                    className="px-2.5 py-0.5 rounded bg-[#E6F0EE] text-[12px] font-medium"
                                   >
                                     {cplById[cid]?.kode_cpl || cid}
                                   </span>
@@ -620,7 +628,7 @@ export default function DosenRancanganPage() {
                               )
                             ) : (
                               <>
-                                <span className="text-[11.5px] text-[#737373] dark:text-[#A3A3A0]">
+                                <span className="text-[11.5px] text-[#566B70]">
                                   Pemetaan CPL:
                                 </span>
                                 {detail.cpl_tersedia.map((cpl) => {
@@ -636,8 +644,8 @@ export default function DosenRancanganPage() {
                                       className={[
                                         'h-[26px] px-2.5 rounded-[6px] text-[12px] font-medium border cursor-pointer transition-colors',
                                         active
-                                          ? 'bg-[#252525] dark:bg-[#F5F5F4] border-[#252525] dark:border-[#F5F5F4] text-white dark:text-[#252525]'
-                                          : 'bg-white dark:bg-[#242422] border-[#E5E5E5] dark:border-[#343430] text-[#525252] dark:text-[#A3A3A0]',
+                                          ? 'bg-[#15333A] border-[#15333A] text-white'
+                                          : 'bg-[#FAF8F3] border-[#E4DFD4] text-[#334B51]',
                                       ].join(' ')}
                                     >
                                       {cpl.kode_cpl}
@@ -660,7 +668,7 @@ export default function DosenRancanganPage() {
                                   deskripsi: cpmk.deskripsi,
                                 });
                               }}
-                              className="h-[28px] px-2.5 rounded-[6px] border border-[#E5E5E5] dark:border-[#343430] text-[11.5px] cursor-pointer"
+                              className="h-[28px] px-2.5 rounded-[6px] border border-[#E4DFD4] text-[11.5px] cursor-pointer"
                             >
                               Ubah
                             </button>
@@ -668,7 +676,7 @@ export default function DosenRancanganPage() {
                               type="button"
                               disabled={busyKey === cpmk.id}
                               onClick={() => handleDeleteCpmk(cpmk)}
-                              className="h-[28px] px-2.5 rounded-[6px] border border-[#E5E5E5] dark:border-[#343430] text-[11.5px] text-[#B55824] cursor-pointer"
+                              className="h-[28px] px-2.5 rounded-[6px] border border-[#E4DFD4] text-[11.5px] text-[#B55824] cursor-pointer"
                             >
                               Hapus
                             </button>
@@ -699,7 +707,7 @@ export default function DosenRancanganPage() {
                                     kode_sub: e.target.value,
                                   }))
                                 }
-                                className="h-[32px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[13px]"
+                                className="h-[32px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[13px]"
                               />
                               <input
                                 type="text"
@@ -711,26 +719,26 @@ export default function DosenRancanganPage() {
                                     deskripsi: e.target.value,
                                   }))
                                 }
-                                className="h-[32px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[13px]"
+                                className="h-[32px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[13px]"
                               />
                               <button
                                 type="submit"
                                 disabled={busyKey === sub.id}
-                                className="h-[32px] px-3 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] cursor-pointer"
+                                className="h-[32px] px-3 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] cursor-pointer"
                               >
                                 Simpan
                               </button>
                               <button
                                 type="button"
                                 onClick={() => setEditingSubId('')}
-                                className="h-[32px] px-3 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+                                className="h-[32px] px-3 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
                               >
                                 Batal
                               </button>
                             </form>
                           ) : (
                             <div className="flex items-center justify-between gap-4">
-                              <p className="text-[15px] text-[#252525] dark:text-[#F5F5F4]">
+                              <p className="text-[15px] text-[#15333A]">
                                 <span className="font-medium">
                                   {sub.kode_sub}
                                 </span>{' '}
@@ -748,7 +756,7 @@ export default function DosenRancanganPage() {
                                         bobot_persentase: '',
                                       });
                                     }}
-                                    className="h-[26px] px-2.5 rounded-[6px] border border-[#E5E5E5] dark:border-[#343430] text-[11.5px] cursor-pointer"
+                                    className="h-[26px] px-2.5 rounded-[6px] border border-[#E4DFD4] text-[11.5px] cursor-pointer"
                                   >
                                     + Instrumen
                                   </button>
@@ -761,7 +769,7 @@ export default function DosenRancanganPage() {
                                         deskripsi: sub.deskripsi,
                                       });
                                     }}
-                                    className="h-[26px] px-2 rounded-[6px] border border-[#E5E5E5] dark:border-[#343430] text-[11.5px] cursor-pointer"
+                                    className="h-[26px] px-2 rounded-[6px] border border-[#E4DFD4] text-[11.5px] cursor-pointer"
                                   >
                                     Ubah
                                   </button>
@@ -769,7 +777,7 @@ export default function DosenRancanganPage() {
                                     type="button"
                                     disabled={busyKey === sub.id}
                                     onClick={() => handleDeleteSub(cpmk.id, sub)}
-                                    className="h-[26px] px-2 rounded-[6px] border border-[#E5E5E5] dark:border-[#343430] text-[11.5px] text-[#B55824] cursor-pointer"
+                                    className="h-[26px] px-2 rounded-[6px] border border-[#E4DFD4] text-[11.5px] text-[#B55824] cursor-pointer"
                                   >
                                     Hapus
                                   </button>
@@ -805,7 +813,7 @@ export default function DosenRancanganPage() {
                                         nama_instrumen: e.target.value,
                                       }))
                                     }
-                                    className="h-[32px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[13px]"
+                                    className="h-[32px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[13px]"
                                   />
                                   <select
                                     value={editInstForm.jenis_instrumen}
@@ -815,7 +823,7 @@ export default function DosenRancanganPage() {
                                         jenis_instrumen: e.target.value,
                                       }))
                                     }
-                                    className="h-[32px] px-2 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[12px]"
+                                    className="h-[32px] px-2 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[12px]"
                                   >
                                     {INSTRUMENT_KINDS.map((kind) => (
                                       <option key={kind} value={kind}>
@@ -833,19 +841,19 @@ export default function DosenRancanganPage() {
                                         bobot_persentase: e.target.value,
                                       }))
                                     }
-                                    className="h-[32px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[13px]"
+                                    className="h-[32px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[13px]"
                                   />
                                   <button
                                     type="submit"
                                     disabled={busyKey === inst.id}
-                                    className="h-[32px] px-3 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] cursor-pointer"
+                                    className="h-[32px] px-3 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] cursor-pointer"
                                   >
                                     Simpan
                                   </button>
                                   <button
                                     type="button"
                                     onClick={() => setEditingInstId('')}
-                                    className="h-[32px] px-3 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+                                    className="h-[32px] px-3 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
                                   >
                                     Batal
                                   </button>
@@ -857,7 +865,7 @@ export default function DosenRancanganPage() {
                                 >
                                   <div className="flex items-center gap-2.5">
                                     <span>{inst.nama_instrumen}</span>
-                                    <span className="px-2 py-0.5 rounded bg-[#F0F0EF] dark:bg-[#2A2A27] text-[11px] text-[#525252] dark:text-[#A3A3A0]">
+                                    <span className="px-2 py-0.5 rounded bg-[#E6F0EE] text-[11px] text-[#334B51]">
                                       {inst.jenis_instrumen}
                                     </span>
                                   </div>
@@ -882,7 +890,7 @@ export default function DosenRancanganPage() {
                                               ),
                                             });
                                           }}
-                                          className="text-[11.5px] text-[#737373] hover:text-[#252525] dark:hover:text-[#F5F5F4] cursor-pointer"
+                                          className="text-[11.5px] text-[#566B70] hover:text-[#15333A] cursor-pointer"
                                         >
                                           Ubah
                                         </button>
@@ -928,7 +936,7 @@ export default function DosenRancanganPage() {
                                       }))
                                     }
                                     placeholder="Nama instrumen"
-                                    className="h-[32px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[12.5px]"
+                                    className="h-[32px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[12.5px]"
                                   />
                                   <select
                                     value={instForm.jenis_instrumen}
@@ -938,7 +946,7 @@ export default function DosenRancanganPage() {
                                         jenis_instrumen: e.target.value,
                                       }))
                                     }
-                                    className="h-[32px] px-2 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[12px]"
+                                    className="h-[32px] px-2 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[12px]"
                                   >
                                     {INSTRUMENT_KINDS.map((kind) => (
                                       <option key={kind} value={kind}>
@@ -957,19 +965,19 @@ export default function DosenRancanganPage() {
                                       }))
                                     }
                                     placeholder="Bobot %"
-                                    className="h-[32px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[12.5px]"
+                                    className="h-[32px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[12.5px]"
                                   />
                                   <button
                                     type="submit"
                                     disabled={busyKey === `inst-add-${sub.id}`}
-                                    className="h-[32px] px-3 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] cursor-pointer"
+                                    className="h-[32px] px-3 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] cursor-pointer"
                                   >
                                     Tambah
                                   </button>
                                   <button
                                     type="button"
                                     onClick={() => setAddingInstForSubId('')}
-                                    className="h-[32px] px-3 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+                                    className="h-[32px] px-3 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
                                   >
                                     Batal
                                   </button>
@@ -998,7 +1006,7 @@ export default function DosenRancanganPage() {
                                   }))
                                 }
                                 placeholder="Sub-CPMK 1.1"
-                                className="h-[34px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[12.5px]"
+                                className="h-[34px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[12.5px]"
                               />
                               <input
                                 type="text"
@@ -1011,19 +1019,19 @@ export default function DosenRancanganPage() {
                                   }))
                                 }
                                 placeholder="Deskripsi Sub-CPMK"
-                                className="h-[34px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[12.5px]"
+                                className="h-[34px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[12.5px]"
                               />
                               <button
                                 type="submit"
                                 disabled={busyKey === `sub-add-${cpmk.id}`}
-                                className="h-[34px] px-3 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] cursor-pointer"
+                                className="h-[34px] px-3 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] cursor-pointer"
                               >
                                 Simpan
                               </button>
                               <button
                                 type="button"
                                 onClick={() => setAddingSubForCpmkId('')}
-                                className="h-[34px] px-3 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+                                className="h-[34px] px-3 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
                               >
                                 Batal
                               </button>
@@ -1035,7 +1043,7 @@ export default function DosenRancanganPage() {
                                 setAddingSubForCpmkId(cpmk.id);
                                 setSubForm({ kode_sub: '', deskripsi: '' });
                               }}
-                              className="h-[34px] px-3.5 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[12.5px] font-medium cursor-pointer hover:bg-[#F5F5F4] dark:hover:bg-[#2A2A27]"
+                              className="h-[34px] px-3.5 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[12.5px] font-medium cursor-pointer hover:bg-[#FAF8F3]"
                             >
                               + Sub-CPMK
                             </button>
@@ -1051,9 +1059,9 @@ export default function DosenRancanganPage() {
 
           {/* Kolom Kanan: Kesiapan & Kelas Pengguna */}
           <div className="flex flex-col gap-6">
-            <section className="min-h-[346px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-6 flex flex-col justify-between gap-4">
+            <section className="min-h-[346px] bg-white border border-[#E4DFD4] rounded-[12px] p-6 flex flex-col justify-between gap-4">
               <div className="flex flex-col gap-2">
-                <h2 className="text-[22px] font-semibold leading-[27px] text-[#252525] dark:text-[#F5F5F4]">
+                <h2 className="text-[22px] font-semibold leading-[27px] text-[#15333A]">
                   Kesiapan rancangan
                 </h2>
                 <p className="text-[18px] font-semibold mt-2">
@@ -1064,30 +1072,30 @@ export default function DosenRancanganPage() {
                       : 'Belum siap dinilai'}
                 </p>
                 {detail.struktur_terkunci ? (
-                  <p className="text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+                  <p className="text-[13px] text-[#566B70]">
                     {detail.alasan_terkunci || 'Nilai pertama sudah diinput.'}
                   </p>
                 ) : detail.alasan_belum_siap.length > 0 ? (
-                  <ul className="text-[13px] text-[#B55824] dark:text-[#F0C3A4] space-y-1">
+                  <ul className="text-[13px] text-[#B55824] space-y-1">
                     {detail.alasan_belum_siap.map((reason) => (
                       <li key={reason}>{reason}</li>
                     ))}
                   </ul>
                 ) : (
-                  <p className="text-[13px] text-[#1A5C4D] dark:text-[#86EFAC]">
+                  <p className="text-[13px] text-[#1A5C4D]">
                     Seluruh CPMK terpetakan dan bobot mencapai 100%.
                   </p>
                 )}
               </div>
 
-              <div className="border-t border-[#E5E5E5] dark:border-[#2E2E2B] pt-5 flex flex-col gap-2">
-                <span className="text-[14px] text-[#737373] dark:text-[#A3A3A0]">
+              <div className="border-t border-[#E4DFD4] pt-5 flex flex-col gap-2">
+                <span className="text-[14px] text-[#566B70]">
                   Total bobot instrumen
                 </span>
                 <span className="text-[31px] font-bold leading-[38px] tabular-nums">
                   {Number(detail.total_bobot).toFixed(0)} / 100%
                 </span>
-                <span className="text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+                <span className="text-[13px] text-[#566B70]">
                   {totalWeightNum === 100
                     ? `Pemetaan lengkap · ${detail.cpmk.filter((c) => c.cpl_ids.length > 0).length} dari ${detail.cpmk.length} CPMK`
                     : remainingWeight > 0
@@ -1097,15 +1105,15 @@ export default function DosenRancanganPage() {
               </div>
             </section>
 
-            <section className="min-h-[324px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-6 flex flex-col justify-between gap-4">
+            <section className="min-h-[324px] bg-white border border-[#E4DFD4] rounded-[12px] p-6 flex flex-col justify-between gap-4">
               <div className="flex flex-col gap-3">
-                <h2 className="text-[21px] font-semibold leading-[27px] text-[#252525] dark:text-[#F5F5F4]">
+                <h2 className="text-[21px] font-semibold leading-[27px] text-[#15333A]">
                   Kelas pengguna rancangan
                 </h2>
-                <p className="text-[18px] text-[#252525] dark:text-[#F5F5F4]">
+                <p className="text-[18px] text-[#15333A]">
                   {detail.kelas_pengguna.map((k) => k.label).join(' dan ')}
                 </p>
-                <p className="text-[13px] leading-[19px] text-[#737373] dark:text-[#A3A3A0]">
+                <p className="text-[13px] leading-[19px] text-[#566B70]">
                   {detail.siap_dinilai
                     ? 'Instrumen dan bobot dipakai bersama. Pilih kelas untuk pengisian nilai.'
                     : 'Penilaian tersedia setelah setiap CPMK terpetakan dan bobot mencapai 100%.'}
@@ -1118,7 +1126,7 @@ export default function DosenRancanganPage() {
                     aria-label="Pilih kelas untuk input nilai"
                     value={chosenClassId}
                     onChange={(e) => setChosenClassId(e.target.value)}
-                    className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px] font-medium"
+                    className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px] font-medium"
                   >
                     {detail.kelas_pengguna.map((k) => (
                       <option key={k.kelas_mk_id} value={k.kelas_mk_id}>
@@ -1128,7 +1136,7 @@ export default function DosenRancanganPage() {
                   </select>
                   <Link
                     to={`/dosen/nilai/${chosenClassId}`}
-                    className="h-[38px] px-4 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[13px] font-medium inline-flex items-center justify-center"
+                    className="h-[38px] px-4 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[13px] font-medium inline-flex items-center justify-center"
                   >
                     Buka input nilai →
                   </Link>

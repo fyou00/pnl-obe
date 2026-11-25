@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { LockedPeriodBanner } from '../../components/states/SystemStates.jsx';
 import { useAdminWorkspace } from '../../context/AdminWorkspaceContext.jsx';
 import {
   createAngkatan,
@@ -266,14 +267,16 @@ export default function AdminAngkatanKelasPage() {
   return (
     <div className="max-w-[1136px] flex flex-col gap-6">
       <div>
-        <h1 className="text-[28px] font-semibold leading-[34px] text-[#252525] dark:text-[#F5F5F4]">
-          Angkatan dan kelas
+        <h1 className="text-[28px] font-semibold leading-[34px] text-[#15333A]">
+          Angkatan & Roster
         </h1>
-        <p className="text-[14px] text-[#737373] dark:text-[#A3A3A0] mt-2">
+        <p className="text-[14px] text-[#566B70] mt-2">
           Kelola angkatan beserta versi kurikulumnya, kelas reguler A–E (semester
           1–8), kelas K untuk Cuti/Nonaktif, dan roster periode.
         </p>
       </div>
+
+      <LockedPeriodBanner period={selectedPeriod} />
 
       {error && (
         <div
@@ -291,8 +294,8 @@ export default function AdminAngkatanKelasPage() {
       )}
 
       {/* Bagian 1: Angkatan */}
-      <section className="bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-6 flex flex-col gap-4">
-        <h2 className="text-[17px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+      <section className="bg-white border border-[#E4DFD4] rounded-[12px] p-6 flex flex-col gap-4">
+        <h2 className="text-[17px] font-semibold text-[#15333A]">
           Angkatan &amp; Versi Kurikulum
         </h2>
 
@@ -301,7 +304,7 @@ export default function AdminAngkatanKelasPage() {
           className="grid grid-cols-[180px_1fr_auto] gap-3 items-end"
         >
           <div className="flex flex-col gap-1.5">
-            <label className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]">
+            <label className="text-[12px] font-medium text-[#334B51]">
               Tahun masuk
             </label>
             <input
@@ -316,12 +319,12 @@ export default function AdminAngkatanKelasPage() {
                   tahun_masuk: e.target.value,
                 }))
               }
-              className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+              className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]">
+            <label className="text-[12px] font-medium text-[#334B51]">
               Kurikulum Aktif
             </label>
             <select
@@ -333,7 +336,7 @@ export default function AdminAngkatanKelasPage() {
                   kurikulum_id: e.target.value,
                 }))
               }
-              className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+              className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
             >
               {activeCurricula.length === 0 ? (
                 <option value="">Belum ada kurikulum Aktif</option>
@@ -350,19 +353,19 @@ export default function AdminAngkatanKelasPage() {
           <button
             type="submit"
             disabled={busyKey === 'create-cohort' || activeCurricula.length === 0}
-            className="h-[38px] px-4 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer disabled:opacity-50"
+            className="h-[38px] px-4 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer disabled:opacity-50"
           >
             + Tambah Angkatan
           </button>
         </form>
 
-        <div className="divide-y divide-[#E5E5E5] dark:divide-[#2E2E2B]">
+        <div className="divide-y divide-[#EFECE4]">
           {loading ? (
-            <p className="py-4 text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+            <p className="py-4 text-[13px] text-[#566B70]">
               Memuat angkatan...
             </p>
           ) : cohorts.length === 0 ? (
-            <p className="py-4 text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+            <p className="py-4 text-[13px] text-[#566B70]">
               Belum ada angkatan.
             </p>
           ) : (
@@ -375,7 +378,7 @@ export default function AdminAngkatanKelasPage() {
                   <span className="text-[14px] font-semibold">
                     Angkatan {cohort.tahun_masuk}
                   </span>
-                  <span className="text-[12.5px] text-[#737373] dark:text-[#A3A3A0]">
+                  <span className="text-[12.5px] text-[#566B70]">
                     {curriculumById[cohort.kurikulum_id]?.nama ||
                       cohort.kurikulum_id}
                   </span>
@@ -384,7 +387,7 @@ export default function AdminAngkatanKelasPage() {
                   type="button"
                   disabled={busyKey === cohort.id}
                   onClick={() => handleDeleteCohort(cohort)}
-                  className="h-[30px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] text-[#B55824] cursor-pointer"
+                  className="h-[30px] px-2.5 rounded-[7px] border border-[#E4DFD4] text-[12px] text-[#B55824] cursor-pointer"
                 >
                   Hapus
                 </button>
@@ -395,12 +398,12 @@ export default function AdminAngkatanKelasPage() {
       </section>
 
       {/* Bagian 2: Kelas Periode */}
-      <section className="bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-6 flex flex-col gap-4">
+      <section className="bg-white border border-[#E4DFD4] rounded-[12px] p-6 flex flex-col gap-4">
         <div>
-          <h2 className="text-[17px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+          <h2 className="text-[17px] font-semibold text-[#15333A]">
             Kelas pada Periode Terpilih
           </h2>
-          <p className="text-[12px] text-[#737373] dark:text-[#A3A3A0] mt-1">
+          <p className="text-[12px] text-[#566B70] mt-1">
             {selectedPeriod
               ? `${selectedPeriod.tahun_akademik} ${selectedPeriod.semester} (${selectedPeriod.status})`
               : 'Pilih periode akademik di topbar terlebih dahulu.'}
@@ -414,7 +417,7 @@ export default function AdminAngkatanKelasPage() {
               className="grid grid-cols-[1fr_140px_160px_auto] gap-3 items-end"
             >
               <div className="flex flex-col gap-1.5">
-                <label className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]">
+                <label className="text-[12px] font-medium text-[#334B51]">
                   Angkatan
                 </label>
                 <select
@@ -426,7 +429,7 @@ export default function AdminAngkatanKelasPage() {
                       angkatan_id: e.target.value,
                     }))
                   }
-                  className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+                  className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
                 >
                   {cohorts.map((c) => (
                     <option key={c.id} value={c.id}>
@@ -437,7 +440,7 @@ export default function AdminAngkatanKelasPage() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]">
+                <label className="text-[12px] font-medium text-[#334B51]">
                   Huruf kelas
                 </label>
                 <select
@@ -451,7 +454,7 @@ export default function AdminAngkatanKelasPage() {
                         nextKode === 'K' ? '' : prev.semester_studi || 1,
                     }));
                   }}
-                  className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+                  className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
                 >
                   {KODE_KELAS_OPTIONS.map((k) => (
                     <option key={k} value={k}>
@@ -462,7 +465,7 @@ export default function AdminAngkatanKelasPage() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]">
+                <label className="text-[12px] font-medium text-[#334B51]">
                   Semester studi
                 </label>
                 <select
@@ -476,7 +479,7 @@ export default function AdminAngkatanKelasPage() {
                       semester_studi: Number(e.target.value),
                     }))
                   }
-                  className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px] disabled:opacity-50"
+                  className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px] disabled:opacity-50"
                 >
                   {classForm.kode_kelas === 'K' ? (
                     <option value="">Kosong (Cuti/Nonaktif)</option>
@@ -493,15 +496,15 @@ export default function AdminAngkatanKelasPage() {
               <button
                 type="submit"
                 disabled={busyKey === 'create-class' || cohorts.length === 0}
-                className="h-[38px] px-4 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer"
+                className="h-[38px] px-4 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer"
               >
                 + Tambah Kelas
               </button>
             </form>
 
-            <div className="divide-y divide-[#E5E5E5] dark:divide-[#2E2E2B]">
+            <div className="divide-y divide-[#EFECE4]">
               {classes.length === 0 ? (
-                <p className="py-4 text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+                <p className="py-4 text-[13px] text-[#566B70]">
                   Belum ada kelas pada periode ini.
                 </p>
               ) : (
@@ -514,7 +517,7 @@ export default function AdminAngkatanKelasPage() {
                       <span className="text-[14px] font-semibold">
                         {klass.label}
                       </span>
-                      <span className="text-[12.5px] text-[#737373] dark:text-[#A3A3A0]">
+                      <span className="text-[12.5px] text-[#566B70]">
                         Angkatan{' '}
                         {cohortById[klass.angkatan_id]?.tahun_masuk ?? '—'} ·{' '}
                         {klass.kode_kelas === 'K'
@@ -526,7 +529,7 @@ export default function AdminAngkatanKelasPage() {
                       type="button"
                       disabled={busyKey === klass.id}
                       onClick={() => handleDeleteClass(klass)}
-                      className="h-[30px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] text-[#B55824] cursor-pointer"
+                      className="h-[30px] px-2.5 rounded-[7px] border border-[#E4DFD4] text-[12px] text-[#B55824] cursor-pointer"
                     >
                       Hapus
                     </button>
@@ -539,13 +542,13 @@ export default function AdminAngkatanKelasPage() {
       </section>
 
       {/* Bagian 3: Mahasiswa & Roster Periode */}
-      <section className="bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-6 flex flex-col gap-4">
+      <section className="bg-white border border-[#E4DFD4] rounded-[12px] p-6 flex flex-col gap-4">
         <div className="flex items-center justify-between gap-4">
           <div>
-            <h2 className="text-[17px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+            <h2 className="text-[17px] font-semibold text-[#15333A]">
               Mahasiswa &amp; Roster Periode
             </h2>
-            <p className="text-[12px] text-[#737373] dark:text-[#A3A3A0] mt-1">
+            <p className="text-[12px] text-[#566B70] mt-1">
               Mahasiswa Aktif ditempatkan di kelas reguler A–E; status Cuti
               atau Nonaktif ditempatkan di kelas K.
             </p>
@@ -555,7 +558,7 @@ export default function AdminAngkatanKelasPage() {
             aria-label="Pilih angkatan mahasiswa"
             value={selectedCohortId}
             onChange={(e) => handleCohortChange(e.target.value)}
-            className="h-[36px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[12px]"
+            className="h-[36px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[12px]"
           >
             {cohorts.map((c) => (
               <option key={c.id} value={c.id}>
@@ -570,7 +573,7 @@ export default function AdminAngkatanKelasPage() {
           className="grid grid-cols-[1fr_auto] gap-3 items-end"
         >
           <div className="flex flex-col gap-1.5">
-            <label className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]">
+            <label className="text-[12px] font-medium text-[#334B51]">
               Tautkan User ID Mahasiswa ke Angkatan terpilih (daftar akun
               menunggu endpoint Pengguna)
             </label>
@@ -579,13 +582,13 @@ export default function AdminAngkatanKelasPage() {
               value={linkUserId}
               onChange={(e) => setLinkUserId(e.target.value)}
               placeholder="UUID pengguna ber-role Mahasiswa"
-              className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+              className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
             />
           </div>
           <button
             type="submit"
             disabled={busyKey === 'link-student' || !selectedCohortId}
-            className="h-[38px] px-4 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] font-medium cursor-pointer"
+            className="h-[38px] px-4 rounded-[7px] border border-[#E4DFD4] text-[12px] font-medium cursor-pointer"
           >
             Tautkan ke angkatan
           </button>
@@ -594,10 +597,10 @@ export default function AdminAngkatanKelasPage() {
         {selectedPeriod && (
           <form
             onSubmit={handleCreateRoster}
-            className="grid grid-cols-[1fr_200px_140px_auto] gap-3 items-end pt-2 border-t border-[#E5E5E5] dark:border-[#2E2E2B]"
+            className="grid grid-cols-[1fr_200px_140px_auto] gap-3 items-end pt-2 border-t border-[#E4DFD4]"
           >
             <div className="flex flex-col gap-1.5">
-              <label className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]">
+              <label className="text-[12px] font-medium text-[#334B51]">
                 Mahasiswa angkatan ({students.length})
               </label>
               <select
@@ -609,7 +612,7 @@ export default function AdminAngkatanKelasPage() {
                     mahasiswa_id: e.target.value,
                   }))
                 }
-                className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+                className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
               >
                 <option value="">Pilih mahasiswa</option>
                 {students.map((s) => (
@@ -621,7 +624,7 @@ export default function AdminAngkatanKelasPage() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]">
+              <label className="text-[12px] font-medium text-[#334B51]">
                 Kelas periode
               </label>
               <select
@@ -640,7 +643,7 @@ export default function AdminAngkatanKelasPage() {
                         : 'Aktif',
                   }));
                 }}
-                className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+                className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
               >
                 <option value="">Pilih kelas</option>
                 {classes.map((k) => (
@@ -653,7 +656,7 @@ export default function AdminAngkatanKelasPage() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <label className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]">
+              <label className="text-[12px] font-medium text-[#334B51]">
                 Status
               </label>
               <select
@@ -661,7 +664,7 @@ export default function AdminAngkatanKelasPage() {
                 onChange={(e) =>
                   setRosterForm((prev) => ({ ...prev, status: e.target.value }))
                 }
-                className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+                className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
               >
                 {STATUS_MAHASISWA_OPTIONS.map((st) => (
                   <option key={st} value={st}>
@@ -674,16 +677,16 @@ export default function AdminAngkatanKelasPage() {
             <button
               type="submit"
               disabled={busyKey === 'create-roster'}
-              className="h-[38px] px-4 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer"
+              className="h-[38px] px-4 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer"
             >
               + Tempatkan
             </button>
           </form>
         )}
 
-        <div className="divide-y divide-[#E5E5E5] dark:divide-[#2E2E2B]">
+        <div className="divide-y divide-[#EFECE4]">
           {roster.length === 0 ? (
-            <p className="py-4 text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+            <p className="py-4 text-[13px] text-[#566B70]">
               Belum ada roster mahasiswa pada periode ini.
             </p>
           ) : (
@@ -701,7 +704,7 @@ export default function AdminAngkatanKelasPage() {
                         ? `${student.nim_nidn} · ${student.nama}`
                         : entry.mahasiswa_id}
                     </span>
-                    <span className="text-[#737373] dark:text-[#A3A3A0]">
+                    <span className="text-[#566B70]">
                       Kelas: {klass?.label || entry.kelas_periode_id}
                     </span>
                   </div>
@@ -712,7 +715,7 @@ export default function AdminAngkatanKelasPage() {
                       value={entry.status}
                       disabled={busyKey === entry.id}
                       onChange={(e) => handleRosterStatus(entry, e.target.value)}
-                      className="h-[30px] px-2 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[12px]"
+                      className="h-[30px] px-2 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[12px]"
                     >
                       {STATUS_MAHASISWA_OPTIONS.map((st) => (
                         <option key={st} value={st}>
@@ -724,7 +727,7 @@ export default function AdminAngkatanKelasPage() {
                       type="button"
                       disabled={busyKey === entry.id}
                       onClick={() => handleDeleteRoster(entry)}
-                      className="h-[30px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] text-[#B55824] cursor-pointer"
+                      className="h-[30px] px-2.5 rounded-[7px] border border-[#E4DFD4] text-[12px] text-[#B55824] cursor-pointer"
                     >
                       Keluarkan
                     </button>

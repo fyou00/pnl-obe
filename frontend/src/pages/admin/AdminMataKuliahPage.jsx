@@ -218,10 +218,10 @@ export default function AdminMataKuliahPage() {
     <div className="max-w-[1136px] flex flex-col gap-6">
       <div className="flex items-start justify-between gap-6">
         <div>
-          <h1 className="text-[28px] font-semibold leading-[34px] text-[#252525] dark:text-[#F5F5F4]">
-            Mata kuliah
+          <h1 className="text-[28px] font-semibold leading-[34px] text-[#15333A]">
+            Mata Kuliah Paket
           </h1>
-          <p className="text-[14px] text-[#737373] dark:text-[#A3A3A0] mt-2">
+          <p className="text-[14px] text-[#566B70] mt-2">
             Kelola identitas Master Mata Kuliah dan snapshot paket MK per
             semester pada versi kurikulum.
           </p>
@@ -232,7 +232,7 @@ export default function AdminMataKuliahPage() {
           value={selectedCurriculumId}
           onChange={(e) => setSelectedCurriculumId(e.target.value)}
           disabled={curricula.length === 0}
-          className="min-w-[218px] h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] text-[12px] font-medium"
+          className="min-w-[218px] h-[38px] px-3 rounded-[7px] bg-white border border-[#E4DFD4] text-[12px] font-medium"
         >
           {curricula.map((item) => (
             <option key={item.id} value={item.id}>
@@ -249,8 +249,8 @@ export default function AdminMataKuliahPage() {
           className={[
             'h-[36px] px-4 rounded-[7px] text-[12.5px] font-medium cursor-pointer',
             tab === 'paket'
-              ? 'bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525]'
-              : 'bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] text-[#525252] dark:text-[#A3A3A0]',
+              ? 'bg-[#15333A] hover:bg-[#193A40] text-white transition-colors'
+              : 'bg-white border border-[#E4DFD4] text-[#334B51]',
           ].join(' ')}
         >
           Paket MK Kurikulum
@@ -261,8 +261,8 @@ export default function AdminMataKuliahPage() {
           className={[
             'h-[36px] px-4 rounded-[7px] text-[12.5px] font-medium cursor-pointer',
             tab === 'master'
-              ? 'bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525]'
-              : 'bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] text-[#525252] dark:text-[#A3A3A0]',
+              ? 'bg-[#15333A] hover:bg-[#193A40] text-white transition-colors'
+              : 'bg-white border border-[#E4DFD4] text-[#334B51]',
           ].join(' ')}
         >
           Master Mata Kuliah ({masterList.length})
@@ -287,15 +287,15 @@ export default function AdminMataKuliahPage() {
       {tab === 'paket' ? (
         <>
           {selectedCurriculum && !isDraft && (
-            <div className="rounded-[10px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] px-4 py-3 text-[13px] text-[#525252] dark:text-[#D4D4D0]">
+            <div className="rounded-[10px] bg-white border border-[#E4DFD4] px-4 py-3 text-[13px] text-[#334B51]">
               Kurikulum <strong>{selectedCurriculum.nama}</strong> berstatus{' '}
               <strong>{selectedCurriculum.status}</strong> (read-only).
             </div>
           )}
 
           {isDraft && (
-            <section className="bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-6">
-              <h2 className="text-[17px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+            <section className="bg-white border border-[#E4DFD4] rounded-[12px] p-6">
+              <h2 className="text-[17px] font-semibold text-[#15333A]">
                 Tambah MK ke Paket Kurikulum
               </h2>
               <form
@@ -303,14 +303,14 @@ export default function AdminMataKuliahPage() {
                 className="mt-4 grid grid-cols-[260px_1fr_90px_110px_auto] gap-3 items-end"
               >
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]">
+                  <label className="text-[12px] font-medium text-[#334B51]">
                     Master MK
                   </label>
                   <select
                     required
                     value={paketForm.mk_id}
                     onChange={(e) => handlePickMaster(e.target.value)}
-                    className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+                    className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
                   >
                     <option value="">Pilih Master MK</option>
                     {masterList
@@ -324,7 +324,7 @@ export default function AdminMataKuliahPage() {
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]">
+                  <label className="text-[12px] font-medium text-[#334B51]">
                     Nama MK pada versi kurikulum
                   </label>
                   <input
@@ -338,12 +338,12 @@ export default function AdminMataKuliahPage() {
                         nama_mk: e.target.value,
                       }))
                     }
-                    className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+                    className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
                   />
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]">
+                  <label className="text-[12px] font-medium text-[#334B51]">
                     SKS
                   </label>
                   <input
@@ -355,12 +355,12 @@ export default function AdminMataKuliahPage() {
                     onChange={(e) =>
                       setPaketForm((prev) => ({ ...prev, sks: e.target.value }))
                     }
-                    className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+                    className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
                   />
                 </div>
 
                 <div className="flex flex-col gap-1.5">
-                  <label className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]">
+                  <label className="text-[12px] font-medium text-[#334B51]">
                     Semester
                   </label>
                   <select
@@ -371,7 +371,7 @@ export default function AdminMataKuliahPage() {
                         semester: Number(e.target.value),
                       }))
                     }
-                    className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+                    className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
                   >
                     {[1, 2, 3, 4, 5, 6, 7, 8].map((s) => (
                       <option key={s} value={s}>
@@ -384,7 +384,7 @@ export default function AdminMataKuliahPage() {
                 <button
                   type="submit"
                   disabled={busyId === 'paket-create'}
-                  className="h-[38px] px-4 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer"
+                  className="h-[38px] px-4 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer"
                 >
                   + Tambah
                 </button>
@@ -392,9 +392,9 @@ export default function AdminMataKuliahPage() {
             </section>
           )}
 
-          <section className="bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-6 flex flex-col gap-4">
+          <section className="bg-white border border-[#E4DFD4] rounded-[12px] p-6 flex flex-col gap-4">
             <div className="flex items-center justify-between gap-4">
-              <h2 className="text-[17px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+              <h2 className="text-[17px] font-semibold text-[#15333A]">
                 Daftar Paket MK ({paketList.length})
               </h2>
 
@@ -402,7 +402,7 @@ export default function AdminMataKuliahPage() {
                 aria-label="Filter semester"
                 value={semesterFilter}
                 onChange={(e) => setSemesterFilter(e.target.value)}
-                className="h-[36px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[12px]"
+                className="h-[36px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[12px]"
               >
                 <option value="">Semua semester (1–8)</option>
                 {[1, 2, 3, 4, 5, 6, 7, 8].map((s) => (
@@ -414,15 +414,15 @@ export default function AdminMataKuliahPage() {
             </div>
 
             {loading ? (
-              <p className="py-6 text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+              <p className="py-6 text-[13px] text-[#566B70]">
                 Memuat paket mata kuliah...
               </p>
             ) : paketList.length === 0 ? (
-              <p className="py-6 text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+              <p className="py-6 text-[13px] text-[#566B70]">
                 Belum ada mata kuliah dalam paket kurikulum ini.
               </p>
             ) : (
-              <div className="divide-y divide-[#E5E5E5] dark:divide-[#2E2E2B]">
+              <div className="divide-y divide-[#EFECE4]">
                 {paketList.map((item) => {
                   const master = masterById[item.mk_id];
                   const isEditing = editingPaketId === item.id;
@@ -444,7 +444,7 @@ export default function AdminMataKuliahPage() {
                                 nama_mk: e.target.value,
                               }))
                             }
-                            className="h-[34px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[13px]"
+                            className="h-[34px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[13px]"
                           />
                           <input
                             type="number"
@@ -458,7 +458,7 @@ export default function AdminMataKuliahPage() {
                                 sks: e.target.value,
                               }))
                             }
-                            className="h-[34px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[13px]"
+                            className="h-[34px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[13px]"
                           />
                           <select
                             value={editPaketForm.semester}
@@ -468,7 +468,7 @@ export default function AdminMataKuliahPage() {
                                 semester: Number(e.target.value),
                               }))
                             }
-                            className="h-[34px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[13px]"
+                            className="h-[34px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[13px]"
                           >
                             {[1, 2, 3, 4, 5, 6, 7, 8].map((s) => (
                               <option key={s} value={s}>
@@ -479,14 +479,14 @@ export default function AdminMataKuliahPage() {
                           <button
                             type="submit"
                             disabled={busyId === item.id}
-                            className="h-[34px] px-3 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer"
+                            className="h-[34px] px-3 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer"
                           >
                             Simpan
                           </button>
                           <button
                             type="button"
                             onClick={() => setEditingPaketId('')}
-                            className="h-[34px] px-3 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+                            className="h-[34px] px-3 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
                           >
                             Batal
                           </button>
@@ -494,13 +494,13 @@ export default function AdminMataKuliahPage() {
                       ) : (
                         <div className="flex items-center justify-between gap-4">
                           <div className="flex items-center gap-4 min-w-0">
-                            <span className="w-[100px] text-[12.5px] font-semibold text-[#525252] dark:text-[#A3A3A0] shrink-0">
+                            <span className="w-[100px] text-[12.5px] font-semibold text-[#334B51] shrink-0">
                               {master?.kode_mk || '—'}
                             </span>
-                            <span className="text-[13.5px] font-medium text-[#252525] dark:text-[#F5F5F4] truncate">
+                            <span className="text-[13.5px] font-medium text-[#15333A] truncate">
                               {item.nama_mk}
                             </span>
-                            <span className="text-[12px] text-[#737373] dark:text-[#A3A3A0] shrink-0">
+                            <span className="text-[12px] text-[#566B70] shrink-0">
                               Semester {item.semester} · {item.sks} SKS
                             </span>
                           </div>
@@ -518,7 +518,7 @@ export default function AdminMataKuliahPage() {
                                     deskripsi: item.deskripsi || '',
                                   });
                                 }}
-                                className="h-[30px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+                                className="h-[30px] px-2.5 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
                               >
                                 Ubah
                               </button>
@@ -526,7 +526,7 @@ export default function AdminMataKuliahPage() {
                                 type="button"
                                 disabled={busyId === item.id}
                                 onClick={() => handlePaketDelete(item)}
-                                className="h-[30px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] text-[#B55824] cursor-pointer"
+                                className="h-[30px] px-2.5 rounded-[7px] border border-[#E4DFD4] text-[12px] text-[#B55824] cursor-pointer"
                               >
                                 Hapus
                               </button>
@@ -543,8 +543,8 @@ export default function AdminMataKuliahPage() {
         </>
       ) : (
         <>
-          <section className="bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-6">
-            <h2 className="text-[17px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+          <section className="bg-white border border-[#E4DFD4] rounded-[12px] p-6">
+            <h2 className="text-[17px] font-semibold text-[#15333A]">
               Tambah Master Mata Kuliah
             </h2>
             <form
@@ -552,7 +552,7 @@ export default function AdminMataKuliahPage() {
               className="mt-4 grid grid-cols-[160px_1fr_1fr_auto] gap-3 items-end"
             >
               <div className="flex flex-col gap-1.5">
-                <label className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]">
+                <label className="text-[12px] font-medium text-[#334B51]">
                   Kode MK
                 </label>
                 <input
@@ -567,11 +567,11 @@ export default function AdminMataKuliahPage() {
                     }))
                   }
                   placeholder="TIK501"
-                  className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+                  className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]">
+                <label className="text-[12px] font-medium text-[#334B51]">
                   Nama Mata Kuliah
                 </label>
                 <input
@@ -586,11 +586,11 @@ export default function AdminMataKuliahPage() {
                     }))
                   }
                   placeholder="Basis Data"
-                  className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+                  className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
                 />
               </div>
               <div className="flex flex-col gap-1.5">
-                <label className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]">
+                <label className="text-[12px] font-medium text-[#334B51]">
                   Deskripsi (opsional)
                 </label>
                 <input
@@ -602,24 +602,24 @@ export default function AdminMataKuliahPage() {
                       deskripsi: e.target.value,
                     }))
                   }
-                  className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+                  className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
                 />
               </div>
               <button
                 type="submit"
                 disabled={busyId === 'master-create'}
-                className="h-[38px] px-4 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer"
+                className="h-[38px] px-4 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer"
               >
                 + Tambah Master MK
               </button>
             </form>
           </section>
 
-          <section className="bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-6">
-            <h2 className="text-[17px] font-semibold text-[#252525] dark:text-[#F5F5F4] mb-4">
+          <section className="bg-white border border-[#E4DFD4] rounded-[12px] p-6">
+            <h2 className="text-[17px] font-semibold text-[#15333A] mb-4">
               Daftar Master Mata Kuliah
             </h2>
-            <div className="divide-y divide-[#E5E5E5] dark:divide-[#2E2E2B]">
+            <div className="divide-y divide-[#EFECE4]">
               {masterList.map((mk) => {
                 const isEditing = editingMasterId === mk.id;
                 return (
@@ -640,7 +640,7 @@ export default function AdminMataKuliahPage() {
                               kode_mk: e.target.value,
                             }))
                           }
-                          className="h-[34px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[13px]"
+                          className="h-[34px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[13px]"
                         />
                         <input
                           type="text"
@@ -653,7 +653,7 @@ export default function AdminMataKuliahPage() {
                               nama_mk: e.target.value,
                             }))
                           }
-                          className="h-[34px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[13px]"
+                          className="h-[34px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[13px]"
                         />
                         <label className="text-[12px] inline-flex items-center gap-1.5">
                           <input
@@ -671,14 +671,14 @@ export default function AdminMataKuliahPage() {
                         <button
                           type="submit"
                           disabled={busyId === mk.id}
-                          className="h-[34px] px-3 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer"
+                          className="h-[34px] px-3 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer"
                         >
                           Simpan
                         </button>
                         <button
                           type="button"
                           onClick={() => setEditingMasterId('')}
-                          className="h-[34px] px-3 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+                          className="h-[34px] px-3 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
                         >
                           Batal
                         </button>
@@ -690,7 +690,7 @@ export default function AdminMataKuliahPage() {
                             {mk.kode_mk}
                           </span>
                           <span className="text-[13.5px]">{mk.nama_mk}</span>
-                          <span className="px-2 py-0.5 rounded bg-[#F0F0EF] dark:bg-[#2A2A27] text-[11px]">
+                          <span className="px-2 py-0.5 rounded bg-[#E6F0EE] text-[11px]">
                             {mk.aktif ? 'Aktif' : 'Nonaktif'}
                           </span>
                         </div>
@@ -706,7 +706,7 @@ export default function AdminMataKuliahPage() {
                                 aktif: mk.aktif,
                               });
                             }}
-                            className="h-[30px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+                            className="h-[30px] px-2.5 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
                           >
                             Ubah
                           </button>
@@ -714,7 +714,7 @@ export default function AdminMataKuliahPage() {
                             type="button"
                             disabled={busyId === mk.id}
                             onClick={() => handleMasterDelete(mk)}
-                            className="h-[30px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] text-[#B55824] cursor-pointer"
+                            className="h-[30px] px-2.5 rounded-[7px] border border-[#E4DFD4] text-[12px] text-[#B55824] cursor-pointer"
                           >
                             Hapus
                           </button>

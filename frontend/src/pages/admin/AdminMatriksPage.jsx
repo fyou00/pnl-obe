@@ -133,10 +133,10 @@ export default function AdminMatriksPage() {
     <div className="max-w-[1136px] flex flex-col gap-6">
       <div className="flex items-start justify-between gap-6">
         <div>
-          <h1 className="text-[28px] font-semibold leading-[34px] text-[#252525] dark:text-[#F5F5F4]">
+          <h1 className="text-[28px] font-semibold leading-[34px] text-[#15333A]">
             Matriks pembebanan CPL–MK
           </h1>
-          <p className="text-[14px] text-[#737373] dark:text-[#A3A3A0] mt-2">
+          <p className="text-[14px] text-[#566B70] mt-2">
             Tautkan CPL ke mata kuliah dalam versi kurikulum yang sama. Hanya
             kurikulum Draft yang dapat diubah.
           </p>
@@ -147,7 +147,7 @@ export default function AdminMatriksPage() {
           value={selectedCurriculumId}
           onChange={(e) => setSelectedCurriculumId(e.target.value)}
           disabled={curricula.length === 0}
-          className="min-w-[218px] h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] text-[12px] font-medium"
+          className="min-w-[218px] h-[38px] px-3 rounded-[7px] bg-white border border-[#E4DFD4] text-[12px] font-medium"
         >
           {curricula.map((item) => (
             <option key={item.id} value={item.id}>
@@ -158,7 +158,7 @@ export default function AdminMatriksPage() {
       </div>
 
       {selectedCurriculum && !isDraft && (
-        <div className="rounded-[10px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] px-4 py-3 text-[13px] text-[#525252] dark:text-[#D4D4D0]">
+        <div className="rounded-[10px] bg-white border border-[#E4DFD4] px-4 py-3 text-[13px] text-[#334B51]">
           Kurikulum <strong>{selectedCurriculum.nama}</strong> berstatus{' '}
           <strong>{selectedCurriculum.status}</strong> (read-only).
         </div>
@@ -180,17 +180,17 @@ export default function AdminMatriksPage() {
       )}
 
       <div className="grid grid-cols-[320px_1fr] gap-6 items-start">
-        <section className="bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-5 flex flex-col gap-3">
-          <h2 className="text-[16px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+        <section className="bg-white border border-[#E4DFD4] rounded-[12px] p-5 flex flex-col gap-3">
+          <h2 className="text-[16px] font-semibold text-[#15333A]">
             Mata Kuliah Paket
           </h2>
 
           {loading ? (
-            <p className="text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+            <p className="text-[13px] text-[#566B70]">
               Memuat...
             </p>
           ) : courses.length === 0 ? (
-            <p className="text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+            <p className="text-[13px] text-[#566B70]">
               Belum ada mata kuliah pada versi kurikulum ini.
             </p>
           ) : (
@@ -205,12 +205,12 @@ export default function AdminMatriksPage() {
                     className={[
                       'text-left px-3 py-2.5 rounded-[7px] text-[13px] cursor-pointer transition-colors',
                       active
-                        ? 'bg-[#F0F0EF] dark:bg-[#2A2A27] border border-[#E5E5E5] dark:border-[#343430] font-semibold'
-                        : 'hover:bg-[#F5F5F4] dark:hover:bg-[#2A2A27]/50 text-[#525252] dark:text-[#A3A3A0]',
+                        ? 'bg-[#E6F0EE] border border-[#E4DFD4] font-semibold'
+                        : 'hover:bg-[#FAF8F3]/50 text-[#334B51]',
                     ].join(' ')}
                   >
                     <div className="truncate">{course.nama_mk}</div>
-                    <div className="text-[11px] text-[#737373] dark:text-[#A3A3A0]">
+                    <div className="text-[11px] text-[#566B70]">
                       Semester {course.semester} · {course.sks} SKS
                     </div>
                   </button>
@@ -220,15 +220,15 @@ export default function AdminMatriksPage() {
           )}
         </section>
 
-        <section className="bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-6 flex flex-col gap-4">
+        <section className="bg-white border border-[#E4DFD4] rounded-[12px] p-6 flex flex-col gap-4">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <h2 className="text-[17px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+              <h2 className="text-[17px] font-semibold text-[#15333A]">
                 {activeCourse
                   ? `CPL untuk ${activeCourse.nama_mk}`
                   : 'Pilih mata kuliah'}
               </h2>
-              <p className="text-[12px] text-[#737373] dark:text-[#A3A3A0] mt-1">
+              <p className="text-[12px] text-[#566B70] mt-1">
                 {Object.keys(selectedMap).length} dari {cpls.length} CPL
                 dibebankan
               </p>
@@ -239,7 +239,7 @@ export default function AdminMatriksPage() {
                 type="button"
                 disabled={saving || loadingMatrix}
                 onClick={handleSave}
-                className="h-[38px] px-4 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer disabled:opacity-60"
+                className="h-[38px] px-4 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer disabled:opacity-60"
               >
                 {saving ? 'Menyimpan...' : 'Simpan pembebanan'}
               </button>
@@ -247,19 +247,19 @@ export default function AdminMatriksPage() {
           </div>
 
           {!activeCourse ? (
-            <p className="text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+            <p className="text-[13px] text-[#566B70]">
               Pilih mata kuliah di sebelah kiri.
             </p>
           ) : loadingMatrix ? (
-            <p className="text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+            <p className="text-[13px] text-[#566B70]">
               Memuat pembebanan CPL...
             </p>
           ) : cpls.length === 0 ? (
-            <p className="text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+            <p className="text-[13px] text-[#566B70]">
               Belum ada Master CPL pada versi kurikulum ini.
             </p>
           ) : (
-            <div className="divide-y divide-[#E5E5E5] dark:divide-[#2E2E2B]">
+            <div className="divide-y divide-[#EFECE4]">
               {cpls.map((cpl) => {
                 const checked = cpl.id in selectedMap;
                 return (
@@ -276,10 +276,10 @@ export default function AdminMatriksPage() {
                         className="mt-1"
                       />
                       <div className="flex flex-col gap-0.5">
-                        <span className="text-[13.5px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+                        <span className="text-[13.5px] font-semibold text-[#15333A]">
                           {cpl.kode_cpl} ({cpl.kategori})
                         </span>
-                        <span className="text-[12.5px] text-[#525252] dark:text-[#A3A3A0]">
+                        <span className="text-[12.5px] text-[#334B51]">
                           {cpl.deskripsi}
                         </span>
                       </div>
@@ -287,7 +287,7 @@ export default function AdminMatriksPage() {
 
                     {checked && (
                       <div className="flex items-center gap-2 shrink-0">
-                        <span className="text-[11px] text-[#737373] dark:text-[#A3A3A0]">
+                        <span className="text-[11px] text-[#566B70]">
                           Urutan RPS
                         </span>
                         <input
@@ -297,7 +297,7 @@ export default function AdminMatriksPage() {
                           value={selectedMap[cpl.id]}
                           onChange={(e) => setOrder(cpl.id, e.target.value)}
                           placeholder="—"
-                          className="w-16 h-[32px] px-2 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[12px] text-center"
+                          className="w-16 h-[32px] px-2 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[12px] text-center"
                         />
                       </div>
                     )}

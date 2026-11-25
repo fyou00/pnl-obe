@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { LockedPeriodBanner } from '../../components/states/SystemStates.jsx';
 import { useAdminWorkspace } from '../../context/AdminWorkspaceContext.jsx';
 import {
   closePeriode,
@@ -10,8 +11,12 @@ import {
 } from '../../lib/adminApi.js';
 
 export default function AdminPeriodePage() {
-  const { selectedPeriodId, setSelectedPeriodId, refreshPeriods } =
-    useAdminWorkspace();
+  const {
+    selectedPeriodId,
+    setSelectedPeriodId,
+    selectedPeriod,
+    refreshPeriods,
+  } = useAdminWorkspace();
 
   const [periods, setPeriods] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -147,15 +152,17 @@ export default function AdminPeriodePage() {
   return (
     <div className="max-w-[1136px] flex flex-col gap-6">
       <div>
-        <h1 className="text-[28px] font-semibold leading-[34px] text-[#252525] dark:text-[#F5F5F4]">
-          Periode akademik
+        <h1 className="text-[28px] font-semibold leading-[34px] text-[#15333A]">
+          Periode Akademik
         </h1>
-        <p className="text-[14px] text-[#737373] dark:text-[#A3A3A0] mt-2">
+        <p className="text-[14px] text-[#566B70] mt-2">
           Periode menggunakan tahun akademik (Ganjil/Genap, tanpa semester
           pendek). Penutupan mengunci paket, peserta, rancangan, dan nilai;
           pembukaan kembali memerlukan alasan audit.
         </p>
       </div>
+
+      <LockedPeriodBanner period={selectedPeriod} />
 
       {error && (
         <div
@@ -172,8 +179,8 @@ export default function AdminPeriodePage() {
         </div>
       )}
 
-      <section className="bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-6">
-        <h2 className="text-[17px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+      <section className="bg-white border border-[#E4DFD4] rounded-[12px] p-6">
+        <h2 className="text-[17px] font-semibold text-[#15333A]">
           Buka Periode Akademik Baru
         </h2>
         <form
@@ -181,7 +188,7 @@ export default function AdminPeriodePage() {
           className="mt-4 grid grid-cols-[200px_220px_auto] gap-4 items-end"
         >
           <div className="flex flex-col gap-1.5">
-            <label className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]">
+            <label className="text-[12px] font-medium text-[#334B51]">
               Tahun mulai
             </label>
             <input
@@ -196,12 +203,12 @@ export default function AdminPeriodePage() {
                   tahun_mulai: e.target.value,
                 }))
               }
-              className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+              className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
             />
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className="text-[12px] font-medium text-[#525252] dark:text-[#A3A3A0]">
+            <label className="text-[12px] font-medium text-[#334B51]">
               Semester
             </label>
             <select
@@ -209,7 +216,7 @@ export default function AdminPeriodePage() {
               onChange={(e) =>
                 setCreateForm((prev) => ({ ...prev, semester: e.target.value }))
               }
-              className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+              className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[13px]"
             >
               <option value="Ganjil">Ganjil</option>
               <option value="Genap">Genap</option>
@@ -219,28 +226,28 @@ export default function AdminPeriodePage() {
           <button
             type="submit"
             disabled={busyId === 'create'}
-            className="h-[38px] px-4 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer w-fit"
+            className="h-[38px] px-4 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer w-fit"
           >
             {busyId === 'create' ? 'Menyimpan...' : '+ Buka Periode'}
           </button>
         </form>
       </section>
 
-      <section className="bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-6">
-        <h2 className="text-[17px] font-semibold text-[#252525] dark:text-[#F5F5F4] mb-4">
+      <section className="bg-white border border-[#E4DFD4] rounded-[12px] p-6">
+        <h2 className="text-[17px] font-semibold text-[#15333A] mb-4">
           Daftar Periode Akademik ({periods.length})
         </h2>
 
         {loading ? (
-          <p className="py-6 text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+          <p className="py-6 text-[13px] text-[#566B70]">
             Memuat periode...
           </p>
         ) : periods.length === 0 ? (
-          <p className="py-6 text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+          <p className="py-6 text-[13px] text-[#566B70]">
             Belum ada periode akademik.
           </p>
         ) : (
-          <div className="divide-y divide-[#E5E5E5] dark:divide-[#2E2E2B]">
+          <div className="divide-y divide-[#EFECE4]">
             {periods.map((item) => {
               const isEditing = editingId === item.id;
               const isSelected = selectedPeriodId === item.id;
@@ -266,7 +273,7 @@ export default function AdminPeriodePage() {
                             tahun_mulai: e.target.value,
                           }))
                         }
-                        className="h-[34px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[13px]"
+                        className="h-[34px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[13px]"
                       />
                       <select
                         value={editForm.semester}
@@ -276,7 +283,7 @@ export default function AdminPeriodePage() {
                             semester: e.target.value,
                           }))
                         }
-                        className="h-[34px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] bg-white dark:bg-[#242422] text-[13px]"
+                        className="h-[34px] px-2.5 rounded-[7px] border border-[#E4DFD4] bg-[#FAF8F3] text-[13px]"
                       >
                         <option value="Ganjil">Ganjil</option>
                         <option value="Genap">Genap</option>
@@ -284,14 +291,14 @@ export default function AdminPeriodePage() {
                       <button
                         type="submit"
                         disabled={busyId === item.id}
-                        className="h-[34px] px-3 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer"
+                        className="h-[34px] px-3 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer"
                       >
                         Simpan
                       </button>
                       <button
                         type="button"
                         onClick={() => setEditingId('')}
-                        className="h-[34px] px-3 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+                        className="h-[34px] px-3 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
                       >
                         Batal
                       </button>
@@ -299,14 +306,14 @@ export default function AdminPeriodePage() {
                   ) : (
                     <div className="flex items-center justify-between gap-4">
                       <div className="flex items-center gap-3">
-                        <span className="text-[14px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+                        <span className="text-[14px] font-semibold text-[#15333A]">
                           {item.tahun_akademik} {item.semester}
                         </span>
-                        <span className="px-2.5 py-0.5 rounded-full bg-[#F0F0EF] dark:bg-[#2A2A27] border border-[#E5E5E5] dark:border-[#343430] text-[11px] font-medium">
+                        <span className="px-2.5 py-0.5 rounded-full bg-[#E6F0EE] border border-[#E4DFD4] text-[11px] font-medium">
                           {item.status}
                         </span>
                         {isSelected && (
-                          <span className="text-[11px] text-[#737373] dark:text-[#A3A3A0]">
+                          <span className="text-[11px] text-[#566B70]">
                             · Dipilih di topbar
                           </span>
                         )}
@@ -317,7 +324,7 @@ export default function AdminPeriodePage() {
                           <button
                             type="button"
                             onClick={() => setSelectedPeriodId(item.id)}
-                            className="h-[30px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+                            className="h-[30px] px-2.5 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
                           >
                             Pilih periode
                           </button>
@@ -333,7 +340,7 @@ export default function AdminPeriodePage() {
                                   semester: item.semester,
                                 });
                               }}
-                              className="h-[30px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+                              className="h-[30px] px-2.5 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
                             >
                               Ubah
                             </button>
@@ -343,7 +350,7 @@ export default function AdminPeriodePage() {
                                 setClosingId(item.id);
                                 setReopeningId('');
                               }}
-                              className="h-[30px] px-2.5 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer"
+                              className="h-[30px] px-2.5 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer"
                             >
                               Tutup periode
                             </button>
@@ -351,7 +358,7 @@ export default function AdminPeriodePage() {
                               type="button"
                               disabled={busyId === item.id}
                               onClick={() => handleDelete(item)}
-                              className="h-[30px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] text-[#B55824] cursor-pointer"
+                              className="h-[30px] px-2.5 rounded-[7px] border border-[#E4DFD4] text-[12px] text-[#B55824] cursor-pointer"
                             >
                               Hapus
                             </button>
@@ -364,7 +371,7 @@ export default function AdminPeriodePage() {
                               setClosingId('');
                               setReopenReason('');
                             }}
-                            className="h-[30px] px-2.5 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] font-medium cursor-pointer"
+                            className="h-[30px] px-2.5 rounded-[7px] border border-[#E4DFD4] text-[12px] font-medium cursor-pointer"
                           >
                             Buka kembali
                           </button>
@@ -374,8 +381,8 @@ export default function AdminPeriodePage() {
                   )}
 
                   {isClosing && (
-                    <div className="rounded-[9px] bg-[#F5F5F4] dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] p-4 flex items-center justify-between gap-4">
-                      <p className="text-[12.5px] text-[#525252] dark:text-[#D4D4D0]">
+                    <div className="rounded-[9px] bg-[#FAF8F3] border border-[#E4DFD4] p-4 flex items-center justify-between gap-4">
+                      <p className="text-[12.5px] text-[#334B51]">
                         Tutup periode <strong>{item.tahun_akademik} {item.semester}</strong>? Paket, peserta, penugasan, rancangan, dan nilai akan terkunci.
                       </p>
                       <div className="flex items-center gap-2 shrink-0">
@@ -383,14 +390,14 @@ export default function AdminPeriodePage() {
                           type="button"
                           disabled={busyId === item.id}
                           onClick={() => handleClosePeriod(item)}
-                          className="h-[32px] px-3 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer"
+                          className="h-[32px] px-3 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer"
                         >
                           {busyId === item.id ? 'Menutup...' : 'Ya, tutup periode'}
                         </button>
                         <button
                           type="button"
                           onClick={() => setClosingId('')}
-                          className="h-[32px] px-3 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+                          className="h-[32px] px-3 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
                         >
                           Batal
                         </button>
@@ -401,11 +408,11 @@ export default function AdminPeriodePage() {
                   {isReopening && (
                     <form
                       onSubmit={(e) => handleReopenPeriod(e, item)}
-                      className="rounded-[9px] bg-[#F5F5F4] dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] p-4 flex flex-col gap-3"
+                      className="rounded-[9px] bg-[#FAF8F3] border border-[#E4DFD4] p-4 flex flex-col gap-3"
                     >
                       <label
                         htmlFor={`reopen-reason-${item.id}`}
-                        className="text-[12px] font-medium text-[#252525] dark:text-[#F5F5F4]"
+                        className="text-[12px] font-medium text-[#15333A]"
                       >
                         Alasan pembukaan kembali periode (wajib dicatat pada log audit)
                       </label>
@@ -417,20 +424,20 @@ export default function AdminPeriodePage() {
                         value={reopenReason}
                         onChange={(e) => setReopenReason(e.target.value)}
                         placeholder="Contoh: Koreksi nilai UAS kelas TI-3A sesuai berita acara prodi."
-                        className="h-[36px] px-3 rounded-[7px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#343430] text-[13px]"
+                        className="h-[36px] px-3 rounded-[7px] bg-white border border-[#E4DFD4] text-[13px]"
                       />
                       <div className="flex items-center gap-2">
                         <button
                           type="submit"
                           disabled={busyId === item.id}
-                          className="h-[32px] px-3 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer"
+                          className="h-[32px] px-3 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer"
                         >
                           {busyId === item.id ? 'Membuka...' : 'Simpan & Buka Kembali'}
                         </button>
                         <button
                           type="button"
                           onClick={() => setReopeningId('')}
-                          className="h-[32px] px-3 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] cursor-pointer"
+                          className="h-[32px] px-3 rounded-[7px] border border-[#E4DFD4] text-[12px] cursor-pointer"
                         >
                           Batal
                         </button>

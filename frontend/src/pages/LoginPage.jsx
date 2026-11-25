@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { getHomeRouteForRole } from '../components/auth/ProtectedRoute.jsx';
+import { SessionExpiredBanner } from '../components/states/SystemStates.jsx';
 import { useAuth } from '../context/AuthContext.jsx';
 
 export default function LoginPage() {
-  const { user, status, login } = useAuth();
+  const { user, status, sessionExpired, clearSessionExpired, login } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
@@ -85,6 +86,10 @@ export default function LoginPage() {
         </div>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
+          {sessionExpired && (
+            <SessionExpiredBanner onDismiss={clearSessionExpired} />
+          )}
+
           <div className="flex flex-col gap-1.5">
             <label
               htmlFor="login-email"

@@ -20,11 +20,17 @@ export function AuthProvider({ children }) {
   const [status, setStatus] = useState(() =>
     getToken() ? 'loading' : 'unauthenticated',
   );
+  const [sessionExpired, setSessionExpired] = useState(false);
 
   const handleUnauthorized = useCallback(() => {
     clearToken();
     setUser(null);
     setStatus('unauthenticated');
+    setSessionExpired(true);
+  }, []);
+
+  const clearSessionExpired = useCallback(() => {
+    setSessionExpired(false);
   }, []);
 
   useEffect(() => {
@@ -44,6 +50,7 @@ export function AuthProvider({ children }) {
       const profile = await getMe();
       setUser(profile);
       setStatus('authenticated');
+      setSessionExpired(false);
       return profile;
     } catch {
       clearToken();
@@ -60,6 +67,7 @@ export function AuthProvider({ children }) {
   const login = useCallback(async (email, password) => {
     const tokenPayload = await loginToken(email, password);
     setToken(tokenPayload.access_token);
+    setSessionExpired(false);
     try {
       const profile = await getMe();
       setUser(profile);
@@ -84,6 +92,7 @@ export function AuthProvider({ children }) {
       clearToken();
       setUser(null);
       setStatus('unauthenticated');
+      setSessionExpired(false);
     }
   }, []);
 
@@ -92,6 +101,8 @@ export function AuthProvider({ children }) {
       value={{
         user,
         status,
+        sessionExpired,
+        clearSessionExpired,
         login,
         logout,
         refreshUser,

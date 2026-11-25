@@ -7,7 +7,7 @@ from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, field_serializer
 
-from app.schemas.grading import ClassAverage
+from app.schemas.grading import Attainment, ClassAverage
 
 
 class AuditLogResponse(BaseModel):
@@ -77,3 +77,70 @@ class CrossClassReportResponse(BaseModel):
     kelas_mk_ids: list[UUID]
     kelas_labels: list[str]
     rekap: list[ClassAverage]
+
+
+class StudentPeriodResponse(BaseModel):
+    periode_id: UUID
+    tahun_mulai: int
+    tahun_akademik: str
+    semester: str
+    status_periode: Literal["Dibuka", "Ditutup"]
+    kelas_periode_id: UUID
+    kode_kelas: str
+    tingkat: int | None
+    semester_studi: int | None
+    kelas: str
+    status_mahasiswa: Literal["Aktif", "Cuti", "Nonaktif"]
+    prodi_kode: str
+    prodi_nama: str
+    kurikulum_id: UUID
+    kode_kurikulum: str
+    nama_kurikulum: str
+    tahun_masuk: int
+    jumlah_kelas_mk: int
+
+
+class StudentInstrumentScore(BaseModel):
+    instrumen_id: UUID
+    nama_instrumen: str
+    bobot_persentase: Decimal
+    sub_cpmk_id: UUID
+    kode_sub: str
+    deskripsi_sub: str
+    cpmk_id: UUID
+    kode_cpmk: str
+    deskripsi_cpmk: str
+    cpl_kodes: list[str]
+    nilai_mentah: Decimal | None
+    status: Literal["Sudah diinput", "Belum diinput"]
+    waktu_input: datetime | None
+
+    @field_serializer("bobot_persentase")
+    def serialize_weight(self, value: Decimal) -> str:
+        return format(value, ".2f")
+
+    @field_serializer("nilai_mentah")
+    def serialize_score(self, value: Decimal | None) -> str | None:
+        return format(value, ".2f") if value is not None else None
+
+
+class StudentCourseDetailResponse(BaseModel):
+    kelas_mk_id: UUID
+    periode_id: UUID
+    tahun_akademik: str
+    semester: str
+    status_periode: Literal["Dibuka", "Ditutup"]
+    kelas: str
+    kode_mk: str
+    nama_mk: str
+    sks: int
+    semester_mk: int
+    dosen_nama: str
+    siap_dinilai: bool
+    total_bobot: Decimal
+    instrumen: list[StudentInstrumentScore]
+    hasil: list[Attainment]
+
+    @field_serializer("total_bobot")
+    def serialize_total_weight(self, value: Decimal) -> str:
+        return format(value, ".2f")

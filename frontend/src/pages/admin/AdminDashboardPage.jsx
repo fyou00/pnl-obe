@@ -162,10 +162,10 @@ export default function AdminDashboardPage() {
       {/* Header halaman */}
       <div className="flex items-start justify-between gap-6">
         <div className="flex flex-col gap-2">
-          <h1 className="text-[28px] font-semibold leading-[34px] text-[#252525] dark:text-[#F5F5F4]">
+          <h1 className="text-[28px] font-semibold leading-[34px] text-[#15333A]">
             Dashboard Admin
           </h1>
-          <p className="text-[14px] leading-[17px] text-[#737373] dark:text-[#A3A3A0]">
+          <p className="text-[14px] leading-[17px] text-[#566B70]">
             Pantau pembebanan CPL dan pelaksanaan paket pada periode terpilih.
           </p>
         </div>
@@ -180,7 +180,7 @@ export default function AdminDashboardPage() {
             value={selectedCurriculumId}
             onChange={(e) => setSelectedCurriculumId(e.target.value)}
             disabled={curricula.length === 0}
-            className="min-w-[218px] h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] text-[12px] font-medium text-[#252525] dark:text-[#F5F5F4] focus:outline-none focus:ring-2 focus:ring-[#252525]/20 dark:focus:ring-[#F5F5F4]/20 disabled:opacity-60"
+            className="min-w-[218px] h-[38px] px-3 rounded-[7px] bg-white border border-[#E4DFD4] text-[12px] font-medium text-[#15333A] focus:outline-none focus:ring-2 focus:ring-[#15333A]/20 disabled:opacity-60"
           >
             {curricula.length === 0 ? (
               <option value="">Belum ada kurikulum</option>
@@ -198,15 +198,15 @@ export default function AdminDashboardPage() {
       {(metaError || dataError) && (
         <div
           role="alert"
-          className="bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-4 flex items-center justify-between gap-4 text-[13px]"
+          className="bg-white border border-[#E4DFD4] rounded-[12px] p-4 flex items-center justify-between gap-4 text-[13px]"
         >
-          <span className="text-[#B55824] dark:text-[#F0C3A4]">
+          <span className="text-[#B55824]">
             {metaError || dataError}
           </span>
           <button
             type="button"
             onClick={metaError ? reloadWorkspaceMeta : loadDashboardData}
-            className="h-8 px-3 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] font-medium hover:bg-[#F5F5F4] dark:hover:bg-[#2A2A27] cursor-pointer"
+            className="h-8 px-3 rounded-[7px] border border-[#E4DFD4] text-[12px] font-medium hover:bg-[#FAF8F3] cursor-pointer"
           >
             Muat ulang
           </button>
@@ -215,54 +215,54 @@ export default function AdminDashboardPage() {
 
       {/* 4 Kartu Statistik */}
       <div className="grid grid-cols-4 gap-6">
-        <div className="min-h-[132px] p-5 rounded-[12px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] flex flex-col justify-between">
-          <p className="text-[13px] leading-[16px] text-[#737373] dark:text-[#A3A3A0]">
+        <div className="min-h-[132px] p-5 rounded-[12px] bg-white border border-[#E4DFD4] flex flex-col justify-between">
+          <p className="text-[13px] leading-[16px] text-[#566B70]">
             Angkatan
           </p>
-          <p className="text-[30px] font-semibold leading-[36px] tabular-nums text-[#252525] dark:text-[#F5F5F4]">
+          <p className="text-[30px] font-semibold leading-[36px] tabular-nums text-[#15333A]">
             {isBusy ? '…' : latestCohort ? latestCohort.tahun_masuk : '—'}
           </p>
-          <p className="text-[11px] leading-[13px] text-[#737373] dark:text-[#A3A3A0] truncate">
+          <p className="text-[11px] leading-[13px] text-[#566B70] truncate">
             {selectedCurriculum
               ? `${selectedCurriculum.nama}${curriculumCohorts.length > 0 ? ` · ${curriculumCohorts.length} angkatan` : ''}`
               : 'Belum ada versi kurikulum'}
           </p>
         </div>
 
-        <div className="min-h-[132px] p-5 rounded-[12px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] flex flex-col justify-between">
-          <p className="text-[13px] leading-[16px] text-[#737373] dark:text-[#A3A3A0]">
+        <div className="min-h-[132px] p-5 rounded-[12px] bg-white border border-[#E4DFD4] flex flex-col justify-between">
+          <p className="text-[13px] leading-[16px] text-[#566B70]">
             Master CPL
           </p>
-          <p className="text-[30px] font-semibold leading-[36px] tabular-nums text-[#252525] dark:text-[#F5F5F4]">
+          <p className="text-[30px] font-semibold leading-[36px] tabular-nums text-[#15333A]">
             {isBusy ? '…' : cpls.length}
           </p>
-          <p className="text-[11px] leading-[13px] text-[#737373] dark:text-[#A3A3A0]">
+          <p className="text-[11px] leading-[13px] text-[#566B70]">
             Dalam versi kurikulum
           </p>
         </div>
 
-        <div className="min-h-[132px] p-5 rounded-[12px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] flex flex-col justify-between">
-          <p className="text-[13px] leading-[16px] text-[#737373] dark:text-[#A3A3A0]">
+        <div className="min-h-[132px] p-5 rounded-[12px] bg-white border border-[#E4DFD4] flex flex-col justify-between">
+          <p className="text-[13px] leading-[16px] text-[#566B70]">
             Mata kuliah
           </p>
-          <p className="text-[30px] font-semibold leading-[36px] tabular-nums text-[#252525] dark:text-[#F5F5F4]">
+          <p className="text-[30px] font-semibold leading-[36px] tabular-nums text-[#15333A]">
             {isBusy ? '…' : packageCourseCount}
           </p>
-          <p className="text-[11px] leading-[13px] text-[#737373] dark:text-[#A3A3A0]">
+          <p className="text-[11px] leading-[13px] text-[#566B70]">
             {activeSemesters.length === 1
               ? `Dalam paket semester ${activeSemesters[0]}`
               : 'Total MK dalam kurikulum'}
           </p>
         </div>
 
-        <div className="min-h-[132px] p-5 rounded-[12px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] flex flex-col justify-between">
-          <p className="text-[13px] leading-[16px] text-[#737373] dark:text-[#A3A3A0]">
+        <div className="min-h-[132px] p-5 rounded-[12px] bg-white border border-[#E4DFD4] flex flex-col justify-between">
+          <p className="text-[13px] leading-[16px] text-[#566B70]">
             Kelas reguler
           </p>
-          <p className="text-[30px] font-semibold leading-[36px] tabular-nums text-[#252525] dark:text-[#F5F5F4]">
+          <p className="text-[30px] font-semibold leading-[36px] tabular-nums text-[#15333A]">
             {isBusy ? '…' : regularClasses.length}
           </p>
-          <p className="text-[11px] leading-[13px] text-[#737373] dark:text-[#A3A3A0]">
+          <p className="text-[11px] leading-[13px] text-[#566B70]">
             {activeSemesters.length > 0
               ? `Semester ${activeSemesters.join(', ')} · A–E`
               : 'Belum ada kelas pada periode ini'}
@@ -272,11 +272,11 @@ export default function AdminDashboardPage() {
 
       {/* Baris Tengah */}
       <div className="grid grid-cols-[minmax(0,744fr)_minmax(0,368fr)] gap-6">
-        <section className="min-h-[380px] p-6 rounded-[12px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] flex flex-col">
-          <h2 className="text-[17px] font-semibold leading-[21px] text-[#252525] dark:text-[#F5F5F4]">
+        <section className="min-h-[380px] p-6 rounded-[12px] bg-white border border-[#E4DFD4] flex flex-col">
+          <h2 className="text-[17px] font-semibold leading-[21px] text-[#15333A]">
             Kesiapan kurikulum
           </h2>
-          <p className="text-[12px] leading-[15px] text-[#737373] dark:text-[#A3A3A0] mt-1.5">
+          <p className="text-[12px] leading-[15px] text-[#566B70] mt-1.5">
             Pembebanan CPL per mata kuliah ·{' '}
             {selectedCurriculum?.nama || 'Belum ada kurikulum'}
           </p>
@@ -286,32 +286,32 @@ export default function AdminDashboardPage() {
               {[1, 2, 3].map((row) => (
                 <div
                   key={row}
-                  className="h-9 rounded bg-[#F5F5F4] dark:bg-[#2A2A27] animate-pulse"
+                  className="h-9 rounded bg-[#ECEAE3] animate-pulse"
                 />
               ))}
             </div>
           ) : displayedCourses.length === 0 ? (
             <div className="flex-1 flex flex-col items-start justify-center gap-3 py-8">
-              <p className="text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+              <p className="text-[13px] text-[#566B70]">
                 Belum ada paket mata kuliah pada versi kurikulum ini.
               </p>
               <Link
                 to="/admin/mata-kuliah"
-                className="text-[12.5px] font-medium text-[#252525] dark:text-[#F5F5F4] hover:underline"
+                className="text-[12.5px] font-medium text-[#15333A] hover:underline"
               >
                 Kelola paket mata kuliah →
               </Link>
             </div>
           ) : (
             <div className="mt-6 flex-1 flex flex-col">
-              <div className="grid grid-cols-[minmax(140px,1fr)_68px_68px_108px] gap-2 xl:grid-cols-[minmax(0,1fr)_90px_90px_140px] xl:gap-4 pb-3 border-b border-[#E5E5E5] dark:border-[#2E2E2B] text-[11px] font-medium text-[#737373] dark:text-[#A3A3A0]">
+              <div className="grid grid-cols-[minmax(140px,1fr)_68px_68px_108px] gap-2 xl:grid-cols-[minmax(0,1fr)_90px_90px_140px] xl:gap-4 pb-3 border-b border-[#E4DFD4] text-[11px] font-medium text-[#566B70]">
                 <span>Mata kuliah</span>
                 <span>Jumlah CPL</span>
                 <span>Semester</span>
                 <span>Pembebanan</span>
               </div>
 
-              <div className="divide-y divide-[#E5E5E5] dark:divide-[#2E2E2B]">
+              <div className="divide-y divide-[#EFECE4]">
                 {displayedCourses.slice(0, 6).map((course) => {
                   const count = matrixCounts[course.id] ?? 0;
                   return (
@@ -319,20 +319,20 @@ export default function AdminDashboardPage() {
                       key={course.id}
                       className="grid grid-cols-[minmax(140px,1fr)_68px_68px_108px] gap-2 xl:grid-cols-[minmax(0,1fr)_90px_90px_140px] xl:gap-4 py-4 items-center"
                     >
-                      <span className="text-[13px] text-[#252525] dark:text-[#F5F5F4] truncate">
+                      <span className="text-[13px] text-[#15333A] truncate">
                         {course.nama_mk}
                       </span>
-                      <span className="text-[14px] tabular-nums text-[#252525] dark:text-[#F5F5F4]">
+                      <span className="text-[14px] tabular-nums text-[#15333A]">
                         {count}
                       </span>
-                      <span className="text-[14px] tabular-nums text-[#252525] dark:text-[#F5F5F4]">
+                      <span className="text-[14px] tabular-nums text-[#15333A]">
                         {course.semester}
                       </span>
                       <span
                         className={
                           count > 0
-                            ? 'text-[12px] text-[#737373] dark:text-[#A3A3A0]'
-                            : 'text-[12px] font-medium text-[#B55824] dark:text-[#F0C3A4]'
+                            ? 'text-[12px] text-[#566B70]'
+                            : 'text-[12px] font-medium text-[#B55824]'
                         }
                       >
                         {count > 0 ? 'Lengkap' : 'Belum dipetakan'}
@@ -346,7 +346,7 @@ export default function AdminDashboardPage() {
                 <div className="pt-3 mt-auto">
                   <Link
                     to="/admin/matriks"
-                    className="text-[12px] font-medium text-[#252525] dark:text-[#F5F5F4] hover:underline"
+                    className="text-[12px] font-medium text-[#15333A] hover:underline"
                   >
                     Lihat semua {displayedCourses.length} mata kuliah di matriks →
                   </Link>
@@ -356,36 +356,36 @@ export default function AdminDashboardPage() {
           )}
         </section>
 
-        <section className="min-h-[380px] p-6 rounded-[12px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] flex flex-col">
-          <h2 className="text-[17px] font-semibold leading-[21px] text-[#252525] dark:text-[#F5F5F4]">
+        <section className="min-h-[380px] p-6 rounded-[12px] bg-white border border-[#E4DFD4] flex flex-col">
+          <h2 className="text-[17px] font-semibold leading-[21px] text-[#15333A]">
             Akses cepat
           </h2>
-          <p className="text-[12px] leading-[15px] text-[#737373] dark:text-[#A3A3A0] mt-1.5">
+          <p className="text-[12px] leading-[15px] text-[#566B70] mt-1.5">
             Kurikulum dan pelaksanaan akademik.
           </p>
 
           <div className="mt-7 flex flex-col gap-5">
             <Link
               to="/admin/cpl"
-              className="h-[38px] px-3 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium flex items-center hover:opacity-90 transition-opacity"
+              className="h-[38px] px-3 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium flex items-center hover:opacity-90 transition-opacity"
             >
               Kelola Master CPL →
             </Link>
             <Link
               to="/admin/matriks"
-              className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[#252525] dark:text-[#F5F5F4] text-[12px] font-medium flex items-center hover:bg-[#F5F5F4] dark:hover:bg-[#2A2A27] transition-colors"
+              className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[#15333A] text-[12px] font-medium flex items-center hover:bg-[#FAF8F3] transition-colors"
             >
               Atur matriks pembebanan →
             </Link>
             <Link
               to="/admin/paket"
-              className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[#252525] dark:text-[#F5F5F4] text-[12px] font-medium flex items-center hover:bg-[#F5F5F4] dark:hover:bg-[#2A2A27] transition-colors"
+              className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[#15333A] text-[12px] font-medium flex items-center hover:bg-[#FAF8F3] transition-colors"
             >
               Kelola paket dan penugasan →
             </Link>
             <Link
               to="/admin/laporan"
-              className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[#252525] dark:text-[#F5F5F4] text-[12px] font-medium flex items-center hover:bg-[#F5F5F4] dark:hover:bg-[#2A2A27] transition-colors"
+              className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[#15333A] text-[12px] font-medium flex items-center hover:bg-[#FAF8F3] transition-colors"
             >
               Lihat laporan OBE →
             </Link>
@@ -394,13 +394,13 @@ export default function AdminDashboardPage() {
       </div>
 
       {/* Baris Bawah — Kesiapan penugasan kelas MK */}
-      <section className="min-h-[164px] p-6 rounded-[12px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] flex flex-col gap-4">
+      <section className="min-h-[164px] p-6 rounded-[12px] bg-white border border-[#E4DFD4] flex flex-col gap-4">
         <div className="flex items-start justify-between gap-4">
           <div>
-            <h2 className="text-[17px] font-semibold leading-[21px] text-[#252525] dark:text-[#F5F5F4]">
+            <h2 className="text-[17px] font-semibold leading-[21px] text-[#15333A]">
               Kesiapan penugasan kelas MK
             </h2>
-            <p className="text-[12px] leading-[15px] text-[#737373] dark:text-[#A3A3A0] mt-1.5">
+            <p className="text-[12px] leading-[15px] text-[#566B70] mt-1.5">
               {selectedPeriod
                 ? `Periode ${selectedPeriod.tahun_akademik} ${selectedPeriod.semester}`
                 : 'Belum ada periode akademik terpilih'}
@@ -409,26 +409,26 @@ export default function AdminDashboardPage() {
 
           <Link
             to="/admin/paket"
-            className="text-[12px] font-medium text-[#252525] dark:text-[#F5F5F4] hover:underline shrink-0"
+            className="text-[12px] font-medium text-[#15333A] hover:underline shrink-0"
           >
             Buka paket &amp; penugasan →
           </Link>
         </div>
 
         {isBusy ? (
-          <div className="h-9 rounded bg-[#F5F5F4] dark:bg-[#2A2A27] animate-pulse" />
+          <div className="h-9 rounded bg-[#ECEAE3] animate-pulse" />
         ) : !selectedPeriod ? (
-          <p className="text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+          <p className="text-[13px] text-[#566B70]">
             Buat periode akademik terlebih dahulu pada menu{' '}
-            <Link to="/admin/periode" className="underline text-[#252525] dark:text-[#F5F5F4]">
+            <Link to="/admin/periode" className="underline text-[#15333A]">
               Periode akademik
             </Link>
             .
           </p>
         ) : assignmentResults.length === 0 ? (
-          <p className="text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+          <p className="text-[13px] text-[#566B70]">
             Belum ada kelas reguler pada periode terpilih. Tambahkan kelas di menu{' '}
-            <Link to="/admin/angkatan" className="underline text-[#252525] dark:text-[#F5F5F4]">
+            <Link to="/admin/angkatan" className="underline text-[#15333A]">
               Angkatan dan kelas
             </Link>
             .
@@ -442,10 +442,10 @@ export default function AdminDashboardPage() {
                     key={cohort?.id || 'unknown'}
                     className="flex items-center justify-between gap-4 py-1 text-[13px]"
                   >
-                    <span className="text-[#252525] dark:text-[#F5F5F4] font-medium">
+                    <span className="text-[#15333A] font-medium">
                       Angkatan {cohort?.tahun_masuk ?? '—'}
                     </span>
-                    <span className="text-[#B55824] dark:text-[#F0C3A4]">
+                    <span className="text-[#B55824]">
                       {error}
                     </span>
                   </div>
@@ -468,11 +468,11 @@ export default function AdminDashboardPage() {
                     key={cohort.id}
                     className="flex items-center justify-between gap-4 py-1 text-[13px]"
                   >
-                    <span className="text-[#252525] dark:text-[#F5F5F4]">
+                    <span className="text-[#15333A]">
                       Paket semester {preview.semester_studi} · Angkatan{' '}
                       {cohort.tahun_masuk}
                     </span>
-                    <span className="text-[#1A5C4D] dark:text-[#86EFAC] font-medium">
+                    <span className="text-[#1A5C4D] font-medium">
                       Seluruh {preview.penugasan.length} kelas MK sudah memiliki dosen
                     </span>
                   </div>
@@ -480,7 +480,7 @@ export default function AdminDashboardPage() {
               }
 
               return (
-                <div key={cohort.id} className="flex flex-col divide-y divide-[#E5E5E5] dark:divide-[#2E2E2B]">
+                <div key={cohort.id} className="flex flex-col divide-y divide-[#EFECE4]">
                   {unassigned.slice(0, 5).map((pair) => {
                     const course = courseById[pair.kurikulum_mk_id];
                     const klass = classById[pair.kelas_periode_id];
@@ -489,15 +489,15 @@ export default function AdminDashboardPage() {
                         key={`${pair.kelas_periode_id}-${pair.kurikulum_mk_id}`}
                         className="grid grid-cols-[minmax(0,330px)_minmax(0,340px)_1fr] items-center gap-6 py-2 text-[13px]"
                       >
-                        <span className="text-[#252525] dark:text-[#F5F5F4] truncate">
+                        <span className="text-[#15333A] truncate">
                           {course?.nama_mk || 'Mata kuliah'} · {klass?.label || 'Kelas'}
                         </span>
-                        <span className="text-[#252525] dark:text-[#F5F5F4]">
+                        <span className="text-[#15333A]">
                           Pengampu belum ditetapkan
                         </span>
                         <Link
                           to="/admin/paket"
-                          className="text-[#737373] dark:text-[#A3A3A0] hover:text-[#252525] dark:hover:text-[#F5F5F4]"
+                          className="text-[#566B70] hover:text-[#15333A]"
                         >
                           Tetapkan dosen →
                         </Link>
@@ -505,7 +505,7 @@ export default function AdminDashboardPage() {
                     );
                   })}
                   {unassigned.length > 5 && (
-                    <div className="pt-2 text-[12px] text-[#737373] dark:text-[#A3A3A0]">
+                    <div className="pt-2 text-[12px] text-[#566B70]">
                       +{unassigned.length - 5} kelas MK lainnya belum ditetapkan.
                     </div>
                   )}
@@ -516,7 +516,7 @@ export default function AdminDashboardPage() {
         )}
       </section>
 
-      <p className="text-[11px] leading-[13px] text-[#737373] dark:text-[#A3A3A0]">
+      <p className="text-[11px] leading-[13px] text-[#566B70]">
         Periode:{' '}
         {selectedPeriod
           ? `${selectedPeriod.tahun_akademik} ${selectedPeriod.semester} (${selectedPeriod.status})`

@@ -770,3 +770,163 @@ def test_personal_export_pdf_csv_privacy_cumulative_and_tik(
     assert tik_csv.status_code == 200
     tik_text = tik_csv.content.decode("utf-8-sig")
     assert "TI-K (Cuti)" in tik_text and "0.00" not in tik_text
+
+
+def test_student_periods_and_course_detail_readonly_endpoints(client, dataset, settings, db):
+    # Role guard: Admin & Dosen rejected on student-only endpoints
+    for role in ["admin", "dosen"]:
+        assert (
+            client.get(
+                "/api/v1/mahasiswa/periode", headers=_auth(dataset, settings, role)
+            ).status_code
+            == 403
+        )
+        assert (
+            client.get(
+                f"/api/v1/mahasiswa/kelas-mk/{dataset['course_a'].id}/rincian",
+                headers=_auth(dataset, settings, role),
+            ).status_code
+            == 403
+        )
+
+    # Unenrolled class -> 404
+    assert (
+        client.get(
+            f"/api/v1/mahasiswa/kelas-mk/{dataset['course_b'].id}/rincian",
+            headers=_auth(dataset, settings, "mahasiswa"),
+        ).status_code
+        == 404
+    )
+
+    # Add newer period where the same student is placed on TI-K (Cuti, 0 courses)
+    period_cuti = PeriodeAkademik(prodi_id=dataset["prodi"].id, tahun_mulai=2027, semester="Ganjil")
+    db.add(period_cuti)
+    db.flush()
+    class_cuti = KelasPeriode(
+        periode_id=period_cuti.id,
+        angkatan_id=dataset["angkatan"].id,
+        kode_kelas="K",
+        semester_studi=None,
+    )
+    db.add(class_cuti)
+    db.flush()
+    db.add(
+        MahasiswaPeriode(
+            mahasiswa_id=dataset["mahasiswa"].id,
+            periode_id=period_cuti.id,
+            kelas_periode_id=class_cuti.id,
+            status="Cuti",
+        )
+    )
+
+    # Create a 2-instrument course: 50% Tugas (0.00 scored) + 50% UAS (unscored None)
+    master = MataKuliah(prodi_id=dataset["prodi"].id, kode_mk="MK-DET", nama_mk="Basis Data")
+    db.add(master)
+    db.flush()
+    mk = KurikulumMK(
+        kurikulum_id=dataset["angkatan"].kurikulum_id,
+        mk_id=master.id,
+        nama_mk="Basis Data",
+        sks=3,
+        semester=1,
+    )
+    db.add(mk)
+    db.flush()
+    cpl = db.scalar(
+        select(MasterCPL).where(MasterCPL.kurikulum_id == dataset["angkatan"].kurikulum_id)
+    )
+    assert cpl is not None
+    db.add(MKCPL(kurikulum_mk_id=mk.id, cpl_id=cpl.id))
+    design = RancanganPenilaian(
+        periode_id=dataset["period"].id, kurikulum_mk_id=mk.id, dosen_id=dataset["dosen"].id
+    )
+    db.add(design)
+    db.flush()
+    course = KelasMK(
+        kelas_periode_id=dataset["course_a"].kelas_periode_id,
+        kurikulum_mk_id=mk.id,
+        rancangan_id=design.id,
+    )
+    cpmk = CPMK(rancangan_id=design.id, kode_cpmk="CPMK-01", deskripsi="Rancangan relasional")
+    db.add_all([course, cpmk])
+    db.flush()
+    db.add(CPMKCPL(cpmk_id=cpmk.id, cpl_id=cpl.id))
+    sub = SubCPMK(cpmk_id=cpmk.id, kode_sub="SUB-01", deskripsi="Normalisasi")
+    db.add(sub)
+    db.flush()
+    inst_zero = InstrumenPenilaian(
+        sub_cpmk_id=sub.id, nama_instrumen="Kuis 1", jenis_instrumen="Kuis", bobot_persentase=50
+    )
+    inst_empty = InstrumenPenilaian(
+        sub_cpmk_id=sub.id, nama_instrumen="UAS", jenis_instrumen="UAS", bobot_persentase=50
+    )
+    db.add_all([inst_zero, inst_empty])
+    db.add(
+        PesertaKelasMK(kelas_mk_id=course.id, mahasiswa_id=dataset["mahasiswa"].id, mk_id=master.id)
+    )
+    db.commit()
+
+    # Save explicit 0.00 on inst_zero, leave inst_empty ungraded
+    assert (
+        _save(
+            client,
+            dataset,
+            settings,
+            [_grade_item(dataset, "0.00", instrument=inst_zero.id)],
+            course=course.id,
+        ).status_code
+        == 200
+    )
+
+    periods_resp = client.get(
+        "/api/v1/mahasiswa/periode", headers=_auth(dataset, settings, "mahasiswa")
+    )
+    assert periods_resp.status_code == 200
+    periods = periods_resp.json()
+    assert len(periods) == 2
+    assert periods[0]["periode_id"] == str(period_cuti.id)
+    assert periods[0]["kode_kelas"] == "K"
+    assert periods[0]["kelas"] == "TI-K"
+    assert periods[0]["status_mahasiswa"] == "Cuti"
+    assert periods[0]["jumlah_kelas_mk"] == 0
+    assert periods[1]["periode_id"] == str(dataset["period"].id)
+    assert periods[1]["status_mahasiswa"] == "Aktif"
+    assert periods[1]["jumlah_kelas_mk"] >= 2
+
+    detail_resp = client.get(
+        f"/api/v1/mahasiswa/kelas-mk/{course.id}/rincian",
+        headers=_auth(dataset, settings, "mahasiswa"),
+    )
+    assert detail_resp.status_code == 200
+    detail = detail_resp.json()
+    assert detail["kode_mk"] == "MK-DET"
+    assert detail["siap_dinilai"] is True
+    by_name = {row["nama_instrumen"]: row for row in detail["instrumen"]}
+    assert by_name["Kuis 1"]["nilai_mentah"] == "0.00"
+    assert by_name["Kuis 1"]["status"] == "Sudah diinput"
+    assert by_name["UAS"]["nilai_mentah"] is None
+    assert by_name["UAS"]["status"] == "Belum diinput"
+    assert by_name["Kuis 1"]["cpl_kodes"] == [cpl.kode_cpl]
+    mk_att = next(item for item in detail["hasil"] if item["jenis"] == "Mata kuliah")
+    assert mk_att["capaian"] is None
+    assert mk_att["instrumen_lengkap"] == 1
+    assert mk_att["total_instrumen"] == 2
+
+    # Score remaining instrument 100.00 -> MK attainment becomes 50.00
+    assert (
+        _save(
+            client,
+            dataset,
+            settings,
+            [_grade_item(dataset, "100.00", instrument=inst_empty.id)],
+            course=course.id,
+        ).status_code
+        == 200
+    )
+    detail2 = client.get(
+        f"/api/v1/mahasiswa/kelas-mk/{course.id}/rincian",
+        headers=_auth(dataset, settings, "mahasiswa"),
+    ).json()
+    mk_att2 = next(item for item in detail2["hasil"] if item["jenis"] == "Mata kuliah")
+    assert mk_att2["capaian"] == "50.00"
+    assert mk_att2["status"] == "Lengkap"

@@ -1,39 +1,42 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
+import AnimatedNavIcon from '../icons/AnimatedNavIcon.jsx';
 
 export const ADMIN_NAV_GROUPS = [
   {
     label: 'RUANG ADMIN',
-    items: [{ to: '/admin', label: 'Dashboard', end: true }],
+    items: [
+      { to: '/admin', label: 'Dashboard', end: true, icon: 'dashboard' },
+    ],
   },
   {
     label: 'KURIKULUM',
     items: [
-      { to: '/admin/kurikulum', label: 'Versi kurikulum' },
-      { to: '/admin/cpl', label: 'Master CPL' },
-      { to: '/admin/mata-kuliah', label: 'Mata kuliah' },
-      { to: '/admin/matriks', label: 'Matriks pembebanan' },
+      { to: '/admin/kurikulum', label: 'Versi Kurikulum', icon: 'kurikulum' },
+      { to: '/admin/cpl', label: 'Master CPL', icon: 'cpl' },
+      { to: '/admin/mata-kuliah', label: 'Mata Kuliah Paket', icon: 'mata-kuliah' },
+      { to: '/admin/matriks', label: 'Matriks Pembebanan', icon: 'matriks' },
     ],
   },
   {
     label: 'AKADEMIK',
     items: [
-      { to: '/admin/periode', label: 'Periode akademik' },
-      { to: '/admin/angkatan', label: 'Angkatan dan kelas' },
-      { to: '/admin/paket', label: 'Paket dan penugasan' },
+      { to: '/admin/periode', label: 'Periode Akademik', icon: 'periode' },
+      { to: '/admin/angkatan', label: 'Angkatan & Roster', icon: 'roster' },
+      { to: '/admin/paket', label: 'Paket & Penugasan', icon: 'paket' },
     ],
   },
   {
     label: 'PENGELOLAAN',
     items: [
-      { to: '/admin/pengguna', label: 'Pengguna' },
-      { to: '/admin/laporan', label: 'Laporan OBE' },
+      { to: '/admin/laporan', label: 'Laporan & Audit Log', icon: 'laporan' },
     ],
   },
 ];
 
 function getRoleCaption(role) {
   if (role === 'Admin') return 'Kaprodi / Admin';
+  if (role === 'Dosen') return 'Dosen Pengampu';
   return role || 'Pengguna';
 }
 
@@ -41,7 +44,10 @@ export default function AdminSidebar({ navGroups = ADMIN_NAV_GROUPS }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
-  const initial = (user?.nama || user?.role || 'A').trim().charAt(0).toUpperCase();
+  const initial = (user?.nama || user?.role || 'A')
+    .trim()
+    .charAt(0)
+    .toUpperCase();
 
   const handleLogout = async () => {
     await logout();
@@ -49,29 +55,31 @@ export default function AdminSidebar({ navGroups = ADMIN_NAV_GROUPS }) {
   };
 
   return (
-    <aside className="w-[240px] shrink-0 min-h-screen sticky top-0 max-h-screen bg-white dark:bg-[#1D1D1B] border-r border-[#E5E5E5] dark:border-[#2E2E2B] flex flex-col justify-between">
+    <aside className="w-[240px] shrink-0 min-h-screen sticky top-0 max-h-screen bg-white border-r border-[#E4DFD4] flex flex-col justify-between">
       <div className="flex flex-col min-h-0 flex-1">
-        <div className="px-[26px] pt-[30px] pb-[28px]">
-          <p className="text-[22px] font-bold leading-[27px] text-[#252525] dark:text-[#F5F5F4]">
-            PNL / OBE
-          </p>
-          <p className="text-[12px] leading-[15px] text-[#737373] dark:text-[#A3A3A0] mt-1">
-            Pengukuran Capaian
-          </p>
+        <div className="px-6 pt-6 pb-5 flex items-center gap-3">
+          <span className="w-8 h-8 rounded-[8px] bg-[#15333A] flex items-center justify-center text-[#FAF8F3] font-bold text-[15px] leading-none shrink-0">
+            O
+          </span>
+          <div className="min-w-0">
+            <p className="text-[17px] font-bold leading-[20px] tracking-[-0.01em] text-[#15333A]">
+              PNL OBE
+            </p>
+            <p className="text-[11px] leading-[14px] text-[#566B70] mt-0.5 truncate">
+              Pengukuran Capaian
+            </p>
+          </div>
         </div>
 
-        <div
-          className="mx-6 h-px bg-[#E5E5E5] dark:bg-[#2E2E2B]"
-          aria-hidden="true"
-        />
+        <div className="mx-6 h-px bg-[#EFECE4]" aria-hidden="true" />
 
         <nav
           aria-label="Navigasi workspace"
-          className="px-4 py-6 flex-1 overflow-y-auto flex flex-col gap-6"
+          className="px-3.5 py-5 flex-1 overflow-y-auto flex flex-col gap-5"
         >
           {navGroups.map((group) => (
             <div key={group.label} className="flex flex-col gap-1">
-              <p className="px-[14px] mb-1.5 text-[10px] font-semibold tracking-[0.04em] leading-[12px] text-[#737373] dark:text-[#A3A3A0]">
+              <p className="px-3 mb-1 text-[10.5px] font-bold tracking-[0.08em] leading-[14px] text-[#7A8C90]">
                 {group.label}
               </p>
               {group.items.map((item) => (
@@ -80,12 +88,30 @@ export default function AdminSidebar({ navGroups = ADMIN_NAV_GROUPS }) {
                   to={item.to}
                   end={item.end}
                   className={({ isActive }) =>
-                    isActive
-                      ? 'h-[42px] px-[14px] rounded-[7px] flex items-center bg-[#F0F0EF] dark:bg-[#2A2A27] border border-[#E5E5E5] dark:border-[#343430] text-[13px] font-semibold text-[#252525] dark:text-[#F5F5F4]'
-                      : 'h-[36px] px-[14px] rounded-[7px] flex items-center text-[13px] font-normal text-[#737373] dark:text-[#A3A3A0] hover:text-[#252525] dark:hover:text-[#F5F5F4] hover:bg-[#F5F5F4]/60 dark:hover:bg-[#2A2A27]/50 transition-colors'
+                    [
+                      'obe-nav-trigger relative h-[38px] px-3 rounded-[8px] flex items-center gap-2.5 text-[13px] transition-colors',
+                      isActive
+                        ? 'bg-[#E6F0EE] border border-[#D4E3E0] font-semibold text-[#15333A]'
+                        : 'font-medium text-[#566B70] hover:text-[#15333A] hover:bg-[#FAF8F3]',
+                    ].join(' ')
                   }
                 >
-                  {item.label}
+                  {({ isActive }) => (
+                    <>
+                      {isActive && (
+                        <span
+                          className="absolute left-0 top-1.5 bottom-1.5 w-[3px] rounded-r-full bg-[#CC6E38]"
+                          aria-hidden="true"
+                        />
+                      )}
+                      <AnimatedNavIcon
+                        name={item.icon || 'dashboard'}
+                        active={isActive}
+                        size={17}
+                      />
+                      <span className="truncate">{item.label}</span>
+                    </>
+                  )}
                 </NavLink>
               ))}
             </div>
@@ -94,27 +120,25 @@ export default function AdminSidebar({ navGroups = ADMIN_NAV_GROUPS }) {
       </div>
 
       <div>
-        <div
-          className="mx-6 h-px bg-[#E5E5E5] dark:bg-[#2E2E2B]"
-          aria-hidden="true"
-        />
-        <div className="px-6 py-6 flex items-start gap-3">
-          <div className="w-[38px] h-[38px] rounded-full bg-[#F0F0EF] dark:bg-[#2A2A27] flex items-center justify-center text-[13px] font-medium text-[#252525] dark:text-[#F5F5F4] shrink-0">
+        <div className="mx-6 h-px bg-[#EFECE4]" aria-hidden="true" />
+        <div className="px-5 py-5 flex items-start gap-3">
+          <div className="w-[38px] h-[38px] rounded-full bg-[#E6F0EE] border border-[#D4E3E0] flex items-center justify-center text-[13px] font-semibold text-[#15333A] shrink-0">
             {initial}
           </div>
           <div className="min-w-0 flex-1 flex flex-col">
-            <p className="text-[13px] leading-[16px] text-[#252525] dark:text-[#F5F5F4] truncate">
+            <p className="text-[13px] font-semibold leading-[17px] text-[#15333A] truncate">
               {user?.nama || 'Nama pengguna'}
             </p>
-            <p className="text-[11px] leading-[13px] text-[#737373] dark:text-[#A3A3A0] mt-[6px]">
+            <p className="text-[11px] leading-[14px] text-[#566B70] mt-0.5">
               {getRoleCaption(user?.role)}
             </p>
             <button
               type="button"
               onClick={handleLogout}
-              className="mt-2 self-start text-[12px] font-medium leading-[15px] text-[#252525] dark:text-[#F5F5F4] hover:underline cursor-pointer"
+              className="obe-nav-trigger mt-2 self-start inline-flex items-center gap-1.5 text-[12px] font-semibold leading-[15px] text-[#15333A] hover:text-[#CC6E38] transition-colors cursor-pointer"
             >
-              Keluar
+              <AnimatedNavIcon name="logout" size={14} />
+              <span>Keluar</span>
             </button>
           </div>
         </div>

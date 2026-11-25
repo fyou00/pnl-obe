@@ -11,19 +11,24 @@ from typing import Any, Literal
 from uuid import UUID
 
 from fastapi import HTTPException
-from sqlalchemy import func, select
+from sqlalchemy import case, func, select
 from sqlalchemy.orm import Session
 
 from app.models import (
     CPMK,
+    CPMKCPL,
+    Angkatan,
     AuditLog,
     InstrumenPenilaian,
     KelasMK,
     KelasPeriode,
     Kurikulum,
     KurikulumMK,
+    Mahasiswa,
     MahasiswaPeriode,
+    MasterCPL,
     MataKuliah,
+    NilaiMahasiswa,
     PeriodeAkademik,
     PesertaKelasMK,
     Prodi,
@@ -1084,3 +1089,158 @@ def export_personal_report(
         footer_right=f"Dicetak: {wib_now_str()}",
     )
     return pdf_bytes, "application/pdf", filename
+
+
+def list_student_periods(db: Session, user: User) -> list[dict[str, Any]]:
+    if user.role != "Mahasiswa":
+        raise HTTPException(403, "Daftar periode mahasiswa hanya untuk Mahasiswa")
+
+    semester_rank = case((PeriodeAkademik.semester == "Genap", 1), else_=0)
+    rows = db.execute(
+        select(
+            MahasiswaPeriode,
+            PeriodeAkademik,
+            KelasPeriode,
+            Prodi,
+            Angkatan,
+            Kurikulum,
+        )
+        .join(PeriodeAkademik, MahasiswaPeriode.periode_id == PeriodeAkademik.id)
+        .join(KelasPeriode, MahasiswaPeriode.kelas_periode_id == KelasPeriode.id)
+        .join(Prodi, PeriodeAkademik.prodi_id == Prodi.id)
+        .join(Mahasiswa, MahasiswaPeriode.mahasiswa_id == Mahasiswa.id)
+        .join(Angkatan, Mahasiswa.angkatan_id == Angkatan.id)
+        .join(Kurikulum, Angkatan.kurikulum_id == Kurikulum.id)
+        .where(
+            MahasiswaPeriode.mahasiswa_id == user.id,
+            PeriodeAkademik.prodi_id == user.prodi_id,
+        )
+        .order_by(PeriodeAkademik.tahun_mulai.desc(), semester_rank.desc(), PeriodeAkademik.id)
+    ).all()
+
+    count_rows = db.execute(
+        select(KelasPeriode.periode_id, func.count(PesertaKelasMK.kelas_mk_id))
+        .join(KelasMK, PesertaKelasMK.kelas_mk_id == KelasMK.id)
+        .join(KelasPeriode, KelasMK.kelas_periode_id == KelasPeriode.id)
+        .join(PeriodeAkademik, KelasPeriode.periode_id == PeriodeAkademik.id)
+        .where(
+            PesertaKelasMK.mahasiswa_id == user.id,
+            PeriodeAkademik.prodi_id == user.prodi_id,
+        )
+        .group_by(KelasPeriode.periode_id)
+    ).all()
+    course_counts = {pid: int(cnt) for pid, cnt in count_rows}
+
+    return [
+        {
+            "periode_id": periode.id,
+            "tahun_mulai": periode.tahun_mulai,
+            "tahun_akademik": periode.tahun_akademik,
+            "semester": periode.semester,
+            "status_periode": periode.status,
+            "kelas_periode_id": klass.id,
+            "kode_kelas": klass.kode_kelas,
+            "tingkat": klass.tingkat,
+            "semester_studi": klass.semester_studi,
+            "kelas": _class_label(prodi, klass),
+            "status_mahasiswa": mp.status,
+            "prodi_kode": prodi.kode_prodi,
+            "prodi_nama": prodi.nama_prodi,
+            "kurikulum_id": kurikulum.id,
+            "kode_kurikulum": kurikulum.kode_kurikulum,
+            "nama_kurikulum": kurikulum.nama,
+            "tahun_masuk": angkatan.tahun_masuk,
+            "jumlah_kelas_mk": course_counts.get(periode.id, 0),
+        }
+        for mp, periode, klass, prodi, angkatan, kurikulum in rows
+    ]
+
+
+def student_course_detail(db: Session, user: User, *, kelas_mk_id: UUID) -> dict[str, Any]:
+    if user.role != "Mahasiswa":
+        raise HTTPException(403, "Rincian nilai mata kuliah pribadi hanya untuk Mahasiswa")
+
+    context = require_class_access(db, user, kelas_mk_id)
+    course, klass, periode, mk, master, design, prodi = context
+    dosen = db.get(User, design.dosen_id)
+    dosen_nama = dosen.nama if dosen is not None else "-"
+    design_summary = assessment.summary(db, user, design)
+
+    instrument_rows = db.execute(
+        select(InstrumenPenilaian, SubCPMK, CPMK)
+        .join(SubCPMK, InstrumenPenilaian.sub_cpmk_id == SubCPMK.id)
+        .join(CPMK, SubCPMK.cpmk_id == CPMK.id)
+        .where(CPMK.rancangan_id == design.id)
+        .order_by(
+            CPMK.kode_cpmk,
+            SubCPMK.kode_sub,
+            InstrumenPenilaian.nama_instrumen,
+            InstrumenPenilaian.id,
+        )
+    ).all()
+
+    cpmk_ids = sorted({cpmk.id for _, _, cpmk in instrument_rows}, key=str)
+    cpl_by_cpmk: dict[UUID, list[str]] = {}
+    if cpmk_ids:
+        cpl_rows = db.execute(
+            select(CPMKCPL.cpmk_id, MasterCPL.kode_cpl)
+            .join(MasterCPL, CPMKCPL.cpl_id == MasterCPL.id)
+            .where(CPMKCPL.cpmk_id.in_(cpmk_ids))
+            .order_by(MasterCPL.kode_cpl)
+        ).all()
+        for cpmk_id, kode_cpl in cpl_rows:
+            codes = cpl_by_cpmk.setdefault(cpmk_id, [])
+            if kode_cpl not in codes:
+                codes.append(kode_cpl)
+
+    grade_map = {
+        row.instrumen_id: row
+        for row in db.scalars(
+            select(NilaiMahasiswa).where(
+                NilaiMahasiswa.kelas_mk_id == course.id,
+                NilaiMahasiswa.mahasiswa_id == user.id,
+            )
+        )
+    }
+
+    instruments_payload: list[dict[str, Any]] = []
+    for inst, sub, cpmk in instrument_rows:
+        grade = grade_map.get(inst.id)
+        instruments_payload.append(
+            {
+                "instrumen_id": inst.id,
+                "nama_instrumen": inst.nama_instrumen,
+                "bobot_persentase": inst.bobot_persentase,
+                "sub_cpmk_id": sub.id,
+                "kode_sub": sub.kode_sub,
+                "deskripsi_sub": sub.deskripsi,
+                "cpmk_id": cpmk.id,
+                "kode_cpmk": cpmk.kode_cpmk,
+                "deskripsi_cpmk": cpmk.deskripsi,
+                "cpl_kodes": cpl_by_cpmk.get(cpmk.id, []),
+                "nilai_mentah": grade.nilai_mentah if grade is not None else None,
+                "status": "Sudah diinput" if grade is not None else "Belum diinput",
+                "waktu_input": grade.waktu_input if grade is not None else None,
+            }
+        )
+
+    class_res = outcomes.class_outcomes(db, user, course.id)
+    hasil = class_res["peserta"][0]["hasil"] if class_res["peserta"] else []
+
+    return {
+        "kelas_mk_id": course.id,
+        "periode_id": periode.id,
+        "tahun_akademik": periode.tahun_akademik,
+        "semester": periode.semester,
+        "status_periode": periode.status,
+        "kelas": _class_label(prodi, klass),
+        "kode_mk": master.kode_mk,
+        "nama_mk": mk.nama_mk,
+        "sks": mk.sks,
+        "semester_mk": mk.semester,
+        "dosen_nama": dosen_nama,
+        "siap_dinilai": design_summary.siap_dinilai,
+        "total_bobot": design_summary.total_bobot,
+        "instrumen": instruments_payload,
+        "hasil": hasil,
+    }

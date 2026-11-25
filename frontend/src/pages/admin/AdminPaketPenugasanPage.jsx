@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { LockedPeriodBanner } from '../../components/states/SystemStates.jsx';
 import { useAdminWorkspace } from '../../context/AdminWorkspaceContext.jsx';
 import {
   applyPaket,
@@ -155,10 +156,10 @@ export default function AdminPaketPenugasanPage() {
     <div className="max-w-[1136px] flex flex-col gap-6">
       <div className="flex items-start justify-between gap-6">
         <div>
-          <h1 className="text-[28px] font-semibold leading-[34px] text-[#252525] dark:text-[#F5F5F4]">
-            Paket dan penugasan
+          <h1 className="text-[28px] font-semibold leading-[34px] text-[#15333A]">
+            Paket & Penugasan
           </h1>
-          <p className="text-[14px] text-[#737373] dark:text-[#A3A3A0] mt-2">
+          <p className="text-[14px] text-[#566B70] mt-2">
             Terapkan paket MK semester studi ke seluruh kelas reguler angkatan
             dan tetapkan satu dosen per kelas MK.
           </p>
@@ -169,7 +170,7 @@ export default function AdminPaketPenugasanPage() {
           value={selectedAngkatanId}
           onChange={(e) => setSelectedAngkatanId(e.target.value)}
           disabled={cohorts.length === 0}
-          className="min-w-[200px] h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] text-[12px] font-medium"
+          className="min-w-[200px] h-[38px] px-3 rounded-[7px] bg-white border border-[#E4DFD4] text-[12px] font-medium"
         >
           {cohorts.length === 0 ? (
             <option value="">Belum ada angkatan</option>
@@ -182,6 +183,8 @@ export default function AdminPaketPenugasanPage() {
           )}
         </select>
       </div>
+
+      <LockedPeriodBanner period={selectedPeriod} />
 
       {error && (
         <div
@@ -203,21 +206,21 @@ export default function AdminPaketPenugasanPage() {
         </div>
       )}
 
-      <section className="bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-6 flex flex-col gap-5">
+      <section className="bg-white border border-[#E4DFD4] rounded-[12px] p-6 flex flex-col gap-5">
         {loading ? (
-          <p className="py-6 text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+          <p className="py-6 text-[13px] text-[#566B70]">
             Memuat pratinjau paket...
           </p>
         ) : !selectedPeriod ? (
-          <p className="py-6 text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+          <p className="py-6 text-[13px] text-[#566B70]">
             Pilih periode akademik pada topbar terlebih dahulu.
           </p>
         ) : previewNote ? (
           <div className="flex flex-col gap-3 py-4">
-            <p className="text-[14px] font-medium text-[#B55824] dark:text-[#F0C3A4]">
+            <p className="text-[14px] font-medium text-[#B55824]">
               {previewNote}
             </p>
-            <p className="text-[12.5px] text-[#737373] dark:text-[#A3A3A0]">
+            <p className="text-[12.5px] text-[#566B70]">
               Pastikan kurikulum angkatan berstatus Aktif, kelas reguler A–E
               sudah dibuat untuk periode{' '}
               {selectedPeriod.tahun_akademik} {selectedPeriod.semester}, paket MK
@@ -236,17 +239,17 @@ export default function AdminPaketPenugasanPage() {
             </div>
           </div>
         ) : !preview ? (
-          <p className="py-6 text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+          <p className="py-6 text-[13px] text-[#566B70]">
             Pilih angkatan untuk melihat pratinjau paket.
           </p>
         ) : (
           <>
             <div className="flex items-center justify-between gap-4">
               <div>
-                <h2 className="text-[17px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+                <h2 className="text-[17px] font-semibold text-[#15333A]">
                   Matriks Penugasan · Semester {preview.semester_studi}
                 </h2>
-                <p className="text-[12px] text-[#737373] dark:text-[#A3A3A0] mt-1">
+                <p className="text-[12px] text-[#566B70] mt-1">
                   {preview.kelas.length} kelas reguler ·{' '}
                   {preview.mata_kuliah.length} mata kuliah paket · Dosen sama
                   pada MK yang sama otomatis memakai satu rancangan bersama.
@@ -257,7 +260,7 @@ export default function AdminPaketPenugasanPage() {
                 type="button"
                 disabled={applying || selectedPeriod.status !== 'Dibuka'}
                 onClick={handleApplyPackage}
-                className="h-[38px] px-4 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium cursor-pointer disabled:opacity-50 shrink-0"
+                className="h-[38px] px-4 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium cursor-pointer disabled:opacity-50 shrink-0"
               >
                 {applying ? 'Menerapkan...' : 'Terapkan Paket Massal'}
               </button>
@@ -266,14 +269,14 @@ export default function AdminPaketPenugasanPage() {
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-[#E5E5E5] dark:border-[#2E2E2B] text-[11px] font-medium text-[#737373] dark:text-[#A3A3A0]">
+                  <tr className="border-b border-[#E4DFD4] text-[11px] font-medium text-[#566B70]">
                     <th className="py-3 pr-4 min-w-[230px]">Mata kuliah</th>
                     <th className="py-3 pr-4 min-w-[170px]">
                       Set semua kelas
                     </th>
                     {preview.kelas.map((klass) => (
                       <th key={klass.kelas_periode_id} className="py-3 px-2 min-w-[185px]">
-                        <div className="text-[#252525] dark:text-[#F5F5F4] font-semibold">
+                        <div className="text-[#15333A] font-semibold">
                           {klass.label}
                         </div>
                         <div className="text-[10.5px]">
@@ -283,14 +286,14 @@ export default function AdminPaketPenugasanPage() {
                     ))}
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-[#E5E5E5] dark:divide-[#2E2E2B]">
+                <tbody className="divide-y divide-[#EFECE4]">
                   {preview.mata_kuliah.map((course) => (
                     <tr key={course.kurikulum_mk_id}>
                       <td className="py-3.5 pr-4 align-top">
-                        <div className="text-[13px] font-medium text-[#252525] dark:text-[#F5F5F4]">
+                        <div className="text-[13px] font-medium text-[#15333A]">
                           {course.nama_mk}
                         </div>
-                        <div className="text-[11px] text-[#737373] dark:text-[#A3A3A0]">
+                        <div className="text-[11px] text-[#566B70]">
                           {course.kode_mk} · {course.sks} SKS
                         </div>
                       </td>
@@ -306,7 +309,7 @@ export default function AdminPaketPenugasanPage() {
                               );
                             }
                           }}
-                          className="w-full h-[34px] px-2 rounded-[7px] bg-[#F5F5F4] dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[12px]"
+                          className="w-full h-[34px] px-2 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[12px]"
                         >
                           <option value="">Isi cepat...</option>
                           {lecturers.map((lecturer) => (
@@ -338,7 +341,7 @@ export default function AdminPaketPenugasanPage() {
                                     e.target.value,
                                   )
                                 }
-                                className="w-full h-[34px] px-2 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[12px]"
+                                className="w-full h-[34px] px-2 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[12px]"
                               >
                                 <option value="">Pilih dosen...</option>
                                 {lecturers.map((lecturer) => (
@@ -352,7 +355,7 @@ export default function AdminPaketPenugasanPage() {
                                   type="button"
                                   disabled={applying}
                                   onClick={() => handleUpdateSingleLecturer(pair)}
-                                  className="text-left text-[11px] font-medium text-[#252525] dark:text-[#F5F5F4] underline cursor-pointer"
+                                  className="text-left text-[11px] font-medium text-[#15333A] underline cursor-pointer"
                                 >
                                   Simpan ganti pengampu
                                 </button>

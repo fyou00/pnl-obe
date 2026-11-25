@@ -6,10 +6,10 @@ export const DOSEN_NAV_GROUPS = [
   {
     label: 'RUANG DOSEN',
     items: [
-      { to: '/dosen', label: 'Dashboard', end: true },
-      { to: '/dosen/rancangan', label: 'Rancangan penilaian' },
-      { to: '/dosen/nilai', label: 'Input nilai' },
-      { to: '/dosen/capaian', label: 'Capaian kelas' },
+      { to: '/dosen', label: 'Dashboard', end: true, icon: 'dashboard' },
+      { to: '/dosen/rancangan', label: 'Rancangan Penilaian', icon: 'rancangan' },
+      { to: '/dosen/nilai', label: 'Input Nilai', icon: 'nilai' },
+      { to: '/dosen/capaian', label: 'Rekap & Laporan', icon: 'laporan' },
     ],
   },
 ];

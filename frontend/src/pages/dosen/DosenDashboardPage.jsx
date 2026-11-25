@@ -121,10 +121,10 @@ export default function DosenDashboardPage() {
   return (
     <div className="max-w-[1136px] flex flex-col gap-6">
       <div className="flex flex-col gap-2">
-        <h1 className="text-[28px] font-semibold leading-[34px] text-[#252525] dark:text-[#F5F5F4]">
+        <h1 className="text-[28px] font-semibold leading-[34px] text-[#15333A]">
           Dashboard Dosen
         </h1>
-        <p className="text-[14px] leading-[17px] text-[#737373] dark:text-[#A3A3A0]">
+        <p className="text-[14px] leading-[17px] text-[#566B70]">
           Seluruh kelas penugasan Anda pada periode terpilih.
         </p>
       </div>
@@ -132,15 +132,15 @@ export default function DosenDashboardPage() {
       {workspaceError && (
         <div
           role="alert"
-          className="bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] rounded-[12px] p-4 flex items-center justify-between gap-4 text-[13px]"
+          className="bg-white border border-[#E4DFD4] rounded-[12px] p-4 flex items-center justify-between gap-4 text-[13px]"
         >
-          <span className="text-[#B55824] dark:text-[#F0C3A4]">
+          <span className="text-[#B55824]">
             {workspaceError}
           </span>
           <button
             type="button"
             onClick={refreshDosenWorkspace}
-            className="h-8 px-3 rounded-[7px] border border-[#E5E5E5] dark:border-[#343430] text-[12px] font-medium cursor-pointer"
+            className="h-8 px-3 rounded-[7px] border border-[#E4DFD4] text-[12px] font-medium cursor-pointer"
           >
             Muat ulang
           </button>
@@ -149,44 +149,44 @@ export default function DosenDashboardPage() {
 
       {/* 4 Kartu Statistik */}
       <div className="grid grid-cols-4 gap-6">
-        <div className="min-h-[132px] p-5 rounded-[12px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] flex flex-col justify-between">
-          <p className="text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+        <div className="min-h-[132px] p-5 rounded-[12px] bg-white border border-[#E4DFD4] flex flex-col justify-between">
+          <p className="text-[13px] text-[#566B70]">
             Kelas MK diampu
           </p>
           <p className="text-[30px] font-semibold leading-[36px] tabular-nums">
             {isBusy ? '…' : classes.length}
           </p>
-          <p className="text-[11px] text-[#737373] dark:text-[#A3A3A0]">
+          <p className="text-[11px] text-[#566B70]">
             {distinctMkCount} mata kuliah
           </p>
         </div>
 
-        <div className="min-h-[132px] p-5 rounded-[12px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] flex flex-col justify-between">
-          <p className="text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+        <div className="min-h-[132px] p-5 rounded-[12px] bg-white border border-[#E4DFD4] flex flex-col justify-between">
+          <p className="text-[13px] text-[#566B70]">
             Peserta per kelas MK
           </p>
           <p className="text-[30px] font-semibold leading-[36px] tabular-nums">
             {isBusy ? '…' : participantStats.total}
           </p>
-          <p className="text-[11px] text-[#737373] dark:text-[#A3A3A0]">
+          <p className="text-[11px] text-[#566B70]">
             Total peserta periode ini
           </p>
         </div>
 
-        <div className="min-h-[132px] p-5 rounded-[12px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] flex flex-col justify-between">
-          <p className="text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+        <div className="min-h-[132px] p-5 rounded-[12px] bg-white border border-[#E4DFD4] flex flex-col justify-between">
+          <p className="text-[13px] text-[#566B70]">
             Rancangan siap dinilai
           </p>
           <p className="text-[30px] font-semibold leading-[36px] tabular-nums">
             {isBusy ? '…' : `${readyDesigns.length} / ${periodDesigns.length}`}
           </p>
-          <p className="text-[11px] text-[#737373] dark:text-[#A3A3A0]">
+          <p className="text-[11px] text-[#566B70]">
             Dipakai oleh {readyClassesCount} kelas MK
           </p>
         </div>
 
-        <div className="min-h-[132px] p-5 rounded-[12px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] flex flex-col justify-between">
-          <p className="text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+        <div className="min-h-[132px] p-5 rounded-[12px] bg-white border border-[#E4DFD4] flex flex-col justify-between">
+          <p className="text-[13px] text-[#566B70]">
             Peserta dengan nilai lengkap
           </p>
           <p className="text-[30px] font-semibold leading-[36px] tabular-nums">
@@ -194,7 +194,7 @@ export default function DosenDashboardPage() {
               ? '…'
               : `${participantStats.complete} / ${participantStats.total}`}
           </p>
-          <p className="text-[11px] text-[#737373] dark:text-[#A3A3A0]">
+          <p className="text-[11px] text-[#566B70]">
             Dihitung per kelas MK
           </p>
         </div>
@@ -202,11 +202,11 @@ export default function DosenDashboardPage() {
 
       {/* Baris Tengah */}
       <div className="grid grid-cols-[minmax(0,1fr)_280px] xl:grid-cols-[minmax(0,744fr)_minmax(0,368fr)] gap-6">
-        <section className="min-h-[380px] p-6 rounded-[12px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] flex flex-col">
-          <h2 className="text-[17px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+        <section className="min-h-[380px] p-6 rounded-[12px] bg-white border border-[#E4DFD4] flex flex-col">
+          <h2 className="text-[17px] font-semibold text-[#15333A]">
             Kelas yang diampu
           </h2>
-          <p className="text-[12px] text-[#737373] dark:text-[#A3A3A0] mt-1.5">
+          <p className="text-[12px] text-[#566B70] mt-1.5">
             Semua kelas pada periode ini · Filter di kanan hanya berlaku untuk
             rekap.
           </p>
@@ -216,24 +216,24 @@ export default function DosenDashboardPage() {
               {[1, 2, 3].map((row) => (
                 <div
                   key={row}
-                  className="h-9 rounded bg-[#F5F5F4] dark:bg-[#2A2A27] animate-pulse"
+                  className="h-9 rounded bg-[#ECEAE3] animate-pulse"
                 />
               ))}
             </div>
           ) : classes.length === 0 ? (
-            <div className="flex-1 flex items-center text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+            <div className="flex-1 flex items-center text-[13px] text-[#566B70]">
               Belum ada kelas penugasan pada periode ini.
             </div>
           ) : (
             <div className="mt-6 flex-1 flex flex-col">
-              <div className="grid grid-cols-[minmax(120px,1fr)_72px_58px_138px] gap-2 xl:grid-cols-[minmax(0,1fr)_105px_120px_175px] xl:gap-4 pb-3 border-b border-[#E5E5E5] dark:border-[#2E2E2B] text-[11px] font-medium text-[#737373] dark:text-[#A3A3A0]">
+              <div className="grid grid-cols-[minmax(120px,1fr)_72px_58px_138px] gap-2 xl:grid-cols-[minmax(0,1fr)_105px_120px_175px] xl:gap-4 pb-3 border-b border-[#E4DFD4] text-[11px] font-medium text-[#566B70]">
                 <span>Mata kuliah / kelas</span>
                 <span>Rancangan</span>
                 <span>Peserta lengkap</span>
                 <span>Tindakan</span>
               </div>
 
-              <div className="divide-y divide-[#E5E5E5] dark:divide-[#2E2E2B]">
+              <div className="divide-y divide-[#EFECE4]">
                 {classes.map((cls) => {
                   const design = designById[cls.rancangan_id];
                   const mkNode = attainmentByClass[cls.id]?.rekap?.find(
@@ -252,40 +252,40 @@ export default function DosenDashboardPage() {
                       key={cls.id}
                       className="grid grid-cols-[minmax(120px,1fr)_72px_58px_138px] gap-2 xl:grid-cols-[minmax(0,1fr)_105px_120px_175px] xl:gap-4 py-4 items-center"
                     >
-                      <span className="text-[13px] text-[#252525] dark:text-[#F5F5F4] truncate">
+                      <span className="text-[13px] text-[#15333A] truncate">
                         {cls.nama_mk} · {cls.kelas}
                       </span>
                       <span
                         className={
                           isReady
-                            ? 'text-[12px] text-[#737373] dark:text-[#A3A3A0]'
-                            : 'text-[12px] font-medium text-[#B55824] dark:text-[#F0C3A4]'
+                            ? 'text-[12px] text-[#566B70]'
+                            : 'text-[12px] font-medium text-[#B55824]'
                         }
                       >
                         {isReady ? 'Siap dinilai' : 'Belum siap'}
                       </span>
-                      <span className="text-[12px] tabular-nums text-[#737373] dark:text-[#A3A3A0]">
+                      <span className="text-[12px] tabular-nums text-[#566B70]">
                         {complete} / {total}
                       </span>
                       <div className="whitespace-nowrap">
                         {!isReady ? (
                           <Link
                             to={`/dosen/rancangan/${cls.rancangan_id}`}
-                            className="text-[12px] font-medium text-[#252525] dark:text-[#F5F5F4] hover:underline"
+                            className="text-[12px] font-medium text-[#15333A] hover:underline"
                           >
                             Lengkapi rancangan →
                           </Link>
                         ) : allComplete || design?.periode_ditutup ? (
                           <Link
                             to={`/dosen/capaian?kelas=${cls.id}`}
-                            className="text-[12px] font-medium text-[#252525] dark:text-[#F5F5F4] hover:underline"
+                            className="text-[12px] font-medium text-[#15333A] hover:underline"
                           >
                             Lihat rekap {cls.kelas} →
                           </Link>
                         ) : (
                           <Link
                             to={`/dosen/nilai/${cls.id}`}
-                            className="text-[12px] font-medium text-[#252525] dark:text-[#F5F5F4] hover:underline"
+                            className="text-[12px] font-medium text-[#15333A] hover:underline"
                           >
                             Input nilai {cls.kelas} →
                           </Link>
@@ -299,16 +299,16 @@ export default function DosenDashboardPage() {
           )}
         </section>
 
-        <section className="min-h-[380px] p-6 rounded-[12px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] flex flex-col justify-between gap-4">
+        <section className="min-h-[380px] p-6 rounded-[12px] bg-white border border-[#E4DFD4] flex flex-col justify-between gap-4">
           <div className="flex flex-col gap-3">
-            <h2 className="text-[17px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+            <h2 className="text-[17px] font-semibold text-[#15333A]">
               Rekap kelas · CPMK
             </h2>
 
             <div className="flex flex-col gap-1.5">
               <label
                 htmlFor="dosen-dashboard-mk-filter"
-                className="text-[12px] text-[#737373] dark:text-[#A3A3A0]"
+                className="text-[12px] text-[#566B70]"
               >
                 Tampilkan mata kuliah
               </label>
@@ -317,7 +317,7 @@ export default function DosenDashboardPage() {
                 value={selectedClass?.id || ''}
                 onChange={(e) => setSelectedClassId(e.target.value)}
                 disabled={classes.length === 0}
-                className="h-[38px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[12px] font-medium"
+                className="h-[38px] px-3 rounded-[7px] bg-[#FAF8F3] border border-[#E4DFD4] text-[12px] font-medium"
               >
                 {classes.length === 0 ? (
                   <option value="">Belum ada kelas</option>
@@ -332,7 +332,7 @@ export default function DosenDashboardPage() {
             </div>
 
             {isBusy ? (
-              <div className="h-[176px] rounded bg-[#F5F5F4] dark:bg-[#2A2A27] animate-pulse" />
+              <div className="h-[176px] rounded bg-[#ECEAE3] animate-pulse" />
             ) : (
               <RadarCapaianChart
                 items={selectedCpmkNodes}
@@ -343,12 +343,12 @@ export default function DosenDashboardPage() {
           </div>
 
           {selectedClass && (
-            <div className="flex flex-col gap-1 pt-2 border-t border-[#E5E5E5] dark:border-[#2E2E2B]">
-              <p className="text-[13px] text-[#737373] dark:text-[#A3A3A0]">
+            <div className="flex flex-col gap-1 pt-2 border-t border-[#E4DFD4]">
+              <p className="text-[13px] text-[#566B70]">
                 {selectedMkNode?.mahasiswa_lengkap ?? 0} dari{' '}
                 {selectedMkNode?.total_mahasiswa ?? 0} peserta lengkap
               </p>
-              <p className="text-[11px] text-[#737373] dark:text-[#A3A3A0]">
+              <p className="text-[11px] text-[#566B70]">
                 {selectedPeriod
                   ? `${selectedPeriod.tahun_akademik} ${selectedPeriod.semester}`
                   : ''}{' '}
@@ -361,12 +361,12 @@ export default function DosenDashboardPage() {
 
       {/* Baris Bawah */}
       {activeDesign && (
-        <section className="min-h-[164px] p-6 rounded-[12px] bg-white dark:bg-[#1D1D1B] border border-[#E5E5E5] dark:border-[#2E2E2B] flex flex-col justify-between gap-4">
+        <section className="min-h-[164px] p-6 rounded-[12px] bg-white border border-[#E4DFD4] flex flex-col justify-between gap-4">
           <div>
-            <h2 className="text-[17px] font-semibold text-[#252525] dark:text-[#F5F5F4]">
+            <h2 className="text-[17px] font-semibold text-[#15333A]">
               Rancangan bersama · {activeDesignMkName}
             </h2>
-            <p className="text-[12px] text-[#737373] dark:text-[#A3A3A0] mt-1.5">
+            <p className="text-[12px] text-[#566B70] mt-1.5">
               Dipakai oleh{' '}
               {activeDesign.kelas_pengguna.map((k) => k.label).join(' dan ')}.{' '}
               {activeDesign.struktur_terkunci
@@ -390,7 +390,7 @@ export default function DosenDashboardPage() {
 
             <Link
               to={`/dosen/rancangan/${activeDesign.id}`}
-              className="h-[38px] px-4 rounded-[7px] bg-[#252525] dark:bg-[#F5F5F4] text-white dark:text-[#252525] text-[12px] font-medium inline-flex items-center shrink-0"
+              className="h-[38px] px-4 rounded-[7px] bg-[#15333A] hover:bg-[#193A40] text-white transition-colors text-[12px] font-medium inline-flex items-center shrink-0"
             >
               Lihat rancangan {activeDesignMkName} →
             </Link>

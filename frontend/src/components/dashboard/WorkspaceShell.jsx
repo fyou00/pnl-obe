@@ -9,10 +9,11 @@ export default function WorkspaceShell({
   onSelectPeriod,
   selectedPeriod = null,
   leftContextLabel = '',
+  topContextBadge = null,
   children,
 }) {
   return (
-    <div className="min-h-screen w-full flex bg-[#F5F5F4] dark:bg-[#141413] text-[#252525] dark:text-[#F5F5F4]">
+    <div className="min-h-screen w-full flex bg-[#FAF8F3] text-[#15333A]">
       <AdminSidebar navGroups={navGroups} />
 
       <div className="flex-1 min-w-0 flex flex-col">
@@ -23,6 +24,7 @@ export default function WorkspaceShell({
           onSelectPeriod={onSelectPeriod}
           selectedPeriod={selectedPeriod}
           leftContextLabel={leftContextLabel}
+          topContextBadge={topContextBadge}
         />
 
         <main className="flex-1 px-8 py-8">{children}</main>

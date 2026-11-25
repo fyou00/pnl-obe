@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import AnimatedNavIcon from '../icons/AnimatedNavIcon.jsx';
 
 function formatWibDateTime(date) {
   const timeParts = new Intl.DateTimeFormat('id-ID', {
@@ -30,6 +31,7 @@ export default function DashboardTopbar({
   onSelectPeriod,
   selectedPeriod = null,
   leftContextLabel = '',
+  topContextBadge = null,
 }) {
   const [now, setNow] = useState(() => new Date());
 
@@ -41,15 +43,18 @@ export default function DashboardTopbar({
   }, []);
 
   const { timeText, dateText } = formatWibDateTime(now);
+  const periodIdKey = selectedPeriod?.id || selectedPeriod?.periode_id || '';
+  const periodStatus =
+    selectedPeriod?.status || selectedPeriod?.status_periode || '';
 
   return (
-    <header className="h-[80px] shrink-0 bg-white dark:bg-[#1D1D1B] border-b border-[#E5E5E5] dark:border-[#2E2E2B] px-8 flex items-center justify-between gap-6">
-      <div className="flex items-center gap-4">
+    <header className="h-[64px] shrink-0 bg-white border-b border-[#E4DFD4] px-8 flex items-center justify-between gap-6">
+      <div className="flex items-center gap-3 min-w-0">
         {showPeriodSelector ? (
           <>
             <label
               htmlFor="topbar-periode-select"
-              className="text-[13px] leading-[16px] text-[#737373] dark:text-[#A3A3A0]"
+              className="text-[12.5px] font-medium text-[#566B70] whitespace-nowrap"
             >
               Periode akademik
             </label>
@@ -58,45 +63,56 @@ export default function DashboardTopbar({
               value={selectedPeriodId}
               onChange={(e) => onSelectPeriod?.(e.target.value)}
               disabled={periods.length === 0}
-              className="h-[38px] min-w-[182px] px-3 rounded-[7px] bg-white dark:bg-[#242422] border border-[#E5E5E5] dark:border-[#343430] text-[12px] font-medium text-[#252525] dark:text-[#F5F5F4] focus:outline-none focus:ring-2 focus:ring-[#252525]/20 dark:focus:ring-[#F5F5F4]/20 disabled:opacity-60"
+              className="h-[36px] min-w-[186px] px-3 rounded-[8px] bg-[#FAF8F3] border border-[#E4DFD4] text-[12.5px] font-semibold text-[#15333A] focus:outline-none focus:border-[#15333A] focus:bg-white disabled:opacity-60 transition-colors"
             >
               {periods.length === 0 ? (
                 <option value="">Belum ada periode</option>
               ) : (
-                periods.map((periode) => (
-                  <option key={periode.id} value={periode.id}>
-                    {periode.tahun_akademik} {periode.semester}
-                  </option>
-                ))
+                periods.map((periode) => {
+                  const optId = periode.id || periode.periode_id;
+                  return (
+                    <option key={optId} value={optId}>
+                      {periode.tahun_akademik} {periode.semester}
+                    </option>
+                  );
+                })
               )}
             </select>
-            {selectedPeriod && (
+            {periodIdKey && periodStatus && (
               <span
-                className={
-                  selectedPeriod.status === 'Dibuka'
-                    ? 'text-[12px] font-medium text-[#252525] dark:text-[#F5F5F4]'
-                    : 'text-[12px] font-medium text-[#737373] dark:text-[#A3A3A0]'
-                }
+                className={[
+                  'inline-flex items-center gap-1.5 h-7 px-2.5 rounded-full text-[11.5px] font-semibold whitespace-nowrap',
+                  periodStatus === 'Dibuka'
+                    ? 'bg-[#E6F2EE] text-[#1A5C4D]'
+                    : 'bg-[#F7EAE1] text-[#B55824] border border-[#E8B899]',
+                ].join(' ')}
               >
-                {selectedPeriod.status}
+                {periodStatus !== 'Dibuka' && (
+                  <AnimatedNavIcon name="lock" active size={12} />
+                )}
+                <span>{periodStatus}</span>
               </span>
             )}
+            {topContextBadge}
           </>
         ) : (
-          leftContextLabel && (
-            <span className="text-[13px] font-medium text-[#737373] dark:text-[#A3A3A0]">
-              {leftContextLabel}
-            </span>
-          )
+          <div className="flex items-center gap-3">
+            {leftContextLabel && (
+              <span className="text-[13px] font-semibold text-[#566B70]">
+                {leftContextLabel}
+              </span>
+            )}
+            {topContextBadge}
+          </div>
         )}
       </div>
 
-      <div className="flex items-center">
-        <div className="min-w-[164px] flex flex-col">
-          <span className="text-[17px] font-semibold leading-[21px] tabular-nums text-[#252525] dark:text-[#F5F5F4]">
+      <div className="flex items-center shrink-0">
+        <div className="min-w-[164px] text-right flex flex-col">
+          <span className="text-[15px] font-semibold leading-[19px] tabular-nums text-[#15333A]">
             {timeText}
           </span>
-          <span className="text-[11px] leading-[13px] text-[#737373] dark:text-[#A3A3A0] mt-1">
+          <span className="text-[11px] leading-[13px] text-[#566B70] mt-0.5">
             {dateText}
           </span>
         </div>
