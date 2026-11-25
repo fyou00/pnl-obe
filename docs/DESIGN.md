@@ -93,6 +93,10 @@ Palet netral dengan komponen konsisten. Artefak saat ini `design/pnl-obe.figcraf
 6. **Input nilai (Dosen):** grid peserta kelas MK × instrumen rancangan. Filter periode/kelas wajib jelas; input 0–100, simpan bulk atomik, tampilkan kesalahan tanpa menyimpan sebagian.
 7. **Capaian (Dosen/Mahasiswa):** grafik aktual CPL/CPMK, status kesiapan/kelengkapan, dan lengkap/total pada rekap kelas. Nilai belum lengkap ditampilkan “—”, bukan nol; tanpa garis target buatan.
 
+Catatan implementasi frontend untuk grid nilai: saat sel berisi teks nonnumerik atau skor di luar rentang 0–100, tampilkan garis tepi merah dan pesan “Masukkan nilai 0–100” tepat di bawah input. Hubungkan pesan ke input dengan `aria-describedby` dan tandai input dengan `aria-invalid`. Pertahankan isian, tahan pengiriman selama ada kesalahan, dan bersihkan peringatan ketika skor diperbaiki. Sel kosong berarti belum diinput; angka 0 adalah skor sah. Validasi dan umpan balik berlangsung di halaman yang sama. API tetap memeriksa skor dan integritas seluruh kiriman sesuai SCHEMA.md.
+
+Rincian nilai mahasiswa memakai satu tampilan. Setiap baris instrumen menunjukkan status “Sudah dinilai” atau “Belum diinput”. Tampilkan capaian setiap CPMK yang datanya lengkap dan status “Belum lengkap” pada CPMK yang masih menunggu nilai wajib.
+
 Pada dashboard Dosen/Mahasiswa, dropdown **“Tampilkan mata kuliah”** dibatasi penugasan/kepesertaan dalam periode yang dilihat dan menampilkan identitas kelas bila diperlukan. Ringkasan/list keseluruhan dan panel yang mengikuti filter diberi label konteks berbeda agar tidak menyesatkan. Desain layar akademik tambahan dan penyesuaian periode pada artefak Figcraft adalah pekerjaan selanjutnya, belum dibuat oleh revisi dokumentasi ini. Tidak menambah RPS, login, landing page, atau mobile pada tugas desain dashboard.
 
 ## 6. Artefak dan Validasi
