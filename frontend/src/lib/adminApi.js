@@ -19,6 +19,48 @@ export function logoutSession() {
   return apiRequest('/api/v1/auth/logout', { method: 'POST' });
 }
 
+export function changeMyPassword(password_lama, password_baru) {
+  return apiRequest('/api/v1/auth/ganti-password', {
+    method: 'POST',
+    body: { password_lama, password_baru },
+  });
+}
+
+// --- Manajemen Pengguna (Admin) ---
+export function listPengguna({
+  offset = 0,
+  limit = 100,
+  role,
+  aktif,
+  angkatan_id,
+  q,
+} = {}) {
+  return apiRequest('/api/v1/pengguna', {
+    params: { offset, limit, role, aktif, angkatan_id, q },
+  });
+}
+
+export function createPengguna(payload) {
+  return apiRequest('/api/v1/pengguna', {
+    method: 'POST',
+    body: payload,
+  });
+}
+
+export function updatePengguna(userId, payload) {
+  return apiRequest(`/api/v1/pengguna/${userId}`, {
+    method: 'PATCH',
+    body: payload,
+  });
+}
+
+export function resetPenggunaPassword(userId, payload) {
+  return apiRequest(`/api/v1/pengguna/${userId}/reset-password`, {
+    method: 'POST',
+    body: payload,
+  });
+}
+
 // --- Master Mata Kuliah ---
 export function listMataKuliah({ offset = 0, limit = 100, q } = {}) {
   return apiRequest('/api/v1/mata-kuliah', {
@@ -189,6 +231,64 @@ export function replaceMatriksMk(kurikulumId, kurikulumMkId, items) {
       },
     },
   );
+}
+
+// --- Profil Lulusan & Matriks PL-CPL ---
+export function listProfilLulusan(
+  kurikulumId,
+  { offset = 0, limit = 100, q } = {},
+) {
+  return apiRequest(`/api/v1/kurikulum/${kurikulumId}/profil-lulusan`, {
+    params: { offset, limit, q },
+  });
+}
+
+export function createProfilLulusan(kurikulumId, payload) {
+  return apiRequest(`/api/v1/kurikulum/${kurikulumId}/profil-lulusan`, {
+    method: 'POST',
+    body: payload,
+  });
+}
+
+export function updateProfilLulusan(kurikulumId, plId, payload) {
+  return apiRequest(
+    `/api/v1/kurikulum/${kurikulumId}/profil-lulusan/${plId}`,
+    {
+      method: 'PATCH',
+      body: payload,
+    },
+  );
+}
+
+export function deleteProfilLulusan(kurikulumId, plId) {
+  return apiRequest(
+    `/api/v1/kurikulum/${kurikulumId}/profil-lulusan/${plId}`,
+    {
+      method: 'DELETE',
+    },
+  );
+}
+
+export function getPlMatrix(kurikulumId, plId) {
+  return apiRequest(
+    `/api/v1/kurikulum/${kurikulumId}/profil-lulusan/${plId}/cpl`,
+  );
+}
+
+export function replacePlMatrix(kurikulumId, plId, cplIds) {
+  return apiRequest(
+    `/api/v1/kurikulum/${kurikulumId}/profil-lulusan/${plId}/cpl`,
+    {
+      method: 'PUT',
+      body: { cpl_ids: cplIds },
+    },
+  );
+}
+
+export function getProfilLulusanRingkasan({ kurikulum_id } = {}) {
+  return apiRequest('/api/v1/profil-lulusan/ringkasan', {
+    params: kurikulum_id ? { kurikulum_id } : undefined,
+  });
 }
 
 // --- Angkatan & Mahasiswa ---

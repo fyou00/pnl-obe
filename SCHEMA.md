@@ -1,10 +1,10 @@
 # SCHEMA.md - Skema Akademik dan Kalkulasi OBE PNL
 
-Sumber teknis skema PostgreSQL dan agregasi OBE. Revisi pra-migrasi berdasarkan keputusan pengguna 17 November 2026. Menggantikan skema awal 11 tabel. Model SQLAlchemy dan migrasi awal 21 tabel kini tersedia di `backend/`; validasi layanan akademik dilaksanakan pada fase endpoint terkait. Aturan aktor mengikuti `AGENTS.md` §2.
+Sumber teknis skema PostgreSQL dan agregasi OBE. Revisi pra-migrasi berdasarkan keputusan pengguna 17 November 2026 (menggantikan skema awal 11 tabel), ditambah modul Profil Lulusan dan matriks PL–CPL pada migrasi `20261126_0002` (**23 tabel**). Model SQLAlchemy dan migrasi tersedia di `backend/`. Aturan aktor mengikuti `AGENTS.md` §2.
 
 ## 1. Skema Fisik PostgreSQL
 
-Terdapat **21 tabel**. Semua entitas utama memakai `id UUID` sebagai PK; junction `mk_cpl`, `cpmk_cpl`, dan `peserta_kelas_mk` memakai PK gabungan. Kolom wajib `NOT NULL` kecuali dinyatakan nullable. FK default `ON DELETE RESTRICT`; pengecualian CASCADE dinyatakan eksplisit. Waktu memakai `TIMESTAMPTZ`, disimpan UTC dan ditampilkan WIB.
+Terdapat **23 tabel**. Semua entitas utama memakai `id UUID` sebagai PK; junction `mk_cpl`, `pl_cpl`, `cpmk_cpl`, dan `peserta_kelas_mk` memakai PK gabungan. Kolom wajib `NOT NULL` kecuali dinyatakan nullable. FK default `ON DELETE RESTRICT`; pengecualian CASCADE dinyatakan eksplisit. Waktu memakai `TIMESTAMPTZ`, disimpan UTC dan ditampilkan WIB.
 
 ### 1.1. Identitas, Prodi, dan Angkatan
 
@@ -26,6 +26,8 @@ Terdapat **21 tabel**. Semua entitas utama memakai `id UUID` sebagai PK; junctio
 | `kurikulum_mk` | `id`, `kurikulum_id UUID FK kurikulum`, `mk_id UUID FK mata_kuliah`, `nama_mk VARCHAR(100)`, `sks SMALLINT CHECK > 0`, `semester SMALLINT CHECK BETWEEN 1 AND 8`, `deskripsi TEXT nullable`; `UNIQUE(kurikulum_id, mk_id)`. Nama/deskripsi merupakan salinan per versi, tidak membaca ulang nama master untuk laporan lama. |
 | `master_cpl` | `id`, `kurikulum_id UUID FK kurikulum`, `prodi_id UUID FK prodi nullable`, `kode_cpl VARCHAR(10)`, `kategori VARCHAR(5) CHECK IN ('S','KU','P','KK')`, `deskripsi TEXT`; `UNIQUE(kurikulum_id, kode_cpl)`. Prodi null hanya untuk CPL nasional S/KU, namun rumusannya tetap disimpan per versi kurikulum. |
 | `mk_cpl` | `kurikulum_mk_id UUID PK/FK kurikulum_mk ON DELETE CASCADE`, `cpl_id UUID PK/FK master_cpl RESTRICT`, `urutan_rps INTEGER nullable CHECK > 0`. CPL harus berasal dari kurikulum yang sama. Nama kolom urutan lama dipertahankan; tidak menambah modul RPS. |
+| `profil_lulusan` | `id`, `kurikulum_id UUID FK kurikulum`, `kode_pl VARCHAR(10)`, `nama_pl VARCHAR(150)`, `bidang_kerja TEXT nullable`, `deskripsi TEXT`; `UNIQUE(kurikulum_id, kode_pl)`. Disimpan per versi kurikulum; versi `Aktif`/`Arsip` bersifat read-only dan disalin saat `salin`. |
+| `pl_cpl` | `profil_lulusan_id UUID PK/FK profil_lulusan ON DELETE CASCADE`, `cpl_id UUID PK/FK master_cpl RESTRICT`. CPL harus berasal dari kurikulum dan prodi yang sama. |
 
 Paket = seluruh `kurikulum_mk` dengan kurikulum dan semester yang sama. Satu angkatan menerima paket yang sama untuk semester studi yang sama, walaupun dosen antarkelas berbeda. Tidak perlu tabel paket duplikat. MK harus berasal dari prodi kurikulum; CPL lokal juga harus sesuai prodi tersebut.
 
@@ -107,7 +109,7 @@ Nilai hanya boleh ditulis jika instrumen dan kelas MK menunjuk rancangan yang sa
 | Nilai hanya instrumen + mahasiswa | Nilai instrumen + kelas MK + mahasiswa peserta. |
 | CASCADE pengguna/instrumen hingga nilai | RESTRICT untuk seluruh riwayat nilai. |
 
-Skema ini telah diterapkan sebagai **migrasi awal** `20261117_0001` pada database development baru, bukan instruksi DROP atau migrasi data produksi. Jangan membuat model berdasarkan skema lama. Upgrade/downgrade hanya diuji pada database disposable; inventarisasi data dan backup wajib sebelum perubahan database produksi.
+Skema dasar 21 tabel diterapkan sebagai **migrasi awal** `20261117_0001`, dan penambahan `profil_lulusan` serta `pl_cpl` (total **23 tabel**) diterapkan pada **migrasi** `20261126_0002`, bukan instruksi DROP atau migrasi data produksi. Jangan membuat model berdasarkan skema lama. Upgrade/downgrade hanya diuji pada database disposable; inventarisasi data dan backup wajib sebelum perubahan database produksi.
 
 ## 2. Kalkulasi OBE
 
@@ -179,6 +181,15 @@ entity master_cpl {
 }
 entity mk_cpl {
  * kurikulum_mk_id : UUID
+ * cpl_id : UUID
+}
+entity profil_lulusan {
+ * id : UUID
+ kurikulum_id : UUID
+ kode_pl : VARCHAR
+}
+entity pl_cpl {
+ * profil_lulusan_id : UUID
  * cpl_id : UUID
 }
 entity periode_akademik {
@@ -265,6 +276,9 @@ mata_kuliah ||--o{ kurikulum_mk
 kurikulum ||--o{ master_cpl
 kurikulum_mk ||--o{ mk_cpl
 master_cpl ||--o{ mk_cpl
+kurikulum ||--o{ profil_lulusan
+profil_lulusan ||--o{ pl_cpl
+master_cpl ||--o{ pl_cpl
 periode_akademik ||--o{ kelas_periode
 angkatan ||--o{ kelas_periode
 mahasiswa ||--o{ mahasiswa_periode

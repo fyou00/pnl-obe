@@ -1,6 +1,6 @@
 # PNL OBE Backend
 
-Fondasi FastAPI, SQLAlchemy 2, Pydantic v2, PostgreSQL 15+, Alembic, JWT (HS256), dan Bcrypt. Python 3.11+; versi dependensi yang diuji tersimpan di `requirements.lock`. Skema 21 tabel mengikuti `../SCHEMA.md`.
+Fondasi FastAPI, SQLAlchemy 2, Pydantic v2, PostgreSQL 15+, Alembic, JWT (HS256), dan Bcrypt. Python 3.11+; versi dependensi yang diuji tersimpan di `requirements.lock`. Skema 23 tabel (revisi `20261126_0002`) mengikuti `../SCHEMA.md`.
 
 ## Instalasi
 
@@ -55,6 +55,43 @@ Seed default membuat prodi dan Admin dari `.env`. `python -m app.services.seed -
 
 `alembic downgrade base` hanya untuk database development kosong yang boleh dihapus. Jangan menjalankannya pada database berisi riwayat akademik. Startup server tidak menjalankan migrasi atau seed secara otomatis.
 
+### Seed kurikulum, deskripsi mata kuliah, CPL, dan matriks MK–CPL (JSON)
+
+Data Kurikulum OBE 2024 Teknik Informatika (`TI-2024`, berstatus `Draft`) tersedia dalam berkas JSON berikut:
+
+- `seeds/kurikulum_ti_2024_mata_kuliah.json`: 61 mata kuliah (144 SKS) dari Bab 7 Subbab 7.2 *Deskripsi Mata Kuliah* (hlm. 64–80).
+- `seeds/kurikulum_ti_2024_cpl.json`: 12 CPL (`CPL-01`–`CPL-12`) dari Bab 3 Subbab 3.4 Tabel 3.5 *Capaian Pembelajaran Lulusan (CPL)* (hlm. 32–33).
+- `seeds/kurikulum_ti_2024_profil_lulusan.json`: 4 Profil Lulusan (`PL-01`–`PL-04`) beserta 30 relasi matriks PL–CPL (`pl_cpl`) dari Bab 3 Tabel 3.3 & 3.6 serta Bab 6 Tabel 6.2.
+- `seeds/kurikulum_ti_2024_mk_cpl.json`: draft pemetaan awal 61 MK ke 12 CPL (118 relasi `mk_cpl`) berbasis Tabel 3.5, 6.1, dan 7.9 agar `TI-2024` memenuhi syarat aktivasi (`POST /api/v1/kurikulum/{id}/aktifkan`).
+
+Seed kurikulum dapat dijalankan bersamaan dengan seed awal (flag `--kurikulum-file` dapat diulang) atau secara terpisah:
+
+```sh
+python -m app.services.seed --kurikulum-file seeds/kurikulum_ti_2024_mata_kuliah.json --kurikulum-file seeds/kurikulum_ti_2024_cpl.json --kurikulum-file seeds/kurikulum_ti_2024_profil_lulusan.json --kurikulum-file seeds/kurikulum_ti_2024_mk_cpl.json
+python -m app.services.seed_curriculum seeds/kurikulum_ti_2024_mata_kuliah.json seeds/kurikulum_ti_2024_cpl.json seeds/kurikulum_ti_2024_profil_lulusan.json seeds/kurikulum_ti_2024_mk_cpl.json
+python -m app.services.seed_curriculum seeds/kurikulum_ti_2024_mk_cpl.json
+```
+
+Keduanya bersifat idempoten, tidak menimpa suntingan manual (MK, `bidang_kerja` PL, dan `urutan_rps` hanya mengisi `NULL` pada kurikulum `Draft`; CPL/PL yang sudah ada dipertahankan), dan membatalkan seluruh transaksi bila terjadi konflik data atau upaya penambahan pada kurikulum non-`Draft`.
+
+### Seed demo operasional (JSON)
+
+`seeds/demo_operasional_ti_2024.json` mengisi data operasional realistis di atas `TI-2024` (mengaktifkan `TI-2024`, 3 Dosen, 2 angkatan `2024`/`2025`, 9 Mahasiswa termasuk status `Cuti`/`Nonaktif` di `TI-K`, periode `2025/2026 Genap` `Ditutup` & `2026/2027 Ganjil` `Dibuka`, rancangan bersama/terpisah, draf belum lengkap `TI-24502`, nilai `0.00` sah, serta sel kosong/`NULL`). Tidak ada password di file JSON; seluruh akun memakai `SEED_DOSEN_PASSWORD` / `SEED_MAHASISWA_PASSWORD` dari `backend/.env`:
+
+```sh
+python -m app.services.seed --demo \
+  --kurikulum-file seeds/kurikulum_ti_2024_mata_kuliah.json \
+  --kurikulum-file seeds/kurikulum_ti_2024_cpl.json \
+  --kurikulum-file seeds/kurikulum_ti_2024_profil_lulusan.json \
+  --kurikulum-file seeds/kurikulum_ti_2024_mk_cpl.json \
+  --demo-file seeds/demo_operasional_ti_2024.json
+
+# Atau terpisah setelah seed awal + kurikulum:
+python -m app.services.seed_demo seeds/demo_operasional_ti_2024.json
+```
+
+Email demo: Dosen (`dosen.rpl@demo.pnl.ac.id`, `dosen.jarkom@demo.pnl.ac.id`, `dosen.ai@demo.pnl.ac.id`) dan Mahasiswa (`mhs.a1@demo.pnl.ac.id`..`mhs.a3@demo.pnl.ac.id`, `mhs.b1@demo.pnl.ac.id`..`mhs.b3@demo.pnl.ac.id`, `mhs.cuti@demo.pnl.ac.id`, `mhs.nonaktif@demo.pnl.ac.id`, `mhs.c1@demo.pnl.ac.id`).
+
 ## Endpoint tersedia
 
 | Method | Path | Fungsi |
@@ -64,6 +101,7 @@ Seed default membuat prodi dan Admin dari `.env`. `python -m app.services.seed -
 | POST | `/api/v1/auth/token` | Form OAuth2: `username` = email, `password` = password akun; respons access token. |
 | GET | `/api/v1/auth/me` | Profil pengguna JWT yang masih aktif; tidak memuat hash/password. |
 | POST | `/api/v1/auth/logout` | Cabut seluruh access token pengguna, termasuk sesi browser lain; 204. |
+| POST | `/api/v1/auth/ganti-password` | Perbarui kata sandi akun sendiri (wajib sandi lama; sandi baru 12–72 byte UTF-8); menerbitkan token baru dan mencabut sesi lain. |
 | GET | `/api/v1/kelas-mk?periode_id=<uuid>` | Daftar kelas sesuai prodi/penugasan/kepesertaan; `offset` ≥ 0, `limit` 1–100. |
 | GET | `/api/v1/kelas-mk/<uuid>` | Detail kelas sesuai cakupan akses; 404 juga untuk resource di luar cakupan. |
 | GET | `/api/v1/kelas-mk/<uuid>/peserta` | ID peserta untuk Admin/Dosen terkait; Mahasiswa ditolak. |
@@ -96,6 +134,9 @@ Semua rute berikut memakai prefix `/api/v1` dan memerlukan akun **Admin**. Prodi
 | Versi kurikulum | GET/POST `/kurikulum`; GET/PATCH/DELETE `/kurikulum/{kurikulum_id}` |
 | MK paket | GET/POST `/kurikulum/{kurikulum_id}/mata-kuliah`; GET/PATCH/DELETE `.../mata-kuliah/{kurikulum_mk_id}` |
 | CPL per versi | GET/POST `/kurikulum/{kurikulum_id}/cpl`; GET/PATCH/DELETE `.../cpl/{cpl_id}` |
+| Profil lulusan | GET/POST `/kurikulum/{kurikulum_id}/profil-lulusan`; GET/PATCH/DELETE `.../profil-lulusan/{pl_id}` |
+| Matriks PL–CPL | GET/PUT `/kurikulum/{kurikulum_id}/profil-lulusan/{pl_id}/cpl` |
+| Ringkasan PL | GET `/profil-lulusan/ringkasan` (Admin/Dosen/Mahasiswa sesuai prodi, status kurikulum, dan kurikulum angkatan) |
 | Matriks | GET/PUT `/kurikulum/{kurikulum_id}/mata-kuliah/{kurikulum_mk_id}/cpl` |
 | Aktivasi/arsip | POST `/kurikulum/{kurikulum_id}/aktifkan` dan `/arsipkan` |
 | Salin versi | POST `/kurikulum/{kurikulum_id}/salin` dengan kode/nama tujuan baru |
@@ -147,7 +188,21 @@ Kelas yang sudah mempunyai kelas MK tidak dapat diganti identitasnya. Kelas yang
 
 Koreksi roster sebelum nilai menyelaraskan peserta **kelas MK yang sudah ada** dalam periode yang sama: hapus kepesertaan lama, tambah kepesertaan kelas tujuan untuk status Aktif, dan kosongkan kepesertaan periode tersebut untuk K. Tidak membuat kelas MK, rancangan, instrumen, atau penugasan dosen baru. Mahasiswa dengan nilai pada periode tersebut tidak boleh dipindah/dihapus penempatannya; skor 0 juga dianggap nilai yang sudah ada. Larangan mengulang MK lintas periode ditegakkan UNIQUE mahasiswa/master MK, dengan rollback seluruh perubahan jika dilanggar. Periode baru tidak mengubah peserta atau nilai periode lama.
 
-Mutasi memakai transaksi, audit atomik (termasuk perubahan kepesertaan), lock angkatan lalu periode, serta lock akun mahasiswa saat koreksi roster. Periode Ditutup read-only. Payload salah menghasilkan 422; duplikasi, ketidakcocokan aturan, data yang sudah digunakan, atau penghapusan terhalang referensi menghasilkan 409. Endpoint manajemen akun tetap pekerjaan berikutnya. Penerapan paket/penugasan, penutupan periode, dan input nilai tersedia pada bagian berikut. Frontend tidak diubah.
+Mutasi memakai transaksi, audit atomik (termasuk perubahan kepesertaan), lock angkatan lalu periode, serta lock akun mahasiswa saat koreksi roster. Periode Ditutup read-only. Payload salah menghasilkan 422; duplikasi, ketidakcocokan aturan, data yang sudah digunakan, atau penghapusan terhalang referensi menghasilkan 409. Penerapan paket/penugasan, penutupan periode, input nilai, dan manajemen akun pengguna tersedia pada bagian berikut.
+
+## Modul Admin: manajemen akun pengguna (`/api/v1/pengguna`)
+
+Prefix `/api/v1`, khusus **Admin** pada prodi sendiri (`403` untuk Dosen/Mahasiswa, `404` lintas prodi). Tidak ada migrasi tambahan; seluruh respons dan payload audit log tidak pernah menyertakan `password_hash`, `token_version`, ataupun kata sandi mentah.
+
+| Method | Path relatif terhadap /api/v1 | Fungsi |
+| --- | --- | --- |
+| GET | `/pengguna` | Daftar akun prodi sendiri; filter `role`, `aktif`, `angkatan_id`, pencarian literal `q`, `offset`/`limit` (maksimum 100). |
+| POST | `/pengguna` | Buat akun `Dosen` atau `Mahasiswa` baru (sandi 12–72 byte UTF-8; opsi `angkatan_id` khusus `Mahasiswa`). |
+| GET | `/pengguna/{user_id}` | Detail profil akun prodi sendiri beserta `angkatan_id` dan `tahun_masuk` bila Mahasiswa. |
+| PATCH | `/pengguna/{user_id}` | Perbarui `nim_nidn`, `nama`, `email`, `aktif`, atau tautkan Mahasiswa yang belum berangkatan ke `angkatan_id` (tidak memindah angkatan yang sudah terpasang). |
+| POST | `/pengguna/{user_id}/reset-password` | Reset sandi akun `Dosen`/`Mahasiswa` (alasan opsional ke `audit_log`), langsung mencabut seluruh JWT target. |
+
+Aturan perlindungan: Admin tidak dapat menonaktifkan atau mereset sandi akunnya sendiri maupun mengubah/mereset akun Admin lain (`409`), sedangkan penonaktifan `aktif=false` atau reset sandi otomatis menaikkan `token_version` sehingga seluruh sesi target segera dicabut tanpa menghapus riwayat akademik.
 
 ## Modul Admin: paket MK massal dan pengampu
 

@@ -26,7 +26,7 @@ def test_migration_roundtrip_and_metadata(engine):
         assert set(inspect(connection).get_table_names()) == set(Base.metadata.tables) | {
             "alembic_version"
         }
-        assert len(Base.metadata.tables) == 21
+        assert len(Base.metadata.tables) == 23
         assert compare_metadata(MigrationContext.configure(connection), Base.metadata) == []
         command.downgrade(alembic_config(connection), "base")
         assert inspect(connection).get_table_names() == ["alembic_version"]

@@ -1,0 +1,2974 @@
+{
+  "sumber": "Data demo operasional realistis PNL OBE (Kurikulum TI-2024; kredensial akun contoh dibaca dari environment)",
+  "prodi_kode": "TI",
+  "kurikulum_kode": "TI-2024",
+  "aktivasi_kurikulum": true,
+  "dosen": [
+    {
+      "nim_nidn": "NIDN-DEMO-01",
+      "nama": "Ir. Andi Pratama, M.Kom.",
+      "email": "dosen.rpl@demo.pnl.ac.id"
+    },
+    {
+      "nim_nidn": "NIDN-DEMO-02",
+      "nama": "Rina Rahmawati, S.ST., M.T.",
+      "email": "dosen.jarkom@demo.pnl.ac.id"
+    },
+    {
+      "nim_nidn": "NIDN-DEMO-03",
+      "nama": "Dr. Hendra Saputra, M.Sc.",
+      "email": "dosen.ai@demo.pnl.ac.id"
+    }
+  ],
+  "angkatan": [
+    {
+      "tahun_masuk": 2024
+    },
+    {
+      "tahun_masuk": 2025
+    }
+  ],
+  "mahasiswa": [
+    {
+      "nim_nidn": "2025573010001",
+      "nama": "Fajar Maulana",
+      "email": "mhs.a1@demo.pnl.ac.id",
+      "tahun_masuk": 2025
+    },
+    {
+      "nim_nidn": "2025573010002",
+      "nama": "Nadia Putri",
+      "email": "mhs.a2@demo.pnl.ac.id",
+      "tahun_masuk": 2025
+    },
+    {
+      "nim_nidn": "2025573010003",
+      "nama": "Rizky Ramadhan",
+      "email": "mhs.a3@demo.pnl.ac.id",
+      "tahun_masuk": 2025
+    },
+    {
+      "nim_nidn": "2025573010004",
+      "nama": "Siti Aisyah",
+      "email": "mhs.b1@demo.pnl.ac.id",
+      "tahun_masuk": 2025
+    },
+    {
+      "nim_nidn": "2025573010005",
+      "nama": "Dimas Nugroho",
+      "email": "mhs.b2@demo.pnl.ac.id",
+      "tahun_masuk": 2025
+    },
+    {
+      "nim_nidn": "2025573010006",
+      "nama": "Putri Maharani",
+      "email": "mhs.b3@demo.pnl.ac.id",
+      "tahun_masuk": 2025
+    },
+    {
+      "nim_nidn": "2025573010007",
+      "nama": "Bagas Saputra",
+      "email": "mhs.cuti@demo.pnl.ac.id",
+      "tahun_masuk": 2025
+    },
+    {
+      "nim_nidn": "2025573010008",
+      "nama": "Dewi Lestari",
+      "email": "mhs.nonaktif@demo.pnl.ac.id",
+      "tahun_masuk": 2025
+    },
+    {
+      "nim_nidn": "2024573010001",
+      "nama": "Reza Pahlevi",
+      "email": "mhs.c1@demo.pnl.ac.id",
+      "tahun_masuk": 2024
+    }
+  ],
+  "periode": [
+    {
+      "tahun_mulai": 2025,
+      "semester": "Genap",
+      "status": "Ditutup",
+      "alasan_tutup": "Penutupan akhir semester Genap 2025/2026",
+      "kelas": [
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "A",
+          "semester_studi": 2
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "B",
+          "semester_studi": 2
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "K",
+          "semester_studi": null
+        }
+      ],
+      "roster": [
+        {
+          "nim_nidn": "2025573010001",
+          "kode_kelas": "A",
+          "status": "Aktif"
+        },
+        {
+          "nim_nidn": "2025573010002",
+          "kode_kelas": "A",
+          "status": "Aktif"
+        },
+        {
+          "nim_nidn": "2025573010003",
+          "kode_kelas": "A",
+          "status": "Aktif"
+        },
+        {
+          "nim_nidn": "2025573010007",
+          "kode_kelas": "A",
+          "status": "Aktif"
+        },
+        {
+          "nim_nidn": "2025573010004",
+          "kode_kelas": "B",
+          "status": "Aktif"
+        },
+        {
+          "nim_nidn": "2025573010005",
+          "kode_kelas": "B",
+          "status": "Aktif"
+        },
+        {
+          "nim_nidn": "2025573010006",
+          "kode_kelas": "B",
+          "status": "Aktif"
+        }
+      ],
+      "penugasan": [
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "A",
+          "kode_mk": "TI-24201",
+          "dosen_nim_nidn": "NIDN-DEMO-01"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "B",
+          "kode_mk": "TI-24201",
+          "dosen_nim_nidn": "NIDN-DEMO-01"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "A",
+          "kode_mk": "TI-24202",
+          "dosen_nim_nidn": "NIDN-DEMO-03"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "B",
+          "kode_mk": "TI-24202",
+          "dosen_nim_nidn": "NIDN-DEMO-03"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "A",
+          "kode_mk": "TI-24203",
+          "dosen_nim_nidn": "NIDN-DEMO-01"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "B",
+          "kode_mk": "TI-24203",
+          "dosen_nim_nidn": "NIDN-DEMO-01"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "A",
+          "kode_mk": "TI-24204",
+          "dosen_nim_nidn": "NIDN-DEMO-01"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "B",
+          "kode_mk": "TI-24204",
+          "dosen_nim_nidn": "NIDN-DEMO-01"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "A",
+          "kode_mk": "TI-24205",
+          "dosen_nim_nidn": "NIDN-DEMO-03"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "B",
+          "kode_mk": "TI-24205",
+          "dosen_nim_nidn": "NIDN-DEMO-03"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "A",
+          "kode_mk": "TI-24206",
+          "dosen_nim_nidn": "NIDN-DEMO-02"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "B",
+          "kode_mk": "TI-24206",
+          "dosen_nim_nidn": "NIDN-DEMO-02"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "A",
+          "kode_mk": "TI-24207",
+          "dosen_nim_nidn": "NIDN-DEMO-02"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "B",
+          "kode_mk": "TI-24207",
+          "dosen_nim_nidn": "NIDN-DEMO-02"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "A",
+          "kode_mk": "PNL-2404",
+          "dosen_nim_nidn": "NIDN-DEMO-02"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "B",
+          "kode_mk": "PNL-2404",
+          "dosen_nim_nidn": "NIDN-DEMO-02"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "A",
+          "kode_mk": "PNL-2405",
+          "dosen_nim_nidn": "NIDN-DEMO-03"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "B",
+          "kode_mk": "PNL-2405",
+          "dosen_nim_nidn": "NIDN-DEMO-03"
+        }
+      ],
+      "rancangan": [
+        {
+          "kode_mk": "TI-24201",
+          "dosen_nim_nidn": "NIDN-DEMO-01",
+          "cpmk": [
+            {
+              "kode_cpmk": "CPMK-1",
+              "deskripsi": "Mampu merancang dan mengimplementasikan struktur data linear maupun hierarkis secara efisien.",
+              "cpl": [
+                "CPL-02"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-1",
+                  "deskripsi": "Implementasi array, linked list, stack, queue, dan tree.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "Tugas 1",
+                      "jenis_instrumen": "Tugas",
+                      "bobot_persentase": "40.00"
+                    },
+                    {
+                      "nama_instrumen": "UAS",
+                      "jenis_instrumen": "UAS",
+                      "bobot_persentase": "60.00"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "nilai": [
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "A",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "86.00"
+                },
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "91.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "83.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "79.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "80.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "76.00"
+                },
+                {
+                  "nim_nidn": "2025573010007",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "78.00"
+                },
+                {
+                  "nim_nidn": "2025573010007",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "83.00"
+                }
+              ]
+            },
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "B",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "85.00"
+                },
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "90.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "82.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "78.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "88.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "93.00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kode_mk": "TI-24202",
+          "dosen_nim_nidn": "NIDN-DEMO-03",
+          "cpmk": [
+            {
+              "kode_cpmk": "CPMK-1",
+              "deskripsi": "Mampu mengoptimasi query dan mengelola basis data relasional berskala besar.",
+              "cpl": [
+                "CPL-02",
+                "CPL-06"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-1",
+                  "deskripsi": "Optimasi indeks, rencana eksekusi query, dan partisi data.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "Tugas 1",
+                      "jenis_instrumen": "Tugas",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kode_cpmk": "CPMK-2",
+              "deskripsi": "Mampu menerapkan kontrol integritas, transaksi, dan keamanan akses basis data.",
+              "cpl": [
+                "CPL-08"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-2",
+                  "deskripsi": "Pengendalian konkurensi dan hak akses pengguna basis data.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "UAS",
+                      "jenis_instrumen": "UAS",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "nilai": [
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "A",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "87.00"
+                },
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "92.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "84.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "80.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "81.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "77.00"
+                },
+                {
+                  "nim_nidn": "2025573010007",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "79.00"
+                },
+                {
+                  "nim_nidn": "2025573010007",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "84.00"
+                }
+              ]
+            },
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "B",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "86.00"
+                },
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "82.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "83.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "79.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "89.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "94.00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kode_mk": "TI-24203",
+          "dosen_nim_nidn": "NIDN-DEMO-01",
+          "cpmk": [
+            {
+              "kode_cpmk": "CPMK-1",
+              "deskripsi": "Mampu menyusun struktur HTML semantik, CSS responsif, dan logika JavaScript dasar.",
+              "cpl": [
+                "CPL-02"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-1",
+                  "deskripsi": "Layout responsif dan manipulasi DOM dengan JavaScript.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "Praktikum 1",
+                      "jenis_instrumen": "Praktikum",
+                      "bobot_persentase": "40.00"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kode_cpmk": "CPMK-2",
+              "deskripsi": "Mampu membangun antarmuka website dasar yang fungsional sesuai kebutuhan pengguna.",
+              "cpl": [
+                "CPL-04"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-2",
+                  "deskripsi": "Integrasi halaman web front-end statis dan validasi form.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "UAS",
+                      "jenis_instrumen": "UAS",
+                      "bobot_persentase": "60.00"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "nilai": [
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "A",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "88.00"
+                },
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "93.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "85.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "81.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "73.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "78.00"
+                },
+                {
+                  "nim_nidn": "2025573010007",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "80.00"
+                },
+                {
+                  "nim_nidn": "2025573010007",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "85.00"
+                }
+              ]
+            },
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "B",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "87.00"
+                },
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "83.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "84.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "80.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "90.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "95.00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kode_mk": "TI-24204",
+          "dosen_nim_nidn": "NIDN-DEMO-01",
+          "cpmk": [
+            {
+              "kode_cpmk": "CPMK-1",
+              "deskripsi": "Mampu mempraktikkan algoritma pencarian, pengurutan, serta struktur data modular.",
+              "cpl": [
+                "CPL-02"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-1",
+                  "deskripsi": "Implementasi praktikum algoritma tree dan graph.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "Praktikum 1",
+                      "jenis_instrumen": "Praktikum",
+                      "bobot_persentase": "50.00"
+                    },
+                    {
+                      "nama_instrumen": "UAS",
+                      "jenis_instrumen": "UAS",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "nilai": [
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "A",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "89.00"
+                },
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "85.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "86.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "82.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "74.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "79.00"
+                },
+                {
+                  "nim_nidn": "2025573010007",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "81.00"
+                },
+                {
+                  "nim_nidn": "2025573010007",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "77.00"
+                }
+              ]
+            },
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "B",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "88.00"
+                },
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "84.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "76.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "81.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "91.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "96.00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kode_mk": "TI-24205",
+          "dosen_nim_nidn": "NIDN-DEMO-03",
+          "cpmk": [
+            {
+              "kode_cpmk": "CPMK-1",
+              "deskripsi": "Mampu mengimplementasikan stored procedure, trigger, dan integrasi aplikasi basis data.",
+              "cpl": [
+                "CPL-04"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-1",
+                  "deskripsi": "Pembuatan prosedur tersimpan dan manajemen transaksi SQL.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "Praktikum 1",
+                      "jenis_instrumen": "Praktikum",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kode_cpmk": "CPMK-2",
+              "deskripsi": "Mampu mengoptimalkan rancangan skema dan query untuk kebutuhan pelaporan data.",
+              "cpl": [
+                "CPL-06"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-2",
+                  "deskripsi": "Agregasi analitik dan penyajian data terstruktur.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "UAS",
+                      "jenis_instrumen": "UAS",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "nilai": [
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "A",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "90.00"
+                },
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "86.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "87.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "83.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "75.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "80.00"
+                },
+                {
+                  "nim_nidn": "2025573010007",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "82.00"
+                },
+                {
+                  "nim_nidn": "2025573010007",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "78.00"
+                }
+              ]
+            },
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "B",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "89.00"
+                },
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "85.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "77.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "82.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "92.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "88.00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kode_mk": "TI-24206",
+          "dosen_nim_nidn": "NIDN-DEMO-02",
+          "cpmk": [
+            {
+              "kode_cpmk": "CPMK-1",
+              "deskripsi": "Mampu menganalisis manajemen proses, penjadwalan CPU, sinkronisasi, dan memori sistem operasi.",
+              "cpl": [
+                "CPL-03"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-1",
+                  "deskripsi": "Konsep proses, thread, deadlock, dan alokasi memori.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "UTS",
+                      "jenis_instrumen": "UTS",
+                      "bobot_persentase": "40.00"
+                    },
+                    {
+                      "nama_instrumen": "UAS",
+                      "jenis_instrumen": "UAS",
+                      "bobot_persentase": "60.00"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "nilai": [
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "A",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "91.00"
+                },
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "87.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "79.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "84.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "76.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "81.00"
+                },
+                {
+                  "nim_nidn": "2025573010007",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "83.00"
+                },
+                {
+                  "nim_nidn": "2025573010007",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "79.00"
+                }
+              ]
+            },
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "B",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "90.00"
+                },
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "86.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "78.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "83.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "93.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "89.00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kode_mk": "TI-24207",
+          "dosen_nim_nidn": "NIDN-DEMO-02",
+          "cpmk": [
+            {
+              "kode_cpmk": "CPMK-1",
+              "deskripsi": "Mampu mempraktikkan sinkronisasi proses, shell scripting, dan manajemen sistem berkas.",
+              "cpl": [
+                "CPL-03"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-1",
+                  "deskripsi": "Konfigurasi proses dan simulasi penjadwalan di lingkungan Linux.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "Praktikum 1",
+                      "jenis_instrumen": "Praktikum",
+                      "bobot_persentase": "50.00"
+                    },
+                    {
+                      "nama_instrumen": "UAS",
+                      "jenis_instrumen": "UAS",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "nilai": [
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "A",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "92.00"
+                },
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "88.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "80.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "85.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "77.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "73.00"
+                },
+                {
+                  "nim_nidn": "2025573010007",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "84.00"
+                },
+                {
+                  "nim_nidn": "2025573010007",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "80.00"
+                }
+              ]
+            },
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "B",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "82.00"
+                },
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "87.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "79.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "84.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "94.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "90.00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kode_mk": "PNL-2404",
+          "dosen_nim_nidn": "NIDN-DEMO-02",
+          "cpmk": [
+            {
+              "kode_cpmk": "CPMK-1",
+              "deskripsi": "Mampu menunjukkan kesadaran berbangsa, etika kewarganegaraan, dan nilai Pancasila.",
+              "cpl": [
+                "CPL-01"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-1",
+                  "deskripsi": "Analisis studi kasus kewarganegaraan dan etika bermasyarakat.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "Tugas 1",
+                      "jenis_instrumen": "Tugas",
+                      "bobot_persentase": "50.00"
+                    },
+                    {
+                      "nama_instrumen": "UAS",
+                      "jenis_instrumen": "UAS",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "nilai": [
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "A",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "93.00"
+                },
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "89.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "81.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "86.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "78.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "74.00"
+                },
+                {
+                  "nim_nidn": "2025573010007",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "85.00"
+                },
+                {
+                  "nim_nidn": "2025573010007",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "81.00"
+                }
+              ]
+            },
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "B",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "83.00"
+                },
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "88.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "80.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "76.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "95.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "91.00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kode_mk": "PNL-2405",
+          "dosen_nim_nidn": "NIDN-DEMO-03",
+          "cpmk": [
+            {
+              "kode_cpmk": "CPMK-1",
+              "deskripsi": "Mampu berpartisipasi aktif dalam diskusi akademik berbahasa Inggris secara kolaboratif.",
+              "cpl": [
+                "CPL-07"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-1",
+                  "deskripsi": "Diskusi kelompok dan tanya jawab topik teknologi.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "Tugas 1",
+                      "jenis_instrumen": "Tugas",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kode_cpmk": "CPMK-2",
+              "deskripsi": "Mampu menyampaikan presentasi ilmiah lisan berbahasa Inggris dengan struktur yang jelas.",
+              "cpl": [
+                "CPL-10"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-2",
+                  "deskripsi": "Presentasi formal dan pelafalan akademik.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "UAS",
+                      "jenis_instrumen": "UAS",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "nilai": [
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "A",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "85.00"
+                },
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "90.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "82.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "87.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "79.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "75.00"
+                },
+                {
+                  "nim_nidn": "2025573010007",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "77.00"
+                },
+                {
+                  "nim_nidn": "2025573010007",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "82.00"
+                }
+              ]
+            },
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "B",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "84.00"
+                },
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "89.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "81.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "77.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "96.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "92.00"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "tahun_mulai": 2026,
+      "semester": "Ganjil",
+      "status": "Dibuka",
+      "alasan_tutup": null,
+      "kelas": [
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "A",
+          "semester_studi": 3
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "B",
+          "semester_studi": 3
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "K",
+          "semester_studi": null
+        },
+        {
+          "tahun_masuk": 2024,
+          "kode_kelas": "C",
+          "semester_studi": 5
+        }
+      ],
+      "roster": [
+        {
+          "nim_nidn": "2025573010001",
+          "kode_kelas": "A",
+          "status": "Aktif"
+        },
+        {
+          "nim_nidn": "2025573010002",
+          "kode_kelas": "A",
+          "status": "Aktif"
+        },
+        {
+          "nim_nidn": "2025573010003",
+          "kode_kelas": "A",
+          "status": "Aktif"
+        },
+        {
+          "nim_nidn": "2025573010004",
+          "kode_kelas": "B",
+          "status": "Aktif"
+        },
+        {
+          "nim_nidn": "2025573010005",
+          "kode_kelas": "B",
+          "status": "Aktif"
+        },
+        {
+          "nim_nidn": "2025573010006",
+          "kode_kelas": "B",
+          "status": "Aktif"
+        },
+        {
+          "nim_nidn": "2025573010007",
+          "kode_kelas": "K",
+          "status": "Cuti"
+        },
+        {
+          "nim_nidn": "2025573010008",
+          "kode_kelas": "K",
+          "status": "Nonaktif"
+        },
+        {
+          "nim_nidn": "2024573010001",
+          "kode_kelas": "C",
+          "status": "Aktif"
+        }
+      ],
+      "penugasan": [
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "A",
+          "kode_mk": "TI-24301",
+          "dosen_nim_nidn": "NIDN-DEMO-01"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "B",
+          "kode_mk": "TI-24301",
+          "dosen_nim_nidn": "NIDN-DEMO-01"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "A",
+          "kode_mk": "TI-24303",
+          "dosen_nim_nidn": "NIDN-DEMO-01"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "B",
+          "kode_mk": "TI-24303",
+          "dosen_nim_nidn": "NIDN-DEMO-01"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "A",
+          "kode_mk": "TI-24304",
+          "dosen_nim_nidn": "NIDN-DEMO-01"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "B",
+          "kode_mk": "TI-24304",
+          "dosen_nim_nidn": "NIDN-DEMO-01"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "A",
+          "kode_mk": "PNL-2406",
+          "dosen_nim_nidn": "NIDN-DEMO-03"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "B",
+          "kode_mk": "PNL-2406",
+          "dosen_nim_nidn": "NIDN-DEMO-03"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "A",
+          "kode_mk": "PNL-2407",
+          "dosen_nim_nidn": "NIDN-DEMO-03"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "B",
+          "kode_mk": "PNL-2407",
+          "dosen_nim_nidn": "NIDN-DEMO-03"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "A",
+          "kode_mk": "TI-24307",
+          "dosen_nim_nidn": "NIDN-DEMO-03"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "B",
+          "kode_mk": "TI-24307",
+          "dosen_nim_nidn": "NIDN-DEMO-03"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "A",
+          "kode_mk": "TI-24308",
+          "dosen_nim_nidn": "NIDN-DEMO-03"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "B",
+          "kode_mk": "TI-24308",
+          "dosen_nim_nidn": "NIDN-DEMO-03"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "A",
+          "kode_mk": "TI-24309",
+          "dosen_nim_nidn": "NIDN-DEMO-02"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "B",
+          "kode_mk": "TI-24309",
+          "dosen_nim_nidn": "NIDN-DEMO-02"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "A",
+          "kode_mk": "TI-24310",
+          "dosen_nim_nidn": "NIDN-DEMO-02"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "B",
+          "kode_mk": "TI-24310",
+          "dosen_nim_nidn": "NIDN-DEMO-02"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "A",
+          "kode_mk": "TI-24302",
+          "dosen_nim_nidn": "NIDN-DEMO-01"
+        },
+        {
+          "tahun_masuk": 2025,
+          "kode_kelas": "B",
+          "kode_mk": "TI-24302",
+          "dosen_nim_nidn": "NIDN-DEMO-02"
+        },
+        {
+          "tahun_masuk": 2024,
+          "kode_kelas": "C",
+          "kode_mk": "TI-24501",
+          "dosen_nim_nidn": "NIDN-DEMO-01"
+        },
+        {
+          "tahun_masuk": 2024,
+          "kode_kelas": "C",
+          "kode_mk": "TI-24502",
+          "dosen_nim_nidn": "NIDN-DEMO-02"
+        },
+        {
+          "tahun_masuk": 2024,
+          "kode_kelas": "C",
+          "kode_mk": "TI-24503",
+          "dosen_nim_nidn": "NIDN-DEMO-02"
+        },
+        {
+          "tahun_masuk": 2024,
+          "kode_kelas": "C",
+          "kode_mk": "TI-24504",
+          "dosen_nim_nidn": "NIDN-DEMO-03"
+        },
+        {
+          "tahun_masuk": 2024,
+          "kode_kelas": "C",
+          "kode_mk": "TI-24505",
+          "dosen_nim_nidn": "NIDN-DEMO-03"
+        },
+        {
+          "tahun_masuk": 2024,
+          "kode_kelas": "C",
+          "kode_mk": "TI-24506",
+          "dosen_nim_nidn": "NIDN-DEMO-01"
+        },
+        {
+          "tahun_masuk": 2024,
+          "kode_kelas": "C",
+          "kode_mk": "TI-24507",
+          "dosen_nim_nidn": "NIDN-DEMO-01"
+        },
+        {
+          "tahun_masuk": 2024,
+          "kode_kelas": "C",
+          "kode_mk": "TI-24508",
+          "dosen_nim_nidn": "NIDN-DEMO-01"
+        },
+        {
+          "tahun_masuk": 2024,
+          "kode_kelas": "C",
+          "kode_mk": "PNL-2409",
+          "dosen_nim_nidn": "NIDN-DEMO-02"
+        },
+        {
+          "tahun_masuk": 2024,
+          "kode_kelas": "C",
+          "kode_mk": "TI-24510",
+          "dosen_nim_nidn": "NIDN-DEMO-03"
+        }
+      ],
+      "rancangan": [
+        {
+          "kode_mk": "TI-24301",
+          "dosen_nim_nidn": "NIDN-DEMO-01",
+          "cpmk": [
+            {
+              "kode_cpmk": "CPMK-1",
+              "deskripsi": "Mampu menerapkan konsep enkapsulasi, pewarisan, dan polimorfisme dalam pemrograman berorientasi objek.",
+              "cpl": [
+                "CPL-02"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-1",
+                  "deskripsi": "Perancangan kelas, abstraksi antarmuka, dan hierarki pewarisan.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "Tugas 1",
+                      "jenis_instrumen": "Tugas",
+                      "bobot_persentase": "20.00"
+                    },
+                    {
+                      "nama_instrumen": "Kuis 1",
+                      "jenis_instrumen": "Kuis",
+                      "bobot_persentase": "15.00"
+                    },
+                    {
+                      "nama_instrumen": "UTS",
+                      "jenis_instrumen": "UTS",
+                      "bobot_persentase": "30.00"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kode_cpmk": "CPMK-2",
+              "deskripsi": "Mampu membangun aplikasi modular berbasis objek sesuai kebutuhan pengguna.",
+              "cpl": [
+                "CPL-04"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-2",
+                  "deskripsi": "Implementasi aplikasi desktop berorientasi objek.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "UAS",
+                      "jenis_instrumen": "UAS",
+                      "bobot_persentase": "35.00"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "nilai": [
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "A",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "86.00"
+                },
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "Kuis 1",
+                  "nilai_mentah": "91.00"
+                },
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "87.00"
+                },
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "92.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "83.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "Kuis 1",
+                  "nilai_mentah": "0.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "84.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "80.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "80.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "Kuis 1",
+                  "nilai_mentah": "76.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "81.00"
+                }
+              ]
+            },
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "B",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "85.00"
+                },
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "Kuis 1",
+                  "nilai_mentah": "90.00"
+                },
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "86.00"
+                },
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "82.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "82.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "Kuis 1",
+                  "nilai_mentah": "78.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "83.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "79.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "88.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "Kuis 1",
+                  "nilai_mentah": "93.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "89.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "94.00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kode_mk": "TI-24303",
+          "dosen_nim_nidn": "NIDN-DEMO-01",
+          "cpmk": [
+            {
+              "kode_cpmk": "CPMK-1",
+              "deskripsi": "Mampu merancang arsitektur aplikasi web enterprise berlapis dan terintegrasi.",
+              "cpl": [
+                "CPL-02",
+                "CPL-04"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-1",
+                  "deskripsi": "Implementasi arsitektur MVC, ORM, dan layanan REST API.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "Praktikum 1",
+                      "jenis_instrumen": "Praktikum",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kode_cpmk": "CPMK-2",
+              "deskripsi": "Mampu berkolaborasi dalam pengembangan proyek web skala enterprise.",
+              "cpl": [
+                "CPL-07"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-2",
+                  "deskripsi": "Integrasi modul layanan dan pengujian kolaboratif tim.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "UAS",
+                      "jenis_instrumen": "UAS",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "nilai": [
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "A",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "88.00"
+                },
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "93.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "85.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "81.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "73.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "78.00"
+                }
+              ]
+            },
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "B",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "87.00"
+                },
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "83.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "84.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "80.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "90.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "95.00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kode_mk": "TI-24304",
+          "dosen_nim_nidn": "NIDN-DEMO-01",
+          "cpmk": [
+            {
+              "kode_cpmk": "CPMK-1",
+              "deskripsi": "Mampu mengimplementasikan prinsip pemrograman berorientasi objek dalam studi kasus.",
+              "cpl": [
+                "CPL-02"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-1",
+                  "deskripsi": "Latihan praktikum enkapsulasi, inheritance, dan exception handling.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "Praktikum 1",
+                      "jenis_instrumen": "Praktikum",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kode_cpmk": "CPMK-2",
+              "deskripsi": "Mampu menyelesaikan proyek praktikum aplikasi berbasis objek secara terstruktur.",
+              "cpl": [
+                "CPL-04"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-2",
+                  "deskripsi": "Pengembangan modul aplikasi dan antarmuka pengguna.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "UAS",
+                      "jenis_instrumen": "UAS",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "nilai": [
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "A",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "89.00"
+                },
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "85.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "86.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "82.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "74.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "79.00"
+                }
+              ]
+            },
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "B",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "88.00"
+                },
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "84.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "76.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "81.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "91.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "96.00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kode_mk": "PNL-2406",
+          "dosen_nim_nidn": "NIDN-DEMO-03",
+          "cpmk": [
+            {
+              "kode_cpmk": "CPMK-1",
+              "deskripsi": "Mampu menulis teks dan artikel ilmiah berbahasa Inggris sesuai kaidah sitasi akademik.",
+              "cpl": [
+                "CPL-10"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-1",
+                  "deskripsi": "Penyusunan struktur esai dan artikel ilmiah berbahasa Inggris.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "Tugas 1",
+                      "jenis_instrumen": "Tugas",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kode_cpmk": "CPMK-2",
+              "deskripsi": "Mampu memanfaatkan literatur digital terkini secara kritis untuk penulisan akademik.",
+              "cpl": [
+                "CPL-11"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-2",
+                  "deskripsi": "Evaluasi referensi jurnal dan penyusunan tinjauan pustaka.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "UAS",
+                      "jenis_instrumen": "UAS",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "nilai": [
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "A",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "90.00"
+                },
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "86.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "87.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "83.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "75.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "80.00"
+                }
+              ]
+            },
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "B",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "89.00"
+                },
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "85.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "77.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "82.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "92.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "88.00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kode_mk": "PNL-2407",
+          "dosen_nim_nidn": "NIDN-DEMO-03",
+          "cpmk": [
+            {
+              "kode_cpmk": "CPMK-1",
+              "deskripsi": "Mampu menyelesaikan operasi matriks, vektor, dan sistem persamaan linear.",
+              "cpl": [
+                "CPL-02"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-1",
+                  "deskripsi": "Determinan, ruang vektor, dan eliminasi Gauss.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "UTS",
+                      "jenis_instrumen": "UTS",
+                      "bobot_persentase": "40.00"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kode_cpmk": "CPMK-2",
+              "deskripsi": "Mampu menerapkan nilai eigen dan vektor eigen dalam pemodelan komputasi.",
+              "cpl": [
+                "CPL-09"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-2",
+                  "deskripsi": "Aplikasi aljabar linear pada reduksi dimensi dan data.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "UAS",
+                      "jenis_instrumen": "UAS",
+                      "bobot_persentase": "60.00"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "nilai": [
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "A",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "91.00"
+                },
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "87.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "79.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "84.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "76.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "81.00"
+                }
+              ]
+            },
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "B",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "90.00"
+                },
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "86.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "78.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "83.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "93.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "89.00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kode_mk": "TI-24307",
+          "dosen_nim_nidn": "NIDN-DEMO-03",
+          "cpmk": [
+            {
+              "kode_cpmk": "CPMK-1",
+              "deskripsi": "Mampu menerapkan teknik filtrasi, peningkatan kualitas, dan deteksi tepi citra digital.",
+              "cpl": [
+                "CPL-05"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-1",
+                  "deskripsi": "Pemrosesan domain spasial dan frekuensi pada citra.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "Praktikum 1",
+                      "jenis_instrumen": "Praktikum",
+                      "bobot_persentase": "45.00"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kode_cpmk": "CPMK-2",
+              "deskripsi": "Mampu melakukan segmentasi dan ekstraksi fitur pola pada citra digital.",
+              "cpl": [
+                "CPL-09"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-2",
+                  "deskripsi": "Segmentasi citra dan klasifikasi fitur visual.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "UAS",
+                      "jenis_instrumen": "UAS",
+                      "bobot_persentase": "55.00"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "nilai": [
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "A",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "92.00"
+                },
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "88.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "80.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "85.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "77.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "73.00"
+                }
+              ]
+            },
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "B",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "82.00"
+                },
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "87.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "79.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "84.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "94.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "90.00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kode_mk": "TI-24308",
+          "dosen_nim_nidn": "NIDN-DEMO-03",
+          "cpmk": [
+            {
+              "kode_cpmk": "CPMK-1",
+              "deskripsi": "Mampu mempraktikkan algoritma perbaikan kualitas dan deteksi tepi citra dengan Python.",
+              "cpl": [
+                "CPL-05"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-1",
+                  "deskripsi": "Implementasi pustaka pengolahan citra digital.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "Praktikum 1",
+                      "jenis_instrumen": "Praktikum",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kode_cpmk": "CPMK-2",
+              "deskripsi": "Mampu menguji teknik segmentasi dan analisis citra untuk pemecahan masalah nyata.",
+              "cpl": [
+                "CPL-09"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-2",
+                  "deskripsi": "Evaluasi hasil segmentasi dan pengenalan pola citra.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "UAS",
+                      "jenis_instrumen": "UAS",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "nilai": [
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "A",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "93.00"
+                },
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "89.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "81.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "86.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "78.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "74.00"
+                }
+              ]
+            },
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "B",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "83.00"
+                },
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "88.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "80.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "76.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "95.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "91.00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kode_mk": "TI-24309",
+          "dosen_nim_nidn": "NIDN-DEMO-02",
+          "cpmk": [
+            {
+              "kode_cpmk": "CPMK-1",
+              "deskripsi": "Mampu merancang arsitektur jaringan, model OSI, dan skema pengalamatan IP.",
+              "cpl": [
+                "CPL-03"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-1",
+                  "deskripsi": "Subnetting, protokol komunikasi, dan topologi jaringan.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "UTS",
+                      "jenis_instrumen": "UTS",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kode_cpmk": "CPMK-2",
+              "deskripsi": "Mampu menerapkan prinsip pengamanan jaringan komputer sesuai standar industri.",
+              "cpl": [
+                "CPL-08"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-2",
+                  "deskripsi": "Firewall, segmentasi VLAN, dan mitigasi ancaman jaringan.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "UAS",
+                      "jenis_instrumen": "UAS",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "nilai": [
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "A",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "85.00"
+                },
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "90.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "82.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "87.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "79.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "75.00"
+                }
+              ]
+            },
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "B",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "84.00"
+                },
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "89.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "81.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "77.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UTS",
+                  "nilai_mentah": "96.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "92.00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kode_mk": "TI-24310",
+          "dosen_nim_nidn": "NIDN-DEMO-02",
+          "cpmk": [
+            {
+              "kode_cpmk": "CPMK-1",
+              "deskripsi": "Mampu mengonfigurasi perangkat router, switch, dan pengalamatan IP pada jaringan.",
+              "cpl": [
+                "CPL-03"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-1",
+                  "deskripsi": "Praktikum routing statis, dinamis, dan layanan jaringan.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "Praktikum 1",
+                      "jenis_instrumen": "Praktikum",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kode_cpmk": "CPMK-2",
+              "deskripsi": "Mampu melakukan pengujian keamanan akses serta troubleshooting perangkat jaringan.",
+              "cpl": [
+                "CPL-08"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-2",
+                  "deskripsi": "Konfigurasi ACL dan pemecahan masalah konektivitas.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "UAS",
+                      "jenis_instrumen": "UAS",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "nilai": [
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "A",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "86.00"
+                },
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "91.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "83.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "79.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "80.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "76.00"
+                }
+              ]
+            },
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "B",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "85.00"
+                },
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "90.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "82.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "78.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "Praktikum 1",
+                  "nilai_mentah": "88.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "93.00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kode_mk": "TI-24302",
+          "dosen_nim_nidn": "NIDN-DEMO-01",
+          "cpmk": [
+            {
+              "kode_cpmk": "CPMK-1",
+              "deskripsi": "Mampu menyusun spesifikasi kebutuhan dan desain arsitektur perangkat lunak.",
+              "cpl": [
+                "CPL-04"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-1",
+                  "deskripsi": "Pemodelan use case, class diagram, dan arsitektur sistem.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "Tugas 1",
+                      "jenis_instrumen": "Tugas",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kode_cpmk": "CPMK-2",
+              "deskripsi": "Mampu mengelola siklus hidup pengembangan perangkat lunak dengan metodologi Agile.",
+              "cpl": [
+                "CPL-12"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-2",
+                  "deskripsi": "Perencanaan sprint, pengujian, dan evaluasi rilis.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "UAS",
+                      "jenis_instrumen": "UAS",
+                      "bobot_persentase": "50.00"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "nilai": [
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "A",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "88.00"
+                },
+                {
+                  "nim_nidn": "2025573010001",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "93.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "85.00"
+                },
+                {
+                  "nim_nidn": "2025573010002",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "81.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "73.00"
+                },
+                {
+                  "nim_nidn": "2025573010003",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "78.00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kode_mk": "TI-24302",
+          "dosen_nim_nidn": "NIDN-DEMO-02",
+          "cpmk": [
+            {
+              "kode_cpmk": "CPMK-1",
+              "deskripsi": "Mampu menganalisis kebutuhan pengguna dan merancang perangkat lunak terstruktur.",
+              "cpl": [
+                "CPL-04"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-1",
+                  "deskripsi": "Dokumentasi SRS dan perancangan komponen sistem.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "Tugas 1",
+                      "jenis_instrumen": "Tugas",
+                      "bobot_persentase": "40.00"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kode_cpmk": "CPMK-2",
+              "deskripsi": "Mampu menerapkan penjaminan mutu dan manajemen proses rekayasa perangkat lunak.",
+              "cpl": [
+                "CPL-12"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-2",
+                  "deskripsi": "Rencana pengujian dan kendali kualitas SDLC.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "UAS",
+                      "jenis_instrumen": "UAS",
+                      "bobot_persentase": "60.00"
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "nilai": [
+            {
+              "tahun_masuk": 2025,
+              "kode_kelas": "B",
+              "skor": [
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "87.00"
+                },
+                {
+                  "nim_nidn": "2025573010004",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "83.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "84.00"
+                },
+                {
+                  "nim_nidn": "2025573010005",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "80.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "Tugas 1",
+                  "nilai_mentah": "90.00"
+                },
+                {
+                  "nim_nidn": "2025573010006",
+                  "nama_instrumen": "UAS",
+                  "nilai_mentah": "95.00"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "kode_mk": "TI-24502",
+          "dosen_nim_nidn": "NIDN-DEMO-02",
+          "cpmk": [
+            {
+              "kode_cpmk": "CPMK-1",
+              "deskripsi": "Mampu menerapkan teknik enkripsi, autentikasi, dan kontrol akses keamanan informasi.",
+              "cpl": [
+                "CPL-08"
+              ],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-1",
+                  "deskripsi": "Kriptografi simetris/asimetris dan pengelolaan kunci.",
+                  "instrumen": [
+                    {
+                      "nama_instrumen": "Tugas 1",
+                      "jenis_instrumen": "Tugas",
+                      "bobot_persentase": "30.00"
+                    },
+                    {
+                      "nama_instrumen": "UTS",
+                      "jenis_instrumen": "UTS",
+                      "bobot_persentase": "40.00"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "kode_cpmk": "CPMK-2",
+              "deskripsi": "Mampu menganalisis kesadaran etika keamanan siber serta mitigasi kerentanan sistem.",
+              "cpl": [],
+              "sub_cpmk": [
+                {
+                  "kode_sub": "SUB-2",
+                  "deskripsi": "Audit kepatuhan keamanan dan respons insiden siber.",
+                  "instrumen": []
+                }
+              ]
+            }
+          ],
+          "nilai": []
+        }
+      ]
+    }
+  ]
+}

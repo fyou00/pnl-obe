@@ -1,0 +1,103 @@
+{
+  "sumber": "8.1.1 Kurikulum TI_2024 Final ok.pdf — Bab 3 Subbab 3.4 Tabel 3.5 Capaian Pembelajaran Lulusan (hlm. 32–33)",
+  "prodi": {
+    "kode_prodi": "TI",
+    "nama_prodi": "Teknik Informatika",
+    "jenjang": "D4"
+  },
+  "kurikulum": {
+    "kode_kurikulum": "TI-2024",
+    "nama": "Kurikulum OBE 2024 Teknik Informatika"
+  },
+  "catatan_normalisasi": [
+    "Tabel 3.5 mencantumkan multi-unsur (S/KU/P/KK) per CPL sesuai Permendikbudristek No. 53 Tahun 2023, sedangkan kolom master_cpl.kategori pada database menyimpan satu kategori utama (S/KU/P/KK). Seluruh unsur asli tetap disimpan pada field unsur, dan field kategori diisi unsur dominan berdasarkan kata kerja kompetensi masing-masing CPL (tetap dapat disesuaikan oleh Admin selama kurikulum berstatus Draft).",
+    "Seluruh 12 CPL pada Tabel 3.5 merupakan CPL Program Studi Teknik Informatika ([A] Mahasiswa Teknik Informatika), sehingga nasional bernilai false (terikat prodi_id Prodi TI).",
+    "Rumusan deskripsi CPL-12 digabung utuh dari hlm. 32 hingga baris lanjutannya pada hlm. 33 ('tingkat efisiensi tinggi (P3).')."
+  ],
+  "cpl": [
+    {
+      "kode_cpl": "CPL-01",
+      "kategori": "S",
+      "unsur": ["S", "KU"],
+      "nasional": false,
+      "deskripsi": "[A] Mahasiswa Teknik Informatika [B] mampu menunjukkan sikap profesional, bertanggung jawab, etika kerja dan kesadaran terhadap aspek etika teknologi dalam pekerjaan di bidang informatika [C] saat mengerjakan proyek, magang, atau kerja tim [D] dengan tingkat ketepatan tinggi (P3)."
+    },
+    {
+      "kode_cpl": "CPL-02",
+      "kategori": "P",
+      "unsur": ["P", "KK"],
+      "nasional": false,
+      "deskripsi": "[A] Mahasiswa Teknik Informatika [B] mampu menguasai dan mengaplikasikan (C3) konsep algoritma dan struktur data, dasar-dasar pemrograman dan lanjutan [C] dalam pengembangan perangkat lunak berbasis kebutuhan pengguna [D] dengan memperhatikan aspek efisiensi, keamanan, dan skalabilitas."
+    },
+    {
+      "kode_cpl": "CPL-03",
+      "kategori": "KK",
+      "unsur": ["P", "KK"],
+      "nasional": false,
+      "deskripsi": "[A] Mahasiswa Teknik Informatika [B] mampu merancang dan mengelola (C3) arsitektur sistem komputer dan sistem berbasis jaringan atau cloud [C] untuk kebutuhan organisasi [D] dengan efisiensi dan akurasi sesuai standar industri (P3)."
+    },
+    {
+      "kode_cpl": "CPL-04",
+      "kategori": "KK",
+      "unsur": ["P", "KK"],
+      "nasional": false,
+      "deskripsi": "[A] Mahasiswa Teknik Informatika [B] mampu merancang, mengembangkan, dan mengimplementasikan aplikasi berbasis web, mobile, atau desktop [C] dalam proyek berbasis tim atau individu [D] dengan fungsionalitas penuh (C3)."
+    },
+    {
+      "kode_cpl": "CPL-05",
+      "kategori": "KK",
+      "unsur": ["P", "KK"],
+      "nasional": false,
+      "deskripsi": "[A] Mahasiswa Teknik Informatika [B] mampu mengintegrasikan (A4) teknologi kecerdasan buatan seperti machine learning dan deep learning [C] dalam sistem berbasis AI yang kompleks [D] dengan akurat untuk meningkatkan efisiensi dan inovasi di industri (P3)."
+    },
+    {
+      "kode_cpl": "CPL-06",
+      "kategori": "KK",
+      "unsur": ["P", "KK"],
+      "nasional": false,
+      "deskripsi": "[A] Mahasiswa Teknik Informatika [B] mampu melakukan analisis data (C3) menggunakan teknik big data dan visualisasi [C] untuk mendukung pengambilan keputusan berbasis data [D] dengan tingkat relevansi tinggi (P3)."
+    },
+    {
+      "kode_cpl": "CPL-07",
+      "kategori": "KU",
+      "unsur": ["S", "KU", "KK"],
+      "nasional": false,
+      "deskripsi": "[A] Mahasiswa Teknik Informatika [B] mampu bekerja secara kolaboratif (A4) dalam tim multidisiplin [C] untuk menyelesaikan proyek berbasis teknologi informasi [D] dengan kontribusi terukur dalam laporan proyek."
+    },
+    {
+      "kode_cpl": "CPL-08",
+      "kategori": "KK",
+      "unsur": ["P", "KK"],
+      "nasional": false,
+      "deskripsi": "[A] Mahasiswa Teknik Informatika [B] mampu menerapkan (C3) prinsip keamanan informasi [C] dalam perancangan dan pengelolaan sistem berbasis teknologi [D] dengan tingkat perlindungan data yang memadai (P3)."
+    },
+    {
+      "kode_cpl": "CPL-09",
+      "kategori": "KK",
+      "unsur": ["P", "KK"],
+      "nasional": false,
+      "deskripsi": "[A] Mahasiswa Teknik Informatika [B] mampu memanfaatkan (C3) teknik machine learning untuk analisis prediktif [C] pada berbagai permasalahan berbasis data [D] dengan tingkat akurasi tinggi."
+    },
+    {
+      "kode_cpl": "CPL-10",
+      "kategori": "KU",
+      "unsur": ["P", "KU"],
+      "nasional": false,
+      "deskripsi": "[A] Mahasiswa Teknik Informatika [B] mampu menghasilkan karya ilmiah (A4) yang relevan dengan bidang informatika [C] untuk dipublikasikan di forum ilmiah atau jurnal [D] dengan kualitas minimal tingkat nasional."
+    },
+    {
+      "kode_cpl": "CPL-11",
+      "kategori": "S",
+      "unsur": ["S", "KU"],
+      "nasional": false,
+      "deskripsi": "[A] Mahasiswa Teknik Informatika [B] mampu menunjukkan kesadaran terhadap pembelajaran sepanjang hayat (A4) [C] melalui pemanfaatan teknologi dan sumber daya digital terkini [D] dengan konsistensi yang terukur."
+    },
+    {
+      "kode_cpl": "CPL-12",
+      "kategori": "KK",
+      "unsur": ["P", "KK"],
+      "nasional": false,
+      "deskripsi": "[A] Mahasiswa Teknik Informatika [B] mampu merancang dan mengelola (C3) proyek pengembangan perangkat lunak mulai dari perencanaan hingga evaluasi [C] sesuai dengan standar industri dan metodologi manajemen proyek [D] dengan tingkat efisiensi tinggi (P3)."
+    }
+  ]
+}

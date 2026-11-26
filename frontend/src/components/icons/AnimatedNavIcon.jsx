@@ -56,6 +56,16 @@ function renderIconGlyph(name) {
         </>
       );
 
+    case 'profil-lulusan':
+      return (
+        <>
+          <polygon className="obe-duotone-fill" points="12 4 21 8.5 12 13 3 8.5 12 4" />
+          <polygon points="12 4 21 8.5 12 13 3 8.5 12 4" />
+          <path d="M6.5 10.6v4.6c0 1.7 2.5 3.3 5.5 3.3s5.5-1.6 5.5-3.3v-4.6" />
+          <line x1="20" y1="9" x2="20" y2="15" />
+        </>
+      );
+
     case 'cpl':
       return (
         <>
@@ -231,6 +241,26 @@ function renderIconGlyph(name) {
           />
           <path d="M12 3.2 19 6v5.7c0 4.5-3 8.1-7 9.3-4-1.2-7-4.8-7-9.3V6l7-2.8Z" />
           <polyline points="9.2 12 11.2 14 15 10" />
+        </>
+      );
+
+    case 'pengguna':
+      return (
+        <>
+          <circle className="obe-duotone-fill" cx="12" cy="8" r="3.6" />
+          <circle cx="12" cy="8" r="3.6" />
+          <path d="M5 19.5c0-3.3 3.1-5.2 7-5.2s7 1.9 7 5.2" />
+        </>
+      );
+
+    case 'key':
+      return (
+        <>
+          <circle className="obe-duotone-fill" cx="8.5" cy="14.5" r="4" />
+          <circle cx="8.5" cy="14.5" r="4" />
+          <path d="m11.5 11.5 7.5-7.5" />
+          <path d="m16.5 6.5 2.5 2.5" />
+          <path d="m14.2 8.8 2 2" />
         </>
       );
 

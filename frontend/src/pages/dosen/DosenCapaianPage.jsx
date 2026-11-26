@@ -349,8 +349,10 @@ export default function DosenCapaianPage() {
                       <td className="py-3 pr-4 font-semibold text-[#15333A] whitespace-nowrap">
                         {row.kode}
                       </td>
-                      <td className="py-3 pr-4 text-[#334B51] max-w-[420px] truncate">
-                        {row.label}
+                      <td className="py-3 pr-4 text-[#334B51]">
+                        <div className="max-w-[360px] truncate" title={row.label}>
+                          {row.label}
+                        </div>
                       </td>
                       <td className="py-3 pr-4 tabular-nums text-[#334B51] whitespace-nowrap">
                         {row.mahasiswa_lengkap} / {row.total_mahasiswa}

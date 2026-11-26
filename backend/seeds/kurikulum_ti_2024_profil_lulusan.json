@@ -1,0 +1,56 @@
+{
+  "sumber": "8.1.1 Kurikulum TI_2024 Final ok.pdf — Bab 3 Tabel 3.3 (hlm. 27), Tabel 3.6 (hlm. 33–34), & Bab 6 Tabel 6.2 (hlm. 60)",
+  "prodi": {
+    "kode_prodi": "TI",
+    "nama_prodi": "Teknik Informatika",
+    "jenjang": "D4"
+  },
+  "kurikulum": {
+    "kode_kurikulum": "TI-2024",
+    "nama": "Kurikulum OBE 2024 Teknik Informatika"
+  },
+  "profil_lulusan": [
+    {
+      "kode_pl": "PL-01",
+      "nama_pl": "Rekayasa Aplikasi (Application Engineer)",
+      "bidang_kerja": "Web Developer, Front-end Engineer, Backend Engineer, Full-stack Engineer, Quality Assurance Engineer.",
+      "deskripsi": "Mampu merancang, mengembangkan, dan menguji perangkat lunak atau aplikasi yang rumit berbasis web, desktop dan mobile yang berkualitas tinggi. Menguasai berbagai bahasa pemrograman, metodologi pengembangan perangkat lunak, dan alat bantu pengembangan."
+    },
+    {
+      "kode_pl": "PL-02",
+      "nama_pl": "Rekayasa Sistem (System Engineer)",
+      "bidang_kerja": "System Architect, Project Manager, DevOps Engineer, Cloud Engineer, Site Reliability Engineer, Platform Engineer.",
+      "deskripsi": "Mampu merancang, mengembangkan, dan mengelola sistem kompleks dari awal hingga akhir yang meliputi perancangan arsitektur sistem, integrasi pengembangan dan operasional sistem, pengelolaan penerapan sistem, serta memberikan dukungan dan pemeliharaan berkelanjutan. Serta mengelola proyek, mengatur sumber daya, dan mengidentifikasi serta mengurangi risiko yang mungkin timbul dalam sistem."
+    },
+    {
+      "kode_pl": "PL-03",
+      "nama_pl": "Rekayasa Kecerdasan Buatan (Artificial Intelligence Engineer)",
+      "bidang_kerja": "AI Developer, Machine Learning Engineer, Computer Vision Specialist, Prompt Engineer, MLOps Engineer.",
+      "deskripsi": "Mampu menerapkan prinsip-prinsip kecerdasan buatan untuk membangun sistem cerdas. Menguasai algoritma pembelajaran mesin, deep learning, dan pengolahan data."
+    },
+    {
+      "kode_pl": "PL-04",
+      "nama_pl": "Ilmu Data (Data Science)",
+      "bidang_kerja": "Data Analyst, Business Intelligence Developer, Data Engineer, ETL Developer, Database Developer, Database Administrator, Data Scientist.",
+      "deskripsi": "Mampu mengumpulkan, membersihkan, menganalisis, dan menginterpretasi data untuk menghasilkan wawasan yang bernilai. Menguasai statistika, visualisasi data, dan alat bantu analisis data. Mampu menganalisis data untuk mendukung pengambilan keputusan bisnis. Menguasai alat-alat business intelligence dan visualisasi data."
+    }
+  ],
+  "pl_cpl": [
+    {
+      "kode_pl": "PL-01",
+      "cpl": ["CPL-01", "CPL-02", "CPL-03", "CPL-04", "CPL-07", "CPL-08", "CPL-10", "CPL-11", "CPL-12"]
+    },
+    {
+      "kode_pl": "PL-02",
+      "cpl": ["CPL-01", "CPL-02", "CPL-03", "CPL-07", "CPL-08", "CPL-10", "CPL-11", "CPL-12"]
+    },
+    {
+      "kode_pl": "PL-03",
+      "cpl": ["CPL-01", "CPL-05", "CPL-06", "CPL-07", "CPL-09", "CPL-10", "CPL-12"]
+    },
+    {
+      "kode_pl": "PL-04",
+      "cpl": ["CPL-01", "CPL-06", "CPL-07", "CPL-09", "CPL-10", "CPL-12"]
+    }
+  ]
+}

@@ -1,16 +1,25 @@
 """Admin payloads exclude prodi/status/parent IDs that the server owns."""
 
-from typing import Annotated, Literal
+from typing import Annotated, ClassVar, Literal
 from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, Field, StringConstraints, model_validator
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    StringConstraints,
+    field_validator,
+    model_validator,
+)
 
 CodeMK = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=20)]
 CodeKurikulum = Annotated[
     str, StringConstraints(strip_whitespace=True, min_length=1, max_length=30)
 ]
 CodeCPL = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=10)]
+CodePL = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=10)]
 Name = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=100)]
+NamePL = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1, max_length=150)]
 Description = Annotated[str, StringConstraints(strip_whitespace=True, min_length=1)]
 Kategori = Literal["S", "KU", "P", "KK"]
 StatusKurikulum = Literal["Draft", "Aktif", "Arsip"]
@@ -21,12 +30,14 @@ class Payload(BaseModel):
 
 
 class PatchPayload(Payload):
+    _nullable_fields: ClassVar[set[str]] = {"deskripsi"}
+
     @model_validator(mode="after")
     def validate_patch(self):
         if not self.model_fields_set:
             raise ValueError("Isi minimal satu perubahan")
         for name in self.model_fields_set:
-            if getattr(self, name) is None and name != "deskripsi":
+            if getattr(self, name) is None and name not in self._nullable_fields:
                 raise ValueError(f"{name} tidak boleh null")
         return self
 
@@ -133,3 +144,74 @@ class MatriksReplace(Payload):
         if len({item.cpl_id for item in self.items}) != len(self.items):
             raise ValueError("CPL duplikat dalam payload")
         return self
+
+
+def _normalize_optional_text(value: str | None) -> str | None:
+    if value is None:
+        return None
+    stripped = value.strip()
+    return stripped or None
+
+
+class ProfilLulusanCreate(Payload):
+    kode_pl: CodePL
+    nama_pl: NamePL
+    bidang_kerja: str | None = None
+    deskripsi: Description
+
+    @field_validator("bidang_kerja")
+    @classmethod
+    def normalize_bidang_kerja(cls, value: str | None) -> str | None:
+        return _normalize_optional_text(value)
+
+
+class ProfilLulusanPatch(PatchPayload):
+    _nullable_fields: ClassVar[set[str]] = {"bidang_kerja"}
+
+    kode_pl: CodePL | None = None
+    nama_pl: NamePL | None = None
+    bidang_kerja: str | None = None
+    deskripsi: Description | None = None
+
+    @field_validator("bidang_kerja")
+    @classmethod
+    def normalize_bidang_kerja(cls, value: str | None) -> str | None:
+        return _normalize_optional_text(value)
+
+
+class ProfilLulusanResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+    id: UUID
+    kurikulum_id: UUID
+    kode_pl: str
+    nama_pl: str
+    bidang_kerja: str | None
+    deskripsi: str
+
+
+class ProfilLulusanCplLink(Payload):
+    model_config = ConfigDict(extra="forbid", from_attributes=True)
+    cpl_id: UUID
+
+
+class PlMatriksReplace(Payload):
+    cpl_ids: list[UUID]
+
+    @model_validator(mode="after")
+    def unique_cpl(self):
+        if len(set(self.cpl_ids)) != len(self.cpl_ids):
+            raise ValueError("CPL duplikat dalam payload")
+        return self
+
+
+class ProfilLulusanMatrixItem(ProfilLulusanResponse):
+    cpl_ids: list[UUID]
+
+
+class ProfilLulusanOverviewResponse(BaseModel):
+    kurikulum_id: UUID
+    kode_kurikulum: str
+    nama_kurikulum: str
+    status: StatusKurikulum
+    profil_lulusan: list[ProfilLulusanMatrixItem]
+    cpl: list[CPLResponse]

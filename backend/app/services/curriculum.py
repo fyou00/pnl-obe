@@ -13,16 +13,20 @@ from app.models import (
     CPMK,
     CPMKCPL,
     MKCPL,
+    PLCPL,
     Angkatan,
     AuditLog,
     KelasMK,
     Kurikulum,
     KurikulumMK,
+    Mahasiswa,
     MasterCPL,
     MataKuliah,
+    ProfilLulusan,
     RancanganPenilaian,
     User,
 )
+from app.schemas.curriculum import ProfilLulusanMatrixItem, ProfilLulusanOverviewResponse
 
 
 def conflict(message: str):
@@ -189,6 +193,9 @@ def delete_curriculum(db, user, entity_id):
         ):
             conflict("Kurikulum sudah direferensikan; tidak dapat dihapus")
         audit(db, user, "delete", row, snapshot(row))
+        pl_ids = select(ProfilLulusan.id).where(ProfilLulusan.kurikulum_id == row.id)
+        db.execute(delete(PLCPL).where(PLCPL.profil_lulusan_id.in_(pl_ids)))
+        db.execute(delete(ProfilLulusan).where(ProfilLulusan.kurikulum_id == row.id))
         db.execute(delete(MKCPL).where(MKCPL.kurikulum_mk_id.in_(mk_ids)))
         db.execute(delete(KurikulumMK).where(KurikulumMK.kurikulum_id == row.id))
         db.execute(delete(MasterCPL).where(MasterCPL.kurikulum_id == row.id))
@@ -203,6 +210,10 @@ def list_children(db, user, curriculum_id, model, offset, limit, q, semester=Non
         if semester is not None:
             query = query.where(model.semester == semester)
         query = query.order_by(model.semester, model.nama_mk, model.id)
+    elif model is ProfilLulusan:
+        query = search(
+            query, [model.kode_pl, model.nama_pl, model.bidang_kerja, model.deskripsi], q
+        ).order_by(model.kode_pl, model.id)
     else:
         query = search(query, [model.kode_cpl, model.deskripsi], q).order_by(
             model.kode_cpl, model.id
@@ -340,6 +351,76 @@ def replace_matrix(db, user, curriculum_id, entity_id, payload):
     return get_matrix(db, user, curriculum_id, entity_id)
 
 
+def create_profil_lulusan(db, user, curriculum_id, payload):
+    with transaction(db):
+        curriculum(db, user, curriculum_id, edit=True)
+        row = ProfilLulusan(kurikulum_id=curriculum_id, **payload.model_dump())
+        db.add(row)
+        db.flush()
+        audit(db, user, "create", row, after=snapshot(row))
+    return row
+
+
+def update_profil_lulusan(db, user, curriculum_id, entity_id, payload):
+    with transaction(db):
+        curriculum(db, user, curriculum_id, edit=True)
+        row = child(db, ProfilLulusan, entity_id, curriculum_id)
+        before = snapshot(row)
+        for key, value in payload.model_dump(exclude_unset=True).items():
+            setattr(row, key, value)
+        audit(db, user, "update", row, before, snapshot(row))
+    return row
+
+
+def delete_profil_lulusan(db, user, curriculum_id, entity_id):
+    with transaction(db):
+        curriculum(db, user, curriculum_id, edit=True)
+        row = child(db, ProfilLulusan, entity_id, curriculum_id)
+        audit(db, user, "delete", row, snapshot(row))
+        db.delete(row)
+
+
+def get_pl_matrix(db, user, curriculum_id, entity_id):
+    curriculum(db, user, curriculum_id)
+    child(db, ProfilLulusan, entity_id, curriculum_id)
+    return list(
+        db.scalars(
+            select(PLCPL)
+            .join(MasterCPL, MasterCPL.id == PLCPL.cpl_id)
+            .where(PLCPL.profil_lulusan_id == entity_id)
+            .order_by(MasterCPL.kode_cpl, PLCPL.cpl_id)
+        )
+    )
+
+
+def replace_pl_matrix(db, user, curriculum_id, entity_id, payload):
+    with transaction(db):
+        curriculum(db, user, curriculum_id, edit=True)
+        row = child(db, ProfilLulusan, entity_id, curriculum_id)
+        requested = set(payload.cpl_ids)
+        for cpl_id in sorted(requested):
+            child(db, MasterCPL, cpl_id, curriculum_id)
+        current = {
+            link.cpl_id: link
+            for link in db.scalars(select(PLCPL).where(PLCPL.profil_lulusan_id == entity_id))
+        }
+        before = {"cpl_ids": sorted(str(cid) for cid in current)}
+        for cpl_id in current.keys() - requested:
+            db.delete(current[cpl_id])
+        for cpl_id in payload.cpl_ids:
+            if cpl_id not in current:
+                db.add(PLCPL(profil_lulusan_id=entity_id, cpl_id=cpl_id))
+        audit(
+            db,
+            user,
+            "replace_pl_matrix",
+            row,
+            before,
+            {"cpl_ids": sorted(str(cid) for cid in payload.cpl_ids)},
+        )
+    return get_pl_matrix(db, user, curriculum_id, entity_id)
+
+
 def transition(db, user, curriculum_id, target):
     with transaction(db):
         row = curriculum(db, user, curriculum_id, lock=True)
@@ -366,6 +447,17 @@ def transition(db, user, curriculum_id, target):
                         cpl.prodi_id is not None and cpl.prodi_id != user.prodi_id
                     ):
                         conflict("CPL harus berasal dari kurikulum dan prodi yang sama")
+            pl_ids = select(ProfilLulusan.id).where(ProfilLulusan.kurikulum_id == row.id)
+            for pl_link in db.scalars(select(PLCPL).where(PLCPL.profil_lulusan_id.in_(pl_ids))):
+                cpl = db.get(MasterCPL, pl_link.cpl_id)
+                if (
+                    cpl is None
+                    or cpl.kurikulum_id != row.id
+                    or (cpl.prodi_id is not None and cpl.prodi_id != user.prodi_id)
+                ):
+                    conflict(
+                        "CPL pada profil lulusan harus berasal dari kurikulum dan prodi yang sama"
+                    )
         before = snapshot(row)
         row.status = target
         audit(db, user, "activate" if target == "Aktif" else "archive", row, before, snapshot(row))
@@ -391,6 +483,21 @@ def clone(db, user, curriculum_id, payload):
             db.add(copy)
             db.flush()
             cpl_map[cpl.id] = copy.id
+        for pl in db.scalars(
+            select(ProfilLulusan)
+            .where(ProfilLulusan.kurikulum_id == source.id)
+            .order_by(ProfilLulusan.kode_pl, ProfilLulusan.id)
+        ):
+            values = {attr.key: getattr(pl, attr.key) for attr in inspect(pl).mapper.column_attrs}
+            values.pop("id")
+            values["kurikulum_id"] = target.id
+            copy_pl = ProfilLulusan(**values)
+            db.add(copy_pl)
+            db.flush()
+            for pl_link in db.scalars(select(PLCPL).where(PLCPL.profil_lulusan_id == pl.id)):
+                if pl_link.cpl_id not in cpl_map:
+                    conflict("Sumber memiliki pemetaan PL-CPL lintas versi yang tidak valid")
+                db.add(PLCPL(profil_lulusan_id=copy_pl.id, cpl_id=cpl_map[pl_link.cpl_id]))
         for mk in db.scalars(
             select(KurikulumMK)
             .where(KurikulumMK.kurikulum_id == source.id)
@@ -415,3 +522,101 @@ def clone(db, user, curriculum_id, payload):
                 )
         audit(db, user, "clone", target, {"sumber_kurikulum_id": str(source.id)}, snapshot(target))
     return target
+
+
+def _resolve_overview_curriculum(db: Session, user: User, kurikulum_id: UUID | None) -> Kurikulum:
+    if user.role == "Mahasiswa":
+        student = db.get(Mahasiswa, user.id)
+        angkatan = db.get(Angkatan, student.angkatan_id) if student else None
+        kur = db.get(Kurikulum, angkatan.kurikulum_id) if angkatan else None
+        if kur is None or kur.prodi_id != user.prodi_id:
+            raise HTTPException(404, "Kurikulum mahasiswa tidak ditemukan")
+        if kurikulum_id is not None and kurikulum_id != kur.id:
+            raise HTTPException(404, "Data tidak ditemukan")
+        return kur
+
+    if user.role == "Admin":
+        if kurikulum_id is not None:
+            return owned(db, Kurikulum, kurikulum_id, user)
+        for status in ("Aktif", "Arsip", "Draft"):
+            row = db.scalar(
+                select(Kurikulum)
+                .where(Kurikulum.prodi_id == user.prodi_id, Kurikulum.status == status)
+                .order_by(Kurikulum.kode_kurikulum.desc(), Kurikulum.id.desc())
+                .limit(1)
+            )
+            if row is not None:
+                return row
+        raise HTTPException(404, "Kurikulum tidak ditemukan")
+
+    allowed_statuses = ("Aktif", "Arsip")
+    if kurikulum_id is not None:
+        row = db.scalar(
+            select(Kurikulum).where(
+                Kurikulum.id == kurikulum_id,
+                Kurikulum.prodi_id == user.prodi_id,
+                Kurikulum.status.in_(allowed_statuses),
+            )
+        )
+        if row is None:
+            raise HTTPException(404, "Kurikulum tidak ditemukan")
+        return row
+    for status in allowed_statuses:
+        row = db.scalar(
+            select(Kurikulum)
+            .where(Kurikulum.prodi_id == user.prodi_id, Kurikulum.status == status)
+            .order_by(Kurikulum.kode_kurikulum.desc(), Kurikulum.id.desc())
+            .limit(1)
+        )
+        if row is not None:
+            return row
+    raise HTTPException(404, "Kurikulum tidak ditemukan")
+
+
+def profil_lulusan_overview(
+    db: Session, user: User, kurikulum_id: UUID | None = None
+) -> ProfilLulusanOverviewResponse:
+    kur = _resolve_overview_curriculum(db, user, kurikulum_id)
+    cpls = list(
+        db.scalars(
+            select(MasterCPL)
+            .where(MasterCPL.kurikulum_id == kur.id)
+            .order_by(MasterCPL.kode_cpl, MasterCPL.id)
+        )
+    )
+    pls = list(
+        db.scalars(
+            select(ProfilLulusan)
+            .where(ProfilLulusan.kurikulum_id == kur.id)
+            .order_by(ProfilLulusan.kode_pl, ProfilLulusan.id)
+        )
+    )
+    cpl_ids_by_pl: dict[UUID, list[UUID]] = {pl.id: [] for pl in pls}
+    if pls:
+        for pl_id, cpl_id in db.execute(
+            select(PLCPL.profil_lulusan_id, PLCPL.cpl_id)
+            .join(MasterCPL, MasterCPL.id == PLCPL.cpl_id)
+            .where(PLCPL.profil_lulusan_id.in_(cpl_ids_by_pl))
+            .order_by(MasterCPL.kode_cpl, PLCPL.cpl_id)
+        ):
+            cpl_ids_by_pl[pl_id].append(cpl_id)
+
+    return ProfilLulusanOverviewResponse(
+        kurikulum_id=kur.id,
+        kode_kurikulum=kur.kode_kurikulum,
+        nama_kurikulum=kur.nama,
+        status=kur.status,
+        profil_lulusan=[
+            ProfilLulusanMatrixItem(
+                id=pl.id,
+                kurikulum_id=pl.kurikulum_id,
+                kode_pl=pl.kode_pl,
+                nama_pl=pl.nama_pl,
+                bidang_kerja=pl.bidang_kerja,
+                deskripsi=pl.deskripsi,
+                cpl_ids=cpl_ids_by_pl[pl.id],
+            )
+            for pl in pls
+        ],
+        cpl=cpls,
+    )

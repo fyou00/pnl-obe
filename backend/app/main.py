@@ -15,11 +15,12 @@ from app.api.v1.endpoints import (
     grading,
     reporting,
     teaching,
+    users,
 )
 from app.core.config import Settings
 from app.core.database import Database
 
-SCHEMA_REVISION = "20261117_0001"
+SCHEMA_REVISION = "20261126_0002"
 
 
 def create_app(settings: Settings | None = None) -> FastAPI:
@@ -78,4 +79,5 @@ def create_app(settings: Settings | None = None) -> FastAPI:
     app.include_router(assessment.router, prefix="/api/v1")
     app.include_router(grading.router, prefix="/api/v1")
     app.include_router(reporting.router, prefix="/api/v1")
+    app.include_router(users.router, prefix="/api/v1")
     return app

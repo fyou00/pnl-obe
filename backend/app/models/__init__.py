@@ -11,7 +11,15 @@ from app.models.academic import (
 from app.models.assessment import CPMK, CPMKCPL, InstrumenPenilaian, NilaiMahasiswa, SubCPMK
 from app.models.audit import AuditLog
 from app.models.base import Base
-from app.models.curriculum import MKCPL, Kurikulum, KurikulumMK, MasterCPL, MataKuliah
+from app.models.curriculum import (
+    MKCPL,
+    PLCPL,
+    Kurikulum,
+    KurikulumMK,
+    MasterCPL,
+    MataKuliah,
+    ProfilLulusan,
+)
 from app.models.identity import Angkatan, Mahasiswa, Prodi, User
 
 __all__ = [
@@ -25,6 +33,8 @@ __all__ = [
     "KurikulumMK",
     "MasterCPL",
     "MKCPL",
+    "ProfilLulusan",
+    "PLCPL",
     "PeriodeAkademik",
     "KelasPeriode",
     "MahasiswaPeriode",

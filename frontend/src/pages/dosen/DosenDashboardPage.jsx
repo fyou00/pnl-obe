@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import RadarCapaianChart from '../../components/dashboard/RadarCapaianChart.jsx';
+import { LockedPeriodBanner } from '../../components/states/SystemStates.jsx';
 import { useDosenWorkspace } from '../../context/DosenWorkspaceContext.jsx';
 import { getKelasMkCapaian } from '../../lib/adminApi.js';
 
@@ -128,6 +129,8 @@ export default function DosenDashboardPage() {
           Seluruh kelas penugasan Anda pada periode terpilih.
         </p>
       </div>
+
+      <LockedPeriodBanner period={selectedPeriod} />
 
       {workspaceError && (
         <div

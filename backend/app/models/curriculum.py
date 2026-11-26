@@ -90,3 +90,25 @@ class MKCPL(Base):
         Uuid, ForeignKey("master_cpl.id", ondelete="RESTRICT"), primary_key=True, index=True
     )
     urutan_rps: Mapped[int | None] = mapped_column(Integer)
+
+
+class ProfilLulusan(UUIDPrimaryKey, Base):
+    __tablename__ = "profil_lulusan"
+    __table_args__ = (UniqueConstraint("kurikulum_id", "kode_pl"),)
+    kurikulum_id: Mapped[UUID] = mapped_column(
+        Uuid, ForeignKey("kurikulum.id", ondelete="RESTRICT"), index=True
+    )
+    kode_pl: Mapped[str] = mapped_column(String(10))
+    nama_pl: Mapped[str] = mapped_column(String(150))
+    bidang_kerja: Mapped[str | None] = mapped_column(Text)
+    deskripsi: Mapped[str] = mapped_column(Text)
+
+
+class PLCPL(Base):
+    __tablename__ = "pl_cpl"
+    profil_lulusan_id: Mapped[UUID] = mapped_column(
+        Uuid, ForeignKey("profil_lulusan.id", ondelete="CASCADE"), primary_key=True
+    )
+    cpl_id: Mapped[UUID] = mapped_column(
+        Uuid, ForeignKey("master_cpl.id", ondelete="RESTRICT"), primary_key=True, index=True
+    )

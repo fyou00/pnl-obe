@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext.jsx';
+import ChangePasswordModal from '../auth/ChangePasswordModal.jsx';
 import AnimatedNavIcon from '../icons/AnimatedNavIcon.jsx';
 
 export const ADMIN_NAV_GROUPS = [
@@ -13,6 +15,7 @@ export const ADMIN_NAV_GROUPS = [
     label: 'KURIKULUM',
     items: [
       { to: '/admin/kurikulum', label: 'Versi Kurikulum', icon: 'kurikulum' },
+      { to: '/admin/profil-lulusan', label: 'Profil Lulusan', icon: 'profil-lulusan' },
       { to: '/admin/cpl', label: 'Master CPL', icon: 'cpl' },
       { to: '/admin/mata-kuliah', label: 'Mata Kuliah Paket', icon: 'mata-kuliah' },
       { to: '/admin/matriks', label: 'Matriks Pembebanan', icon: 'matriks' },
@@ -29,6 +32,7 @@ export const ADMIN_NAV_GROUPS = [
   {
     label: 'PENGELOLAAN',
     items: [
+      { to: '/admin/pengguna', label: 'Manajemen Pengguna', icon: 'pengguna' },
       { to: '/admin/laporan', label: 'Laporan & Audit Log', icon: 'laporan' },
     ],
   },
@@ -43,6 +47,7 @@ function getRoleCaption(role) {
 export default function AdminSidebar({ navGroups = ADMIN_NAV_GROUPS }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [passwordModalOpen, setPasswordModalOpen] = useState(false);
 
   const initial = (user?.nama || user?.role || 'A')
     .trim()
@@ -132,17 +137,32 @@ export default function AdminSidebar({ navGroups = ADMIN_NAV_GROUPS }) {
             <p className="text-[11px] leading-[14px] text-[#566B70] mt-0.5">
               {getRoleCaption(user?.role)}
             </p>
-            <button
-              type="button"
-              onClick={handleLogout}
-              className="obe-nav-trigger mt-2 self-start inline-flex items-center gap-1.5 text-[12px] font-semibold leading-[15px] text-[#15333A] hover:text-[#CC6E38] transition-colors cursor-pointer"
-            >
-              <AnimatedNavIcon name="logout" size={14} />
-              <span>Keluar</span>
-            </button>
+            <div className="mt-2 flex items-center gap-3 flex-wrap">
+              <button
+                type="button"
+                onClick={() => setPasswordModalOpen(true)}
+                className="obe-nav-trigger inline-flex items-center gap-1.5 text-[12px] font-semibold leading-[15px] text-[#566B70] hover:text-[#15333A] transition-colors cursor-pointer"
+              >
+                <AnimatedNavIcon name="key" size={14} />
+                <span>Ganti Sandi</span>
+              </button>
+              <button
+                type="button"
+                onClick={handleLogout}
+                className="obe-nav-trigger inline-flex items-center gap-1.5 text-[12px] font-semibold leading-[15px] text-[#15333A] hover:text-[#CC6E38] transition-colors cursor-pointer"
+              >
+                <AnimatedNavIcon name="logout" size={14} />
+                <span>Keluar</span>
+              </button>
+            </div>
           </div>
         </div>
       </div>
+
+      <ChangePasswordModal
+        open={passwordModalOpen}
+        onClose={() => setPasswordModalOpen(false)}
+      />
     </aside>
   );
 }

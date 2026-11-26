@@ -5,8 +5,8 @@ from uuid import UUID
 
 from fastapi import APIRouter, Depends, Query, Response
 
-from app.api.dependencies import DB, require_roles
-from app.models import KurikulumMK, MasterCPL, MataKuliah, User
+from app.api.dependencies import DB, CurrentUser, require_roles
+from app.models import KurikulumMK, MasterCPL, MataKuliah, ProfilLulusan, User
 from app.schemas.curriculum import (
     CPLCreate,
     CPLPatch,
@@ -22,6 +22,12 @@ from app.schemas.curriculum import (
     PaketPatch,
     PaketResponse,
     Pembebanan,
+    PlMatriksReplace,
+    ProfilLulusanCplLink,
+    ProfilLulusanCreate,
+    ProfilLulusanOverviewResponse,
+    ProfilLulusanPatch,
+    ProfilLulusanResponse,
     StatusKurikulum,
 )
 from app.services import curriculum as service
@@ -189,3 +195,65 @@ def replace_matrix(
     db: DB, user: Admin, kurikulum_id: UUID, kurikulum_mk_id: UUID, payload: MatriksReplace
 ):
     return service.replace_matrix(db, user, kurikulum_id, kurikulum_mk_id, payload)
+
+
+@router.get("/kurikulum/{kurikulum_id}/profil-lulusan", response_model=list[ProfilLulusanResponse])
+def list_profil_lulusan(
+    db: DB, user: Admin, kurikulum_id: UUID, offset: Offset = 0, limit: Limit = 50, q: Search = None
+):
+    return service.list_children(db, user, kurikulum_id, ProfilLulusan, offset, limit, q)
+
+
+@router.post(
+    "/kurikulum/{kurikulum_id}/profil-lulusan",
+    response_model=ProfilLulusanResponse,
+    status_code=201,
+)
+def create_profil_lulusan(db: DB, user: Admin, kurikulum_id: UUID, payload: ProfilLulusanCreate):
+    return service.create_profil_lulusan(db, user, kurikulum_id, payload)
+
+
+@router.get(
+    "/kurikulum/{kurikulum_id}/profil-lulusan/{pl_id}", response_model=ProfilLulusanResponse
+)
+def get_profil_lulusan(db: DB, user: Admin, kurikulum_id: UUID, pl_id: UUID):
+    service.curriculum(db, user, kurikulum_id)
+    return service.child(db, ProfilLulusan, pl_id, kurikulum_id)
+
+
+@router.patch(
+    "/kurikulum/{kurikulum_id}/profil-lulusan/{pl_id}", response_model=ProfilLulusanResponse
+)
+def update_profil_lulusan(
+    db: DB, user: Admin, kurikulum_id: UUID, pl_id: UUID, payload: ProfilLulusanPatch
+):
+    return service.update_profil_lulusan(db, user, kurikulum_id, pl_id, payload)
+
+
+@router.delete("/kurikulum/{kurikulum_id}/profil-lulusan/{pl_id}", status_code=204)
+def delete_profil_lulusan(db: DB, user: Admin, kurikulum_id: UUID, pl_id: UUID):
+    service.delete_profil_lulusan(db, user, kurikulum_id, pl_id)
+    return Response(status_code=204)
+
+
+@router.get(
+    "/kurikulum/{kurikulum_id}/profil-lulusan/{pl_id}/cpl",
+    response_model=list[ProfilLulusanCplLink],
+)
+def get_pl_matrix(db: DB, user: Admin, kurikulum_id: UUID, pl_id: UUID):
+    return service.get_pl_matrix(db, user, kurikulum_id, pl_id)
+
+
+@router.put(
+    "/kurikulum/{kurikulum_id}/profil-lulusan/{pl_id}/cpl",
+    response_model=list[ProfilLulusanCplLink],
+)
+def replace_pl_matrix(
+    db: DB, user: Admin, kurikulum_id: UUID, pl_id: UUID, payload: PlMatriksReplace
+):
+    return service.replace_pl_matrix(db, user, kurikulum_id, pl_id, payload)
+
+
+@router.get("/profil-lulusan/ringkasan", response_model=ProfilLulusanOverviewResponse)
+def profil_lulusan_ringkasan(db: DB, user: CurrentUser, kurikulum_id: UUID | None = None):
+    return service.profil_lulusan_overview(db, user, kurikulum_id)

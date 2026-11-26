@@ -14,6 +14,11 @@ export const MAHASISWA_NAV_GROUPS = [
       },
       { to: '/mahasiswa/rincian', label: 'Rincian Nilai', icon: 'rincian' },
       { to: '/mahasiswa/capaian', label: 'Capaian CPL', icon: 'capaian' },
+      {
+        to: '/mahasiswa/profil-lulusan',
+        label: 'Profil Lulusan',
+        icon: 'profil-lulusan',
+      },
     ],
   },
 ];

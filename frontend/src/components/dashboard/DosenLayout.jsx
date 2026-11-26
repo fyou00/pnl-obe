@@ -10,6 +10,7 @@ export const DOSEN_NAV_GROUPS = [
       { to: '/dosen/rancangan', label: 'Rancangan Penilaian', icon: 'rancangan' },
       { to: '/dosen/nilai', label: 'Input Nilai', icon: 'nilai' },
       { to: '/dosen/capaian', label: 'Rekap & Laporan', icon: 'laporan' },
+      { to: '/dosen/profil-lulusan', label: 'Profil Lulusan', icon: 'profil-lulusan' },
     ],
   },
 ];

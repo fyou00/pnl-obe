@@ -1,0 +1,795 @@
+{
+  "sumber": "Draft pemetaan awal MK–CPL Kurikulum TI 2024 berbasis Tabel 3.5 (hlm. 32–33), Tabel 6.1 (hlm. 56–58), dan Tabel 7.9 (hlm. 64–80) pada 8.1.1 Kurikulum TI_2024 Final ok.pdf",
+  "prodi": {
+    "kode_prodi": "TI",
+    "nama_prodi": "Teknik Informatika",
+    "jenjang": "D4"
+  },
+  "kurikulum": {
+    "kode_kurikulum": "TI-2024",
+    "nama": "Kurikulum OBE 2024 Teknik Informatika"
+  },
+  "catatan_normalisasi": [
+    "Tabel 5.3 pada dokumen PDF (hlm. 53–55) masih memakai kode CPL kurikulum lama (S01–S10, P01–P07, K01–K14, U01–U09) dan belum merinci MK Semester 5–6, sedangkan Gambar 6.1 (hlm. 59) hanya mengelompokkan ke 5 jalur warna (CPL 1–5).",
+    "Pemetaan 61 MK ke CPL-01..CPL-12 ini merupakan draft awal yang disusun berdasarkan rumpun MK (Tabel 6.1), deskripsi dan learning outcome MK (Tabel 7.9), serta rumusan CPL (Tabel 3.5) agar kurikulum TI-2024 memenuhi syarat aktivasi dan dapat ditinjau atau disesuaikan oleh Kaprodi melalui menu Matriks Pembebanan selama status masih Draft."
+  ],
+  "mk_cpl": [
+    {
+      "kode_mk": "TIK-2401",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-01",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-03",
+          "urutan_rps": 2
+        },
+        {
+          "kode_cpl": "CPL-11",
+          "urutan_rps": 3
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24101",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-02",
+          "urutan_rps": 1
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24102",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-02",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-06",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24103",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-02",
+          "urutan_rps": 1
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24104",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-03",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-11",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24105",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-02",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-04",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24106",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-02",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-06",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "PNL-2401",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-01",
+          "urutan_rps": 1
+        }
+      ]
+    },
+    {
+      "kode_mk": "PNL-2403",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-02",
+          "urutan_rps": 1
+        }
+      ]
+    },
+    {
+      "kode_mk": "PNL-2402",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-07",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-11",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24201",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-02",
+          "urutan_rps": 1
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24202",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-02",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-06",
+          "urutan_rps": 2
+        },
+        {
+          "kode_cpl": "CPL-08",
+          "urutan_rps": 3
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24203",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-04",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-02",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24204",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-02",
+          "urutan_rps": 1
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24205",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-04",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-06",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24206",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-03",
+          "urutan_rps": 1
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24207",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-03",
+          "urutan_rps": 1
+        }
+      ]
+    },
+    {
+      "kode_mk": "PNL-2404",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-01",
+          "urutan_rps": 1
+        }
+      ]
+    },
+    {
+      "kode_mk": "PNL-2405",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-07",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-10",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24301",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-02",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-04",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24302",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-04",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-12",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24304",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-02",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-04",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24303",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-04",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-02",
+          "urutan_rps": 2
+        },
+        {
+          "kode_cpl": "CPL-07",
+          "urutan_rps": 3
+        }
+      ]
+    },
+    {
+      "kode_mk": "PNL-2406",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-10",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-11",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "PNL-2407",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-02",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-09",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24307",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-05",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-09",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24308",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-05",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-09",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24309",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-03",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-08",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24310",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-03",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-08",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24401",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-03",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-08",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24402",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-02",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-04",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24403",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-03",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-08",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24404",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-04",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-11",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "PNL-2408",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-06",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-09",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24405",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-03",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-08",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24406",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-03",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-08",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24407",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-02",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-04",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24408",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-05",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-09",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24409",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-05",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-09",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24501",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-06",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-04",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24502",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-08",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-01",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24503",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-08",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-03",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24504",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-05",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-09",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24505",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-05",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-09",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24506",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-04",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-11",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24507",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-02",
+          "urutan_rps": 1
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24508",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-04",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-07",
+          "urutan_rps": 2
+        },
+        {
+          "kode_cpl": "CPL-12",
+          "urutan_rps": 3
+        }
+      ]
+    },
+    {
+      "kode_mk": "PNL-2409",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-10",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-07",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24510",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-09",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-05",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24601",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-03",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-02",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TIK-2402",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-10",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-06",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TIK-2403",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-07",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-01",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TIK-2404",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-01",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-11",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24605",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-03",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-08",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24606",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-12",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-04",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24607",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-03",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-08",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24608",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-09",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-06",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24609",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-06",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-09",
+          "urutan_rps": 2
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24701",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-01",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-07",
+          "urutan_rps": 2
+        },
+        {
+          "kode_cpl": "CPL-11",
+          "urutan_rps": 3
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24801",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-10",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-06",
+          "urutan_rps": 2
+        },
+        {
+          "kode_cpl": "CPL-11",
+          "urutan_rps": 3
+        }
+      ]
+    },
+    {
+      "kode_mk": "TI-24802",
+      "cpl": [
+        {
+          "kode_cpl": "CPL-12",
+          "urutan_rps": 1
+        },
+        {
+          "kode_cpl": "CPL-07",
+          "urutan_rps": 2
+        }
+      ]
+    }
+  ]
+}

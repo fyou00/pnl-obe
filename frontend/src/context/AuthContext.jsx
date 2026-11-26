@@ -5,7 +5,12 @@ import {
   useEffect,
   useState,
 } from 'react';
-import { getMe, loginToken, logoutSession } from '../lib/adminApi.js';
+import {
+  changeMyPassword,
+  getMe,
+  loginToken,
+  logoutSession,
+} from '../lib/adminApi.js';
 import {
   clearToken,
   getToken,
@@ -96,6 +101,13 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
+  const changePassword = useCallback(async (passwordLama, passwordBaru) => {
+    const tokenPayload = await changeMyPassword(passwordLama, passwordBaru);
+    setToken(tokenPayload.access_token);
+    setSessionExpired(false);
+    return tokenPayload;
+  }, []);
+
   return (
     <AuthContext.Provider
       value={{
@@ -105,6 +117,7 @@ export function AuthProvider({ children }) {
         clearSessionExpired,
         login,
         logout,
+        changePassword,
         refreshUser,
       }}
     >

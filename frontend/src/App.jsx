@@ -14,16 +14,20 @@ import AdminLaporanPage from './pages/admin/AdminLaporanPage.jsx';
 import AdminMataKuliahPage from './pages/admin/AdminMataKuliahPage.jsx';
 import AdminMatriksPage from './pages/admin/AdminMatriksPage.jsx';
 import AdminPaketPenugasanPage from './pages/admin/AdminPaketPenugasanPage.jsx';
+import AdminPenggunaPage from './pages/admin/AdminPenggunaPage.jsx';
 import AdminPeriodePage from './pages/admin/AdminPeriodePage.jsx';
+import AdminProfilLulusanPage from './pages/admin/AdminProfilLulusanPage.jsx';
 import DosenCapaianPage from './pages/dosen/DosenCapaianPage.jsx';
 import DosenDashboardPage from './pages/dosen/DosenDashboardPage.jsx';
 import DosenInputNilaiPage from './pages/dosen/DosenInputNilaiPage.jsx';
+import DosenProfilLulusanPage from './pages/dosen/DosenProfilLulusanPage.jsx';
 import DosenRancanganPage from './pages/dosen/DosenRancanganPage.jsx';
 import LandingPage from './pages/LandingPage.jsx';
 import LoginPage from './pages/LoginPage.jsx';
 import MahasiswaCapaianPage from './pages/mahasiswa/MahasiswaCapaianPage.jsx';
 import MahasiswaDashboardPage from './pages/mahasiswa/MahasiswaDashboardPage.jsx';
 import MahasiswaMataKuliahPage from './pages/mahasiswa/MahasiswaMataKuliahPage.jsx';
+import MahasiswaProfilLulusanPage from './pages/mahasiswa/MahasiswaProfilLulusanPage.jsx';
 import MahasiswaRincianPage from './pages/mahasiswa/MahasiswaRincianPage.jsx';
 
 export default function App() {
@@ -47,6 +51,7 @@ export default function App() {
         <Route path="mata-kuliah" element={<MahasiswaMataKuliahPage />} />
         <Route path="rincian" element={<MahasiswaRincianPage />} />
         <Route path="capaian" element={<MahasiswaCapaianPage />} />
+        <Route path="profil-lulusan" element={<MahasiswaProfilLulusanPage />} />
       </Route>
 
       <Route
@@ -65,6 +70,7 @@ export default function App() {
         <Route path="nilai" element={<DosenInputNilaiPage />} />
         <Route path="nilai/:kelasMkId" element={<DosenInputNilaiPage />} />
         <Route path="capaian" element={<DosenCapaianPage />} />
+        <Route path="profil-lulusan" element={<DosenProfilLulusanPage />} />
       </Route>
 
       <Route
@@ -79,13 +85,14 @@ export default function App() {
       >
         <Route index element={<AdminDashboardPage />} />
         <Route path="kurikulum" element={<AdminKurikulumPage />} />
+        <Route path="profil-lulusan" element={<AdminProfilLulusanPage />} />
         <Route path="cpl" element={<AdminCplPage />} />
         <Route path="mata-kuliah" element={<AdminMataKuliahPage />} />
         <Route path="matriks" element={<AdminMatriksPage />} />
         <Route path="periode" element={<AdminPeriodePage />} />
         <Route path="angkatan" element={<AdminAngkatanKelasPage />} />
         <Route path="paket" element={<AdminPaketPenugasanPage />} />
-        <Route path="pengguna" element={<Navigate to="/admin" replace />} />
+        <Route path="pengguna" element={<AdminPenggunaPage />} />
         <Route path="laporan" element={<AdminLaporanPage />} />
       </Route>
 

@@ -1,6 +1,8 @@
 """Idempotent bootstrap. Credentials come only from environment/.env."""
 
 import argparse
+from collections.abc import Sequence
+from pathlib import Path
 
 from pydantic import EmailStr, Field, SecretStr, TypeAdapter
 from sqlalchemy import or_, select
@@ -10,6 +12,8 @@ from app.core.config import ENV_FILE, DatabaseSettings
 from app.core.database import Database
 from app.core.security import hash_password
 from app.models import Angkatan, Kurikulum, Mahasiswa, Prodi, User
+from app.services.seed_curriculum import load_curriculum_seed, seed_curriculum_data
+from app.services.seed_demo import load_demo_seed, seed_demo_data
 
 
 class SeedSettings(DatabaseSettings):
@@ -75,7 +79,14 @@ def ensure_user(
     return user
 
 
-def seed(db: Session, config: SeedSettings, *, demo: bool = False) -> dict[str, str]:
+def seed(
+    db: Session,
+    config: SeedSettings,
+    *,
+    demo: bool = False,
+    kurikulum_file: Path | str | Sequence[Path | str] | None = None,
+    demo_file: Path | str | None = None,
+) -> dict[str, str]:
     """Caller owns one transaction; failure must roll back the entire seed."""
     prodi = db.scalar(select(Prodi).where(Prodi.kode_prodi == config.seed_prodi_kode))
     if prodi is None:
@@ -98,53 +109,84 @@ def seed(db: Session, config: SeedSettings, *, demo: bool = False) -> dict[str, 
         role="Admin",
     )
     result = {"prodi_id": str(prodi.id), "admin_id": str(admin.id)}
-    if not demo:
-        return result
-    for prefix, role in [("dosen", "Dosen"), ("mahasiswa", "Mahasiswa")]:
-        nim = getattr(config, f"seed_{prefix}_nim_nidn")
-        email = getattr(config, f"seed_{prefix}_email")
-        password = getattr(config, f"seed_{prefix}_password")
-        if not nim or not email or not password:
-            raise ValueError(f"Lengkapi kredensial SEED_{prefix.upper()} di .env untuk --demo")
-        user = ensure_user(
-            db,
-            prodi,
-            nama=getattr(config, f"seed_{prefix}_nama"),
-            nim_nidn=nim,
-            email=email,
-            password=password,
-            role=role,
-        )
-        result[f"{prefix}_id"] = str(user.id)
-        if role == "Mahasiswa":
-            angkatan = db.scalar(
-                select(Angkatan).where(
-                    Angkatan.prodi_id == prodi.id, Angkatan.tahun_masuk == config.seed_angkatan
-                )
+    if demo:
+        for prefix, role in [("dosen", "Dosen"), ("mahasiswa", "Mahasiswa")]:
+            nim = getattr(config, f"seed_{prefix}_nim_nidn")
+            email = getattr(config, f"seed_{prefix}_email")
+            password = getattr(config, f"seed_{prefix}_password")
+            if not nim or not email or not password:
+                raise ValueError(f"Lengkapi kredensial SEED_{prefix.upper()} di .env untuk --demo")
+            user = ensure_user(
+                db,
+                prodi,
+                nama=getattr(config, f"seed_{prefix}_nama"),
+                nim_nidn=nim,
+                email=email,
+                password=password,
+                role=role,
             )
-            if angkatan is None:
-                code = f"DEMO-{config.seed_angkatan}"
-                kurikulum = db.scalar(
-                    select(Kurikulum).where(
-                        Kurikulum.prodi_id == prodi.id, Kurikulum.kode_kurikulum == code
+            result[f"{prefix}_id"] = str(user.id)
+            if role == "Mahasiswa":
+                angkatan = db.scalar(
+                    select(Angkatan).where(
+                        Angkatan.prodi_id == prodi.id, Angkatan.tahun_masuk == config.seed_angkatan
                     )
                 )
-                if kurikulum is None:
-                    kurikulum = Kurikulum(
-                        prodi_id=prodi.id, kode_kurikulum=code, nama="Kurikulum contoh (draft)"
+                if angkatan is None:
+                    code = f"DEMO-{config.seed_angkatan}"
+                    kurikulum = db.scalar(
+                        select(Kurikulum).where(
+                            Kurikulum.prodi_id == prodi.id, Kurikulum.kode_kurikulum == code
+                        )
                     )
-                    db.add(kurikulum)
+                    if kurikulum is None:
+                        kurikulum = Kurikulum(
+                            prodi_id=prodi.id,
+                            kode_kurikulum=code,
+                            nama="Kurikulum contoh (draft)",
+                        )
+                        db.add(kurikulum)
+                        db.flush()
+                    angkatan = Angkatan(
+                        prodi_id=prodi.id,
+                        tahun_masuk=config.seed_angkatan,
+                        kurikulum_id=kurikulum.id,
+                    )
+                    db.add(angkatan)
                     db.flush()
-                angkatan = Angkatan(
-                    prodi_id=prodi.id, tahun_masuk=config.seed_angkatan, kurikulum_id=kurikulum.id
+                mahasiswa = db.get(Mahasiswa, user.id)
+                if mahasiswa is None:
+                    db.add(Mahasiswa(id=user.id, angkatan_id=angkatan.id))
+                elif mahasiswa.angkatan_id != angkatan.id:
+                    raise ValueError("Mahasiswa seed sudah terdaftar pada angkatan berbeda")
+    if kurikulum_file is not None:
+        files = (
+            [kurikulum_file] if isinstance(kurikulum_file, (Path, str)) else list(kurikulum_file)
+        )
+        for file_path in files:
+            curriculum_payload = load_curriculum_seed(file_path)
+            if curriculum_payload.prodi.kode_prodi != config.seed_prodi_kode:
+                raise ValueError(
+                    "Kode prodi pada file kurikulum tidak cocok dengan SEED_PRODI_KODE"
                 )
-                db.add(angkatan)
-                db.flush()
-            mahasiswa = db.get(Mahasiswa, user.id)
-            if mahasiswa is None:
-                db.add(Mahasiswa(id=user.id, angkatan_id=angkatan.id))
-            elif mahasiswa.angkatan_id != angkatan.id:
-                raise ValueError("Mahasiswa seed sudah terdaftar pada angkatan berbeda")
+            summary = seed_curriculum_data(db, curriculum_payload)
+            result["kurikulum_id"] = str(summary["kurikulum_id"])
+    if demo_file is not None:
+        if not config.seed_dosen_password or not config.seed_mahasiswa_password:
+            raise ValueError(
+                "Lengkapi SEED_DOSEN_PASSWORD dan SEED_MAHASISWA_PASSWORD di .env untuk --demo-file"
+            )
+        demo_payload = load_demo_seed(demo_file)
+        if demo_payload.prodi_kode != config.seed_prodi_kode:
+            raise ValueError("Kode prodi pada file demo tidak cocok dengan SEED_PRODI_KODE")
+        demo_summary = seed_demo_data(
+            db,
+            demo_payload,
+            dosen_password=config.seed_dosen_password,
+            mahasiswa_password=config.seed_mahasiswa_password,
+            admin_user=admin,
+        )
+        result["kurikulum_id"] = str(demo_summary["kurikulum_id"])
     return result
 
 
@@ -153,12 +195,31 @@ def main() -> None:
     parser.add_argument(
         "--demo", action="store_true", help="Tambahkan akun contoh Dosen/Mahasiswa dan angkatan"
     )
+    parser.add_argument(
+        "--kurikulum-file",
+        action="append",
+        type=Path,
+        default=None,
+        help="Path file JSON seed kurikulum, mata kuliah, dan/atau CPL (dapat diulang)",
+    )
+    parser.add_argument(
+        "--demo-file",
+        type=Path,
+        default=None,
+        help="Path file JSON seed demo operasional akademik & penilaian",
+    )
     args = parser.parse_args()
     config = SeedSettings(_env_file=ENV_FILE)
     database = Database(config)
     try:
         with database.session_factory.begin() as db:
-            seed(db, config, demo=args.demo)
+            seed(
+                db,
+                config,
+                demo=args.demo,
+                kurikulum_file=args.kurikulum_file,
+                demo_file=args.demo_file,
+            )
         print("Seed berhasil; akun yang sudah ada tidak diubah. Kredensial tidak ditampilkan.")
     finally:
         database.dispose()
